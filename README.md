@@ -18,28 +18,51 @@ Changes
 
 总结：Now基本用第三方库拼凑而成（再次感谢开源），主要在界面与用户交互方面加了点自己的见解，最后献上compile.
     // forgive me too lazy to introduce
+    
     compile 'com.android.support:appcompat-v7:23.0.1'
+    
     compile 'com.android.support:recyclerview-v7:23.0.1'
+    
     compile 'com.android.support:cardview-v7:23.0.1'
+    
     compile 'com.android.support:support-v4:23.0.1'
+    
     compile 'com.google.code.gson:gson:2.3'
+    
     compile 'com.race604.flyrefresh:library:2.0.0'
+    
     compile 'com.jakewharton:butterknife:7.0.1'
+    
     compile('com.github.florent37:materialviewpager:1.1.2@aar') {
         transitive = true
     }
+    
     compile 'com.orhanobut:logger:1.10'
+    
     compile 'com.github.bumptech.glide:glide:3.6.1'
+    
     compile 'com.makeramen:roundedimageview:2.2.1'
+    
     compile 'com.loopj.android:android-async-http:1.4.8'
+    
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
+    
     compile files('libs/jsoup-1.8.3.jar')
+    
     compile 'com.alibaba:fastjson:1.2.7'
+    
     compile 'com.umeng.analytics:analytics:latest.integration'
+    
     compile files('libs/umeng-analytics-v5.6.1.jar')
+    
     compile files('libs/umeng-update-v2.6.0.1.jar')
+    
     compile files('libs/open_sdk_r5276.jar')
+    
     compile files('libs/libammsdk.jar')
+    
     compile 'com.github.jkwiecien:EasyImage:1.0.9'
+    
     compile 'com.wang.avi:library:1.0.1'
+    
     compile 'com.nineoldandroids:library:2.4.0'
