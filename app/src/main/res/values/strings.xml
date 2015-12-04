@@ -1,0 +1,94 @@
+<resources>
+    <string name="app_name">NowView</string>
+    <string name="app_version">V %1$s</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="tag">Winter is coming </string>
+    <string name="text">我们生命中出现过的一些人我们的确不知道是什么时候认识的，好像一生下来或者是从开始记事儿的时候就认识他们。我很庆幸，那些我不知道是什么时候认识的人并没有弄丢太多，每每想起都会觉得很温暖。</string>
+
+    <string name="other_js_switch">JavaScript switch</string>
+    <string name="js_open_description">(Open it, you can discuss in web page)</string>
+    <string name="js_close_description">(Close it, no ad in web page)</string>
+    <string name="about">About</string>
+    <string name="thanks">Thanks</string>
+    <string name="suggest">Suggest</string>
+    <string name="we_chat">WeChat</string>
+    <string name="moments">Moments</string>
+    <string name="qzone">Qzone</string>
+    <string name="other">Other</string>
+    <string name="wiki_title">Wikipedia:Today\'s featured article</string>
+    <string name="wiki_url">https://en.m.wikipedia.org/wiki/Main_Page</string>
+    <string name="share_to">Share to</string>
+    <string name="email_subject">From Now app</string>
+    <string name="send_email">Send email to Winter</string>
+    <string name="send_email_failed">There are no email clients installed.\n
+        My email is: \n
+        XunMengWinter@gmail.com</string>
+    <string name="about_detail">About Now\n\n
+        No wait, no ad, no mess.\n
+        想要看得更多,\n
+        想要得到更快,\n
+        想要发现更美.\n
+        So, view more, just Now!\n\n\n
+        关于Winter\n\n
+        一枚热爱艺术的码农。\n\n
+        站酷页\n
+        http://icewinter.zcool.com.cn \n\n
+        个人网站\n
+        http://wefor.top</string>
+    <string name="thanks_detail">
+        网页抓取\n
+        http://jsoup.org/ \n\n
+        视图框架\n
+        https://github.com/florent37/MaterialViewPager \n\n
+        左侧边右滑返回\n
+        https://github.com/SkillCollege/SimplifyReader \n\n
+        知乎列表\n
+        https://github.com/tangqi92/BuildingBlocks \n\n
+    </string>
+    <string name="pic_url_1">http://wefor.top/now/now-aerial.jpg</string>
+    <string name="pic_url_2">http://wefor.top/now/now-mountain.jpg</string>
+    <string name="pic_url_3">http://wefor.top/now/now-forest.jpg</string>
+    <string name="pic_url_4">http://wefor.top/now/now-moon.png</string>
+    <string name="fist_time_notice">
+        Hello, now is the first time you open Now ~ \n\n
+        Now union beautiful images and nice text, we need load upper images to make perfect experience, so,press Enter to continue.\n
+        (Just load images one time)
+    </string>
+    <string name="enter">Enter</string>
+    <string name="exit">Exit</string>
+    <string name="my_zcool">http://icewinter.zcool.com.cn</string>
+    <string name="my_website">http://wefor.top</string>
+    <string name="my_github">https://github.com/XunMengWinter</string>
+
+    <string name="zcool">Zcool</string>
+    <string name="ng">NG</string>
+    <string name="zhihu">知乎</string>
+    <string name="moment">Moment</string>
+    <string name="fragment_other">Other</string>
+
+    <string-array name="fragments">
+        <item>@string/zcool</item>
+        <item>@string/ng</item>
+        <item>@string/zhihu</item>
+        <item>@string/moment</item>
+        <item>@string/fragment_other</item>
+    </string-array>
+
+    <string name="column_select">Column select</string>
+    <string name="head_picture">Head picture source</string>
+
+    <string name="source_ng">National Geographic</string>
+    <string name="source_bd">Baidu Image</string>
+    <string name="source_mac">Mac wallpaper</string>
+    <string name="source_color">Pure color</string>
+
+    <string-array name="head_picture_source">
+        <item>@string/source_ng</item>
+        <item>@string/source_bd</item>
+        <item>@string/source_mac</item>
+        <item>@string/source_color</item>
+    </string-array>
+
+</resources>

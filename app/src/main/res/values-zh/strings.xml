@@ -1,0 +1,29 @@
+<resources>
+
+    <string name="other_js_switch">JavaScript 开关</string>
+    <string name="js_open_description">(开启后可在网页内登录与留言)</string>
+    <string name="js_close_description">(关闭后可禁用网页内的广告)</string>
+    <string name="about">关于</string>
+    <string name="thanks">致谢</string>
+    <string name="suggest">建议</string>
+    <string name="we_chat">微信</string>
+    <string name="moments">朋友圈</string>
+    <string name="qzone">QQ空间</string>
+    <string name="other">其它</string>
+    <!--<string name="wiki_title">Today's featured article(维基百科)</string>-->
+    <string name="share_to">分享到</string>
+    <string name="email_subject">来自 Now app</string>
+    <string name="send_email">给Winter发送邮件</string>
+    <string name="send_email_failed">没有找到可以发送邮件的应用，\n
+        我的邮箱是：\n
+        315721484@qq.com</string>
+    <string name="fist_time_notice">你好，这是你第一次打开 Now ～ \n\n
+        Now 将风景与阅读融为一体，需要加载顶部风景图才能继续，建议在wifi环境下加载。\n
+        (仅需加载一次，加载后不再提醒)</string>
+    <string name="enter">确认加载</string>
+    <string name="exit">以后再说</string>
+
+    <string name="column_select">版块选择</string>
+    <string name="head_picture">顶部图片源</string>
+
+</resources>

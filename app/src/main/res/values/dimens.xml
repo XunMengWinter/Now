@@ -1,0 +1,30 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="head_image_height">234dp</dimen>
+
+    <dimen name="h1">32sp</dimen>
+    <dimen name="h2">24sp</dimen>
+    <dimen name="h3">20sp</dimen>
+    <dimen name="h4">16sp</dimen>
+    <dimen name="h5">14sp</dimen>
+    <dimen name="h6">12sp</dimen>
+    <dimen name="h7">10sp</dimen>
+
+    <dimen name="d1">2dp</dimen>
+    <dimen name="d2">4dp</dimen>
+    <dimen name="d3">8dp</dimen>
+    <dimen name="d4">16dp</dimen>
+    <dimen name="d5">32dp</dimen>
+    <dimen name="d6">64dp</dimen>
+    <dimen name="d7">128dp</dimen>
+
+    <dimen name="moment_image_height">124dp</dimen>
+    <dimen name="card_view_margin">@dimen/d3</dimen>
+    <dimen name="action_button_bottom_margin">56dp</dimen>
+    <dimen name="tabsHeight">48dp</dimen>
+    <dimen name="button_height">40dp</dimen>
+
+
+</resources>

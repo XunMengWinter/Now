@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/news_list_card_view"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="@dimen/d2"
+        card_view:cardElevation="@dimen/d1"
+        style="@style/card_view_margin"
+        >
+
+        <LinearLayout
+            android:id="@+id/ll_card_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="#dfa"
+                app:riv_corner_radius="@dimen/d2"/>
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/text_base"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/d3"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/d3"
+                android:text="Winter is coming "
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/h4"
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

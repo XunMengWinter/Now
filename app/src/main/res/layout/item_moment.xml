@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/news_list_card_view"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/card_view_margin"
+        android:layout_marginTop="@dimen/card_view_margin"
+        card_view:cardCornerRadius="@dimen/d2"
+        >
+
+        <LinearLayout
+            android:id="@+id/image_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/image_title_textView"
+                style="@style/text_base"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/d3"
+                android:text="@string/tag"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/h4"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="@dimen/moment_image_height"
+                    android:layout_height="@dimen/moment_image_height"
+                    android:scaleType="centerCrop"
+                    android:src="@color/red_light"
+                    app:riv_corner_radius="@dimen/d2"
+                    />
+
+                <View
+                    android:layout_width="@dimen/d3"
+                    android:layout_height="0dp"/>
+
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="@dimen/moment_image_height"
+                    android:layout_height="@dimen/moment_image_height"
+                    android:scaleType="centerCrop"
+                    android:src="@color/green_light"
+                    />
+
+                <View
+                    android:layout_width="@dimen/d3"
+                    android:layout_height="0dp"/>
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="@dimen/moment_image_height"
+                    android:layout_height="@dimen/moment_image_height"
+                    android:scaleType="centerCrop"
+                    android:src="@color/purple_light"
+                    app:riv_corner_radius="@dimen/d2"
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/text_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/d4"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:id="@+id/text_title_textView"
+                style="@style/text_base"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingBottom="@dimen/d3"
+                android:text="@string/tag"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/h4"
+                />
+
+            <TextView
+                android:id="@+id/text_content_textView"
+                style="@style/text_base"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@string/text"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/h5"/>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

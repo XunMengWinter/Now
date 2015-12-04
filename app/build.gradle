@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "top.wefor.nowview"
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 3
+        versionName "1.2"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    useLibrary 'org.apache.http.legacy'
+
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.android.support:cardview-v7:23.0.1'
+    compile 'com.android.support:support-v4:23.0.1'
+    compile 'com.google.code.gson:gson:2.3'
+    //    compile 'com.google.android.gms:play-services-location:7.8.0'
+
+    compile 'com.race604.flyrefresh:library:2.0.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile('com.github.florent37:materialviewpager:1.1.2@aar') {
+        transitive = true
+    }
+    compile 'com.orhanobut:logger:1.10'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    //    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+    compile 'com.makeramen:roundedimageview:2.2.1'
+    compile 'com.loopj.android:android-async-http:1.4.8'
+    compile 'org.apache.httpcomponents:httpcore:4.4.2'
+    //    compile 'com.soundcloud.android:android-crop:1.0.0@aar'
+    //    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    //    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile files('libs/jsoup-1.8.3.jar')
+    compile 'com.alibaba:fastjson:1.2.7'
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile files('libs/umeng-analytics-v5.6.1.jar')
+    compile files('libs/umeng-update-v2.6.0.1.jar')
+    compile files('libs/open_sdk_r5276.jar')
+    compile files('libs/libammsdk.jar')
+    compile 'com.github.jkwiecien:EasyImage:1.0.9'
+    compile 'com.wang.avi:library:1.0.1'
+    compile 'com.nineoldandroids:library:2.4.0'
+}

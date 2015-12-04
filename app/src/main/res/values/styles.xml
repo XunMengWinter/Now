@@ -1,0 +1,121 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="19">true</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBar">false</item>
+
+        <!-- Material Theme -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/accent_color</item>
+
+        <item name="android:statusBarColor" tools:targetApi="21">@color/statusBarColor</item>
+        <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
+
+        <item name="android:windowIsTranslucent">true</item>
+
+    </style>
+
+    <style name="AppTheme.NoneTranslucent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+    <style name="style_no_show_activity" parent="style_activity_dialog">
+        <item name="android:backgroundDimAmount">0.2</item>
+    </style>
+
+    <!-- Dialog样式的Activity -->
+    <style name="style_activity_dialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <!-- 设置边框 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 设置半透明 -->
+        <item name="android:windowFullscreen">true</item>
+        <!-- 设置全屏 -->
+        <item name="windowNoTitle">true</item>
+        <!-- 设置title -->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@android:color/transparent</item>
+        <!--<item name="android:windowAnimationStyle">@style/style_dialog_activity_animate</item>-->
+    </style>
+    <!-- Dialog样式的Fragment -->
+    <style name="style_fragment_dialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <!-- 设置边框 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 设置半透明 -->
+        <!-- 设置全屏 -->
+        <item name="windowNoTitle">true</item>
+        <!-- 设置title -->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@android:color/transparent</item>
+        <!--<item name="android:windowAnimationStyle">@style/style_dialog_activity_animate</item>-->
+    </style>
+
+    <style name="style_dialog_activity_animate">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
+    </style>
+
+    <style name="SwipeBackLayout">
+        <item name="edge_size">0dp</item>
+    </style>
+
+    <!--<style name="DrawerArrowStyle" parent="style_activity_dialog">-->
+        <!--<item name="spinBars">false</item>-->
+        <!--<item name="color">@color/transparent</item>-->
+    <!--</style>-->
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/transparent</item>
+    </style>
+
+    <style name="text_base">
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <style name="text_drawable" parent="text_base">
+        <item name="android:drawablePadding">@dimen/d3</item>
+        <item name="android:padding">@dimen/d3</item>
+        <item name="android:color">@color/primary_text</item>
+        <item name="android:textSize">@dimen/h4</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+
+    <style name="card_view_margin">
+        <item name="android:layout_marginLeft">@dimen/card_view_margin</item>
+        <item name="android:layout_marginRight">@dimen/card_view_margin</item>
+        <item name="android:layout_marginBottom">@dimen/card_view_margin</item>
+    </style>
+
+    <style name="style_text_bar" parent="text_base">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/d4</item>
+        <item name="android:layout_marginRight">@dimen/d4</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:background">@mipmap/bg_input_edittext</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+</resources>

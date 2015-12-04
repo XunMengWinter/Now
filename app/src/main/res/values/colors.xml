@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#F9F9F9</color>
+    <color name="blue">#303F9F</color>
+    <color name="green">#4CAF50</color>
+    <color name="green_teal">#009688</color>
+    <color name="purple">#673AB7</color>
+    <color name="red">#F44336</color>
+    <color name="cyan">#00BCD4</color>
+    <color name="lime">#CDDC39</color>
+    <color name="transparent">#0000</color>
+
+    <color name="accent_color">@color/green</color>
+    <color name="colorPrimary">@color/green</color>
+    <color name="colorPrimaryDark">@color/green_teal</color>
+    <color name="statusBarColor">@color/green</color>
+    <color name="navigationBarColor">@android:color/black</color>
+    <color name="drawerArrowColor">@android:color/white</color>
+
+    <!-- material colors -->
+    <color name="g_red">#FFC93437</color>
+    <color name="g_blue">#FF375BF1</color>
+    <color name="g_yellow">#FFF7D23E</color>
+    <color name="g_green">#FF34A350</color>
+
+    <color name="moment">#21bba6</color>
+    <color name="duoban">#42bd56</color>
+    <color name="zcool">#ffd100</color>
+    <color name="ng">#000</color>
+    <color name="zcool_pc">#feb12b</color>
+    <color name="zhihu">#0077d9</color>
+    <color name="zhihu_pc">#2785d9</color>
+
+    <color name="purple_light">#ccf</color>
+    <color name="green_light">#dfa</color>
+    <color name="green_nomal">#bc9</color>
+    <color name="yellow_light">#ffa</color>
+    <color name="red_light">#fcd</color>
+
+    <color name="text_gray">#eee</color>
+
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+
+    <!-- 柔和、粉色调 -->
+    <array name="soft_colors">
+        <item>#fcc</item>
+        <item>#fc9</item>
+        <item>#ffc</item>
+        <item>#cf9</item>
+        <item>#9c9</item>
+        <item>#9cc</item>
+        <item>#ccf</item>
+    </array>
+
+</resources>
