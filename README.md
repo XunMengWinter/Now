@@ -17,6 +17,7 @@ Changes
 对Glide的缓存机制不大了解，所以只通过文件路径的方式存了一张封面图。
 
 总结：Now基本用第三方库拼凑而成（再次感谢开源），主要在界面与用户交互方面加了点自己的见解，最后献上compile.
+
     // forgive me too lazy to introduce
     
     compile 'com.android.support:appcompat-v7:23.0.1'
