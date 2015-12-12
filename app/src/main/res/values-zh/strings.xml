@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">NowView</string>
 
     <string name="other_js_switch">JavaScript 开关</string>
     <string name="js_open_description">(开启后可在网页内登录与留言)</string>

@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import top.wefor.now.R;
 import top.wefor.now.ZhihuApi;
 import top.wefor.now.adapter.ZhihuAdapter;
@@ -100,7 +103,10 @@ public class ZhihuFragment extends BaseFragment {
         // use a linear layout manager
 
         mAdapter = new ZhihuAdapter(getActivity(), mNewsList);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new FadeInAnimator());
+        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
+        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
+        mRecyclerView.setAdapter(scaleAdapter);
         String url = ZhihuApi.getDailyNews(date);
         // Debug url
 //        String url = "http://news.at.zhihu.com/api/4/news/before/20150822";

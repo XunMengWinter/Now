@@ -35,10 +35,8 @@
         https://github.com/XunMengWinter/Now\n\n\n
         关于Winter\n\n
         一枚热爱艺术的码农。\n\n
-        站酷页\n
-        http://icewinter.zcool.com.cn \n\n
-        个人网站\n
-        http://wefor.top</string>
+        站酷\n
+        http://icewinter.zcool.com.cn</string>
     <string name="thanks_detail">
         网页抓取\n
         http://jsoup.org/ \n\n
@@ -61,7 +59,7 @@
     <string name="enter">Enter</string>
     <string name="exit">Exit</string>
     <string name="my_zcool">http://icewinter.zcool.com.cn</string>
-    <string name="my_website">http://wefor.top</string>
+    <string name="my_website">http://wefor.top/android/now/</string>
     <string name="my_github">https://github.com/XunMengWinter</string>
 
     <string name="zcool">Zcool</string>

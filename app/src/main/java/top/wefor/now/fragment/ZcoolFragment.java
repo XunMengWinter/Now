@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 
@@ -19,6 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
 import top.wefor.now.R;
 import top.wefor.now.Urls;
 import top.wefor.now.adapter.ZcoolAdapter;
@@ -64,6 +69,8 @@ public class ZcoolFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        stopLoadingAnim();
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
 
@@ -76,7 +83,12 @@ public class ZcoolFragment extends BaseFragment {
         mRecyclerView.setHasFixedSize(true);
 
         mAdapter = new ZcoolAdapter(getActivity(), mZcoolList);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new FadeInAnimator());
+        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
+        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
+//        scaleAdapter.setFirstOnly(false);
+//        scaleAdapter.setInterpolator(new OvershootInterpolator());
+        mRecyclerView.setAdapter(scaleAdapter);
 
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
@@ -90,6 +102,7 @@ public class ZcoolFragment extends BaseFragment {
                     break;
 
                 case MSG_FAILURE:
+                    showLoadingAnim();
                     break;
             }
         }
@@ -103,7 +116,10 @@ public class ZcoolFragment extends BaseFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (doc == null) return;
+        if (doc == null) {
+            mHandler.obtainMessage(MSG_FAILURE).sendToTarget();
+            return;
+        }
         // Links
         Element userWorks = doc.body().getElementById("user-works");
         for (Element element : userWorks.select("li")) {
