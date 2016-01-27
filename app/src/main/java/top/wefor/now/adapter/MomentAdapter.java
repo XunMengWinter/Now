@@ -12,15 +12,11 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import top.wefor.now.NowApplication;
 import top.wefor.now.R;
 import top.wefor.now.TestRecyclerViewAdapter;

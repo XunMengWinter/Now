@@ -1,6 +1,5 @@
 package top.wefor.now;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -75,13 +74,10 @@ public class MainActivity extends BaseCompatActivity {
 
         toolbar = mViewPager.getToolbar();
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawer.post(new Runnable() {
-            @Override
-            public void run() {
-                Log.i("xyz", " width " + mDrawer.getWidth());
-                NowApplication.setWidth(mDrawer.getWidth());
-                NowApplication.setHeight(mDrawer.getHeight());
-            }
+        mDrawer.post(() -> {
+            Log.i("xyz", " width " + mDrawer.getWidth());
+            NowApplication.setWidth(mDrawer.getWidth());
+            NowApplication.setHeight(mDrawer.getHeight());
         });
 
         if (toolbar != null) {
@@ -110,23 +106,15 @@ public class MainActivity extends BaseCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Welcome to Now")
                     .setMessage(getString(R.string.fist_time_notice))
-                    .setPositiveButton(getString(R.string.enter), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            showAll();
-                            SharedPreferences.Editor editor = mPreferences.edit();
-                            editor.putBoolean(Constants.NOT_FIRST, true);
-                            editor.apply();
+                    .setPositiveButton(getString(R.string.enter), (dialog, which) -> {
+                        showAll();
+                        SharedPreferences.Editor editor = mPreferences.edit();
+                        editor.putBoolean(Constants.NOT_FIRST, true);
+                        editor.apply();
 
-                            dialog.dismiss();
-                        }
+                        dialog.dismiss();
                     })
-                    .setNegativeButton(getString(R.string.exit), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            MainActivity.this.finish();
-                        }
-                    })
+                    .setNegativeButton(getString(R.string.exit), (dialog, which) -> MainActivity.this.finish())
                     .create().show();
         } else
             showAll();
@@ -191,12 +179,9 @@ public class MainActivity extends BaseCompatActivity {
 
         View logo = findViewById(R.id.logo_white);
         if (logo != null)
-            logo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mViewPager.notifyHeaderChanged();
-                    Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
-                }
+            logo.setOnClickListener(v -> {
+                mViewPager.notifyHeaderChanged();
+                Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
             });
 
     }
@@ -216,27 +201,19 @@ public class MainActivity extends BaseCompatActivity {
 
     private void setViewPagerListener() {
         if (mImgList == null || mImgList.size() < mSize - 1)
-            mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
-                @Override
-                public HeaderDesign getHeaderDesign(int page) {
-                    return HeaderDesign.fromColorResAndDrawable(
-                            mColors.get(page % mSize),
-                            getResources().getDrawable(mColors.get(page % mSize)));
-                }
-            });
-        else mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
-            @Override
-            public HeaderDesign getHeaderDesign(int page) {
-                if (mColors.get(page % mSize) == R.color.ng)
-                    return HeaderDesign.fromColorResAndDrawable(
-                            R.color.ng,
-                            getResources().getDrawable(R.color.ng));
+            mViewPager.setMaterialViewPagerListener(page -> HeaderDesign.fromColorResAndDrawable(
+                    mColors.get(page % mSize),
+                    getResources().getDrawable(mColors.get(page % mSize))));
+        else mViewPager.setMaterialViewPagerListener(page -> {
+            if (mColors.get(page % mSize) == R.color.ng)
+                return HeaderDesign.fromColorResAndDrawable(
+                        R.color.ng,
+                        getResources().getDrawable(R.color.ng));
 
-                int size = Math.min(mImgList.size(), mSize);
-                return HeaderDesign.fromColorResAndUrl(
-                        mColors.get(page % mSize),
-                        mImgList.getString((page + mLuckyNum) % size));
-            }
+            int size = Math.min(mImgList.size(), mSize);
+            return HeaderDesign.fromColorResAndUrl(
+                    mColors.get(page % mSize),
+                    mImgList.getString((page + mLuckyNum) % size));
         });
 
     }

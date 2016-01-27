@@ -6,35 +6,30 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.squareup.picasso.Picasso;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
-import org.jsoup.helper.StringUtil;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTouch;
 import top.wefor.now.utils.Constants;
 import top.wefor.now.utils.Share;
 
@@ -162,9 +157,12 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         mWebView.setWebChromeClient(new ChromeClient());
         mWebView.setWebViewClient(new ViewClient());
         mWebView.getSettings().setLoadWithOverviewMode(true);
+        if (!isWifiConnected(mContext))
+            mWebView.getSettings().setLoadsImagesAutomatically(false);
+
         mWebView.getSettings().setAppCacheEnabled(true);
         mWebView.loadUrl(mUrl);
-        mWebView.setOnTouchListener(this);
+//        mWebView.setOnTouchListener(this);
         setTitle(mTitle);
         mFloatingActionButton.setVisibility(View.GONE);
     }
@@ -237,6 +235,16 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        WebView.HitTestResult hr = ((WebView) v).getHitTestResult();
+
+        Log.i("xyz ", "getExtra = " + hr.getExtra() + "\t\t Type=" + hr.getType());
+
+        if (hr.getType() == 8) {
+            new AlertDialog.Builder(mContext)
+                    .setMessage("hello: " + hr.getExtra())
+                    .create().show();
+        }
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 oldX = (int) event.getRawX();

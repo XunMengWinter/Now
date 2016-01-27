@@ -8,11 +8,11 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/news_list_card_view"
+        style="@style/card_view_margin"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/card_view_margin"
         android:layout_marginTop="@dimen/card_view_margin"
         card_view:cardCornerRadius="@dimen/d2"
         >
@@ -21,6 +21,7 @@
             android:id="@+id/image_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/ripple_moment"
             android:orientation="vertical">
 
             <TextView
@@ -45,7 +46,7 @@
                     android:layout_height="@dimen/moment_image_height"
                     android:scaleType="centerCrop"
                     android:src="@color/red_light"
-                    app:riv_corner_radius="@dimen/d2"
+                    app:riv_corner_radius_bottom_left="@dimen/d2"
                     />
 
                 <View
@@ -71,8 +72,9 @@
                     android:layout_height="@dimen/moment_image_height"
                     android:scaleType="centerCrop"
                     android:src="@color/purple_light"
-                    app:riv_corner_radius="@dimen/d2"
+                    app:riv_corner_radius_bottom_right="@dimen/d2"
                     />
+                <!--app:riv_corner_radius="@dimen/d2"-->
 
 
             </LinearLayout>
@@ -83,8 +85,9 @@
             android:id="@+id/text_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/d4"
+            android:background="@drawable/ripple_moment"
             android:orientation="vertical"
+            android:padding="@dimen/d4"
             android:visibility="gone"
             >
 

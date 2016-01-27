@@ -2,6 +2,7 @@ package top.wefor.now.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import top.wefor.now.TestRecyclerViewAdapter;
 import top.wefor.now.Urls;
 import top.wefor.now.WebActivity;
 import top.wefor.now.model.NG;
+import uk.co.senab.photoview.PhotoView;
 
 /**
  * Created by ice on 15/10/26.
@@ -105,6 +107,36 @@ public class NGAdapter extends TestRecyclerViewAdapter<NG> {
             intent.putExtra(WebActivity.EXTRA_URL, Urls.NG_BASE_URL + news.url);
             intent.putExtra(WebActivity.EXTRA_PIC_URL, news.imgUrl);
             v.getContext().startActivity(intent);
+        }
+
+        @OnClick(R.id.view)
+        void showBigImage(View v) {
+            NG news = contents.get(getLayoutPosition());
+            String imageUrl = news.imgUrl;
+
+            PhotoView photoView = new PhotoView(context);
+            int minSide = (int) (Math.min(NowApplication.getWidth(), NowApplication.getHeight()) * 0.9);
+            photoView.setLayoutParams(new ViewGroup.LayoutParams(minSide, minSide * 3 / 4));
+            Glide.with(context).load(imageUrl).into(photoView);
+            new AlertDialog.Builder(context)
+                    .setView(photoView)
+                    .create().show();
+//            Glide.with(context).load(imageUrl).downloadOnly(new SimpleTarget<File>() {
+//                @Override
+//                public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
+//                    File imageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Constants.IMAGE_DIR);
+//                    if (!imageDir.exists())
+//                        imageDir.mkdir();
+//                    File destinationFile = new File(imageDir, imageUrl + ".jpg");
+//                    if (destinationFile.exists()) return;
+//                    resource.renameTo(destinationFile);
+//
+//                    Uri uri = Uri.fromFile(destinationFile);
+//                    Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
+//                    new Application().getApplicationContext().sendBroadcast(scannerIntent);
+//                }
+//            });
+
         }
     }
 

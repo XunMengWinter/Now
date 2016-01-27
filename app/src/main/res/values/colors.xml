@@ -31,6 +31,13 @@
     <color name="zhihu">#0077d9</color>
     <color name="zhihu_pc">#2785d9</color>
 
+    <!--ripple color-->
+    <color name="alpha_zcool">#55ffd100</color>
+    <color name="alpha_ng">#5000</color>
+    <color name="alpha_moment">#5521bba6</color>
+    <color name="alpha_zhihu">#550077d9</color>
+    <color name="alpha_purple">#55673AB7</color>
+
     <color name="purple_light">#ccf</color>
     <color name="green_light">#dfa</color>
     <color name="green_nomal">#bc9</color>

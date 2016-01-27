@@ -1,15 +1,10 @@
 package top.wefor.now;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import top.wefor.now.model.Zcool;
 
 /**
  * Created by ice on 15/10/31.

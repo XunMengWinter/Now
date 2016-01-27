@@ -45,7 +45,6 @@
 
         <activity
             android:name=".WebActivity"
-            android:screenOrientation="portrait"
             />
 
 
