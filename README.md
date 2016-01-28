@@ -5,7 +5,7 @@
 Download NowView 1.0 in GooglePlay: https://play.google.com/store/apps/details?id=top.wefor.nowview
 
 效果图
-![alt tag](https://raw.githubusercontent.com/XunMengWinter/Now/3f391cd9d02152a6e8dca4d9b5ac6dbc453dbadc/images/nowview20160129.jpg)
+![alt tag](https://raw.githubusercontent.com/XunMengWinter/Now/images/nowview20160129.jpg)
 
 Changes
 v1.3更新日志：
