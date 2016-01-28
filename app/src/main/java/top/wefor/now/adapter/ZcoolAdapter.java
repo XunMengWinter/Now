@@ -2,6 +2,8 @@ package top.wefor.now.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import top.wefor.now.NowApplication;
 import top.wefor.now.R;
 import top.wefor.now.TestRecyclerViewAdapter;
 import top.wefor.now.WebActivity;
@@ -27,13 +30,32 @@ import top.wefor.now.model.Zcool;
  */
 public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
 
-    public static Integer IMAGE_WIDTH = 320, IMAGE_HEIGHT = 240;
+    public Integer IMAGE_WIDTH, IMAGE_HEIGHT;
+
+    public void setImageWidthAndHeight(int columns) {
+        IMAGE_WIDTH = NowApplication.getWidth() / columns - NowApplication.sResources.getDimensionPixelSize(R.dimen.d3) * 2;
+        IMAGE_HEIGHT = IMAGE_WIDTH * 3 / 4;
+    }
 
 
     public ZcoolAdapter(Context context, List<Zcool> contents) {
         super(context, contents);
         setBigViewResId(R.layout.item_empty_head);
         setSmallViewResId(R.layout.item_zcool);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        switch (position) {
+            case 0:
+            case 1:
+                return TYPE_HEADER;
+            case 2:
+                if (context.getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT)
+                    return TYPE_HEADER;
+            default:
+                return TYPE_CELL;
+        }
     }
 
     @Override
@@ -73,6 +95,8 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
     }
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.news_list_card_view)
+        CardView mCardView;
         @Bind(R.id.view)
         ImageView mImageView;
         @Bind(R.id.title_textView)
@@ -87,6 +111,15 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
         public CardViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+
+            ViewGroup.LayoutParams layoutParams = mImageView.getLayoutParams();
+            layoutParams.width = IMAGE_WIDTH;
+            layoutParams.height = IMAGE_HEIGHT;
+            mImageView.setLayoutParams(layoutParams);
+
+//            ViewGroup.LayoutParams cardLayoutParams = mCardView.getLayoutParams();
+//            cardLayoutParams.width = IMAGE_WIDTH;
+//            mCardView.setLayoutParams(cardLayoutParams);
         }
 
         public CardViewHolder(View v, int viewType) {
@@ -98,7 +131,7 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
         @OnClick(R.id.rootView)
         void onClick(View v) {
             // TODO do what you want :) you can use WebActivity to load detail content
-            Zcool news = (Zcool) contents.get(getLayoutPosition());
+            Zcool news = contents.get(getLayoutPosition());
             Intent intent = new Intent(v.getContext(), WebActivity.class);
             intent.putExtra(WebActivity.EXTRA_TITLE, news.title);
             intent.putExtra(WebActivity.EXTRA_URL, news.url);

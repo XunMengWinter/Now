@@ -28,7 +28,12 @@ import top.wefor.now.model.Moment;
  */
 public class MomentAdapter extends TestRecyclerViewAdapter<Moment> {
 
-    public static Integer IMAGE_WIDTH, IMAGE_HEIGHT;
+    private Integer IMAGE_WIDTH, IMAGE_HEIGHT;
+
+    public void setImageWidthAndHeight(){
+        int width = (NowApplication.getWidth() - 4 * NowApplication.sResources.getDimensionPixelSize(R.dimen.d3)) / 3;
+        IMAGE_WIDTH = IMAGE_HEIGHT = width;
+    }
 
     public MomentAdapter(Context context, List<Moment> contents) {
         super(context, contents);
@@ -100,11 +105,6 @@ public class MomentAdapter extends TestRecyclerViewAdapter<Moment> {
             mImageView3 = (ImageView) v.findViewById(R.id.imageView3);
             mImageViews = new ImageView[]{mImageView1, mImageView2, mImageView3};
 
-            if (IMAGE_WIDTH == null) {
-                float scale = context.getResources().getDisplayMetrics().density;
-                int width = (int) (NowApplication.getWidth() - 4 * 8 * scale) / 3;
-                IMAGE_WIDTH = IMAGE_HEIGHT = width;
-            }
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(IMAGE_WIDTH, IMAGE_HEIGHT);
             mImageView1.setLayoutParams(params);
             mImageView2.setLayoutParams(params);

@@ -40,21 +40,19 @@ public class NGAdapter extends TestRecyclerViewAdapter<NG> {
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = null;
+        View view;
 
         switch (viewType) {
-            case TYPE_HEADER: {
+            case TYPE_HEADER:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(getBigViewResId(), parent, false);
                 return new CardViewHolder(view, TYPE_HEADER) {
                 };
-            }
-            case TYPE_CELL: {
+            case TYPE_CELL:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(getSmallViewResId(), parent, false);
                 return new CardViewHolder(view) {
                 };
-            }
         }
         return null;
     }
@@ -65,7 +63,11 @@ public class NGAdapter extends TestRecyclerViewAdapter<NG> {
         NG news = contents.get(position);
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
 
-        Glide.with(context).load(news.imgUrl).into(cardViewHolder.mImageView);
+        if (NowApplication.isWifiConnected())
+            Glide.with(context).load(news.imgUrl).into(cardViewHolder.mImageView);
+        else
+            Glide.with(context).load(news.imgUrl).override(480, 360).into(cardViewHolder.mImageView);
+
         cardViewHolder.mTitleTv.setText(news.title);
         cardViewHolder.mContentTv.setText(news.content);
 
@@ -82,10 +84,10 @@ public class NGAdapter extends TestRecyclerViewAdapter<NG> {
         public CardViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
-            if (IMAGE_HEIGHT == null) {
-                float scale = context.getResources().getDisplayMetrics().density;
-                IMAGE_HEIGHT = (int) (NowApplication.getWidth() - 16 * 2 * scale) * 3 / 4;
-            }
+            if (IMAGE_HEIGHT == null)
+                // height = (minSide - margin)*3/4
+                IMAGE_HEIGHT = (Math.min(NowApplication.getWidth(), NowApplication.getHeight()) - 2 * context.getResources().getDimensionPixelSize(R.dimen.d4)) * 3 / 4;
+
             ViewGroup.LayoutParams layoutParams = mImageView.getLayoutParams();
             layoutParams.height = IMAGE_HEIGHT;
             mImageView.setLayoutParams(layoutParams);
@@ -115,28 +117,12 @@ public class NGAdapter extends TestRecyclerViewAdapter<NG> {
             String imageUrl = news.imgUrl;
 
             PhotoView photoView = new PhotoView(context);
-            int minSide = (int) (Math.min(NowApplication.getWidth(), NowApplication.getHeight()) * 0.9);
+            int minSide = (int) (NowApplication.getWidth() * 0.9);
             photoView.setLayoutParams(new ViewGroup.LayoutParams(minSide, minSide * 3 / 4));
             Glide.with(context).load(imageUrl).into(photoView);
             new AlertDialog.Builder(context)
                     .setView(photoView)
                     .create().show();
-//            Glide.with(context).load(imageUrl).downloadOnly(new SimpleTarget<File>() {
-//                @Override
-//                public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
-//                    File imageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Constants.IMAGE_DIR);
-//                    if (!imageDir.exists())
-//                        imageDir.mkdir();
-//                    File destinationFile = new File(imageDir, imageUrl + ".jpg");
-//                    if (destinationFile.exists()) return;
-//                    resource.renameTo(destinationFile);
-//
-//                    Uri uri = Uri.fromFile(destinationFile);
-//                    Intent scannerIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-//                    new Application().getApplicationContext().sendBroadcast(scannerIntent);
-//                }
-//            });
-
         }
     }
 

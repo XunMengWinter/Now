@@ -62,7 +62,7 @@ public class MainActivity extends BaseCompatActivity {
         Log.i("xyz", "imgs " + imgs);
         if (imgs != null)
             mImgList = JSON.parseArray(imgs);
-        if (mImgList != null && mImgList.size() > 0 && isWifiConnected(this))
+        if (mImgList != null && mImgList.size() > 0 && NowApplication.isWifiConnected())
             saveCoverImg();
 
 //        if (!BuildConfig.DEBUG)
@@ -74,11 +74,6 @@ public class MainActivity extends BaseCompatActivity {
 
         toolbar = mViewPager.getToolbar();
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawer.post(() -> {
-            Log.i("xyz", " width " + mDrawer.getWidth());
-            NowApplication.setWidth(mDrawer.getWidth());
-            NowApplication.setHeight(mDrawer.getHeight());
-        });
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);

@@ -24,7 +24,6 @@
 
         <activity
             android:name=".WelcomeActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoneTranslucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

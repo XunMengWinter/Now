@@ -1,10 +1,10 @@
 package top.wefor.now.fragment;
 
+import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -46,20 +46,27 @@ public class ZcoolFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mThread = new Thread() {
-            @Override
-            public void run() {
-                getZcoolList();
-            }
-        };
-        threadStart();
-        setRetainInstance(true);
-    }
 
-    public void threadStart() {
-        if (mZcoolList != null) return;
         mZcoolList = new ArrayList<>();
-        mThread.start();
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                getZcoolList();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                if (mZcoolList.size() > 0) {
+                    mAdapter.notifyDataSetChanged();
+                    stopLoadingAnim();
+                } else
+                    showLoadingAnim();
+            }
+        }.execute();
+
+        setRetainInstance(true);
     }
 
     @Override
@@ -72,14 +79,19 @@ public class ZcoolFragment extends BaseFragment {
         // in content do not change the layout size of the RecyclerView
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mAdapter = new ZcoolAdapter(getActivity(), mZcoolList);
 
         // set LayoutManager for your RecyclerView
-        mRecyclerView.setLayoutManager(layoutManager);
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            mAdapter.setImageWidthAndHeight(2);
+        } else {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+            mAdapter.setImageWidthAndHeight(3);
+        }
+
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new ZcoolAdapter(getActivity(), mZcoolList);
         mRecyclerView.setItemAnimator(new FadeInAnimator());
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
@@ -90,21 +102,6 @@ public class ZcoolFragment extends BaseFragment {
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
 
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {//此方法在ui线程运行
-            switch (msg.what) {
-                case MSG_SUCCESS:
-                    mAdapter.notifyDataSetChanged();
-                    stopLoadingAnim();
-                    break;
-
-                case MSG_FAILURE:
-                    showLoadingAnim();
-                    break;
-            }
-        }
-    };
-
     private void getZcoolList() {
         mZcoolList.clear();
         Document doc = null;
@@ -113,10 +110,9 @@ public class ZcoolFragment extends BaseFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (doc == null) {
-            mHandler.obtainMessage(MSG_FAILURE).sendToTarget();
+        if (doc == null)
             return;
-        }
+
         // Links
         Element userWorks = doc.body().getElementById("user-works");
         for (Element element : userWorks.select("li")) {
@@ -132,6 +128,6 @@ public class ZcoolFragment extends BaseFragment {
 //            Log.i("xyz ", "zcool " + zcool.imgUrl + zcool.url + zcool.title + zcool.name + zcool.readCount + "  " + zcool.likeCount);
             mZcoolList.add(zcool);
         }
-        if (mZcoolList.size() > 0) mHandler.obtainMessage(MSG_SUCCESS).sendToTarget();
     }
+
 }

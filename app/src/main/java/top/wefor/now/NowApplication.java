@@ -3,6 +3,9 @@ package top.wefor.now;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.DisplayMetrics;
 
 /**
  * Created by tangqi on 7/20/15.
@@ -11,7 +14,6 @@ public class NowApplication extends Application {
 
     public static Context sContext;
     public static Resources sResources;
-    private static Integer width, height;
 
     @Override
     public void onCreate() {
@@ -20,21 +22,23 @@ public class NowApplication extends Application {
         sResources = sContext.getResources();
     }
 
-
-
     public static Integer getWidth() {
-        return width == null ? 0 : width;
-    }
-
-    public static void setWidth(Integer width) {
-        NowApplication.width = width;
+        DisplayMetrics metrics = sResources.getDisplayMetrics();
+        return metrics.widthPixels;
     }
 
     public static Integer getHeight() {
-        return height == null ? 0 : height;
+        DisplayMetrics metrics = sResources.getDisplayMetrics();
+        return metrics.heightPixels;
     }
 
-    public static void setHeight(Integer height) {
-        NowApplication.height = height;
+    public static boolean isWifiConnected() {
+        ConnectivityManager connManager = (ConnectivityManager) sContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (networkInfo.isConnected())
+            return true;
+        else
+            return false;
     }
+
 }

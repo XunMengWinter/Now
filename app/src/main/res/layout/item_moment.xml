@@ -49,9 +49,10 @@
                     app:riv_corner_radius_bottom_left="@dimen/d2"
                     />
 
-                <View
-                    android:layout_width="@dimen/d3"
-                    android:layout_height="0dp"/>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/d3"
+                    android:layout_weight="1"/>
 
 
                 <com.makeramen.roundedimageview.RoundedImageView
@@ -62,9 +63,10 @@
                     android:src="@color/green_light"
                     />
 
-                <View
-                    android:layout_width="@dimen/d3"
-                    android:layout_height="0dp"/>
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/d3"
+                    android:layout_weight="1"/>
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/imageView3"

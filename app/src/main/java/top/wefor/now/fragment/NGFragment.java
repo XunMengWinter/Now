@@ -1,9 +1,8 @@
 package top.wefor.now.fragment;
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,13 +31,10 @@ import top.wefor.now.utils.Constants;
  * Created by ice on 15/10/28.
  */
 public class NGFragment extends BaseFragment {
-    private static final int MSG_SUCCESS = 0;
-    private static final int MSG_FAILURE = 1;
     private static final int SIZE = 10;
 
     private List<NG> mNGList;
     private NGAdapter mAdapter;
-    private Thread mThread;
 
     public static NGFragment newInstance() {
         NGFragment fragment = new NGFragment();
@@ -49,20 +45,26 @@ public class NGFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mThread = new Thread() {
-            @Override
-            public void run() {
-                getNGList();
-            }
-        };
-        threadStart();
-        setRetainInstance(true);
-    }
 
-    public void threadStart() {
-        if (mNGList != null) return;
         mNGList = new ArrayList<>();
-        mThread.start();
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                getNGList();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                if (mNGList.size() > 0) {
+                    mAdapter.notifyDataSetChanged();
+                    stopLoadingAnim();
+                } else
+                    showLoadingAnim();
+            }
+        }.execute();
+        setRetainInstance(true);
     }
 
     @Override
@@ -85,20 +87,6 @@ public class NGFragment extends BaseFragment {
 
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
-
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {//此方法在ui线程运行
-            switch (msg.what) {
-                case MSG_SUCCESS:
-                    mAdapter.notifyDataSetChanged();
-                    stopLoadingAnim();
-                    break;
-
-                case MSG_FAILURE:
-                    break;
-            }
-        }
-    };
 
     private void getNGList() {
         mNGList.clear();
@@ -126,8 +114,6 @@ public class NGFragment extends BaseFragment {
             mNGList.add(nG);
         }
         if (mNGList.size() > 0) {
-            mHandler.obtainMessage(MSG_SUCCESS).sendToTarget();
-
             SharedPreferences preferences = getActivity().getSharedPreferences(Constants.PREFS_NAME, 0);
             int type = preferences.getInt(Constants.COVER_SOURCE, 0);
             // setHeadImages

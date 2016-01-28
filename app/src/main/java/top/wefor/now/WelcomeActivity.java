@@ -15,11 +15,8 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.BaseJsonHttpResponseHandler;
-
-import org.apache.http.Header;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.util.Calendar;
@@ -27,6 +24,7 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 import top.wefor.now.model.BDImg;
 import top.wefor.now.model.BDImgResult;
 import top.wefor.now.utils.Constants;
@@ -45,36 +43,6 @@ public class WelcomeActivity extends BaseCompatActivity {
     private Date mStartDate;
     final long WELCOME_TIME = 1500;
     private SharedPreferences mPreferences;
-    private AsyncHttpClient mClient = new AsyncHttpClient();
-    private AsyncHttpResponseHandler mResponseHandler = new BaseJsonHttpResponseHandler<BDImgResult>() {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, BDImgResult response) {
-            if (response.imgs != null) {
-                JSONArray jsonArray = new JSONArray();
-                for (BDImg item : response.imgs) {
-                    Log.i("xyz", "img " + item.imageUrl);
-                    if (item.imageUrl != null)
-                        jsonArray.add(item.imageUrl);
-                }
-                SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putString(Constants.HEAD_IMAGES, jsonArray.toJSONString());
-                editor.apply();
-                toMainPage();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, BDImgResult errorResponse) {
-            toMainPage();
-        }
-
-        @Override
-        protected BDImgResult parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
-            Gson gson = new Gson();
-            return gson.fromJson(rawJsonData, BDImgResult.class);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,14 +72,14 @@ public class WelcomeActivity extends BaseCompatActivity {
                     break;
                 }
             case Constants.TYPE_BD:
-                if (!isWifiConnected(this)) {
+                if (!NowApplication.isWifiConnected()) {
                     toMainPage();
                     break;
                 }
-                mClient.get(this, Urls.BDIMG_BASE_URL.replace("page", "" + (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 10)), mResponseHandler);
+                getCoverImgsThenToMainPage();
                 break;
             case Constants.TYPE_MAC:
-                if (!isWifiConnected(this)) {
+                if (!NowApplication.isWifiConnected()) {
                     toMainPage();
                     break;
                 }
@@ -134,6 +102,36 @@ public class WelcomeActivity extends BaseCompatActivity {
                 break;
         }
 
+    }
+
+    private void getCoverImgsThenToMainPage() {
+        OkHttpUtils.get()
+                .url(Urls.BDIMG_BASE_URL.replace("page", "" + (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 10)))
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        Gson gson = new Gson();
+                        BDImgResult bdImgResult = gson.fromJson(response, BDImgResult.class);
+                        if (bdImgResult.imgs != null) {
+                            JSONArray jsonArray = new JSONArray();
+                            for (BDImg item : bdImgResult.imgs) {
+                                Log.i("xyz", "img " + item.imageUrl);
+                                if (item.imageUrl != null)
+                                    jsonArray.add(item.imageUrl);
+                            }
+                            SharedPreferences.Editor editor = mPreferences.edit();
+                            editor.putString(Constants.HEAD_IMAGES, jsonArray.toJSONString());
+                            editor.apply();
+                            toMainPage();
+                        }
+                    }
+                });
     }
 
     private void toMainPage() {

@@ -7,11 +7,8 @@ import android.view.View;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.BaseJsonHttpResponseHandler;
-
-import org.apache.http.Header;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +17,7 @@ import java.util.List;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import okhttp3.Call;
 import top.wefor.now.R;
 import top.wefor.now.ZhihuApi;
 import top.wefor.now.adapter.ZhihuAdapter;
@@ -31,32 +29,6 @@ public class ZhihuFragment extends BaseFragment {
     private List<ZhihuDaily> mNewsList = new ArrayList<>();
     private ZhihuAdapter mAdapter;
     private String date;
-
-    AsyncHttpClient mClient = new AsyncHttpClient();
-    AsyncHttpResponseHandler mResponseHandlerGetNews = new BaseJsonHttpResponseHandler<ZhihuDailyResult>() {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, ZhihuDailyResult response) {
-            if (response.stories != null) {
-                for (ZhihuDaily item : response.stories) {
-                    mNewsList.add(item);
-                }
-                mAdapter.notifyDataSetChanged();
-                stopLoadingAnim();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, ZhihuDailyResult errorResponse) {
-
-        }
-
-        @Override
-        protected ZhihuDailyResult parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
-            Gson gson = new Gson();
-            return gson.fromJson(rawJsonData, ZhihuDailyResult.class);
-        }
-    };
 
     public static ZhihuFragment newInstance() {
         ZhihuFragment fragment = new ZhihuFragment();
@@ -78,12 +50,10 @@ public class ZhihuFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
-            Bundle bundle = getArguments();
-            date = bundle.getString("date");
-
-            setRetainInstance(true);
-        }
+        Bundle bundle = getArguments();
+        date = bundle.getString("date");
+        getZhihuList();
+        setRetainInstance(true);
     }
 
     @Override
@@ -107,11 +77,36 @@ public class ZhihuFragment extends BaseFragment {
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
         mRecyclerView.setAdapter(scaleAdapter);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+
+    }
+
+    private void getZhihuList() {
         String url = ZhihuApi.getDailyNews(date);
         // Debug url
 //        String url = "http://news.at.zhihu.com/api/4/news/before/20150822";
-        mClient.get(getActivity(), url, mResponseHandlerGetNews);
+        OkHttpUtils.get()
+                .url(url)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        showLoadingAnim();
+                    }
 
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+                    @Override
+                    public void onResponse(String response) {
+                        Gson gson = new Gson();
+                        ZhihuDailyResult zhihuDailyResult = gson.fromJson(response, ZhihuDailyResult.class);
+                        if (zhihuDailyResult.stories != null) {
+                            for (ZhihuDaily item : zhihuDailyResult.stories) {
+                                mNewsList.add(item);
+                            }
+                            mAdapter.notifyDataSetChanged();
+                            stopLoadingAnim();
+                        }
+                    }
+                });
     }
+
 }

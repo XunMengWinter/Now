@@ -19,46 +19,44 @@
         <LinearLayout
             android:id="@+id/rootView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/ripple_zcool"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/view"
-                android:layout_width="144dp"
-                android:layout_height="108dp"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
                 android:scaleType="centerCrop"
                 android:src="#dfa"
-                app:riv_corner_radius_bottom_left="@dimen/d2"
                 app:riv_corner_radius_top_left="@dimen/d2"
+                app:riv_corner_radius_top_right="@dimen/d2"
                 />
 
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/d3"
-                android:layout_weight="1"
-                >
+            <TextView
+                android:id="@+id/title_textView"
+                style="@style/text_base"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/d3"
+                android:layout_marginTop="@dimen/d3"
+                android:text="Winter is coming "
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/h4"
+                />
 
-                <TextView
-                    android:id="@+id/title_textView"
-                    style="@style/text_base"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="@dimen/d4"
-                    android:paddingLeft="@dimen/d3"
-                    android:text="Winter is coming "
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/h4"
-                    />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/d3">
 
                 <TextView
                     android:id="@+id/name_textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:paddingLeft="@dimen/d3"
+                    android:layout_weight="1"
                     android:text="寻梦Winter"
                     android:textColor="@color/secondary_text"
                     android:textSize="@dimen/h6"/>
@@ -68,8 +66,6 @@
                     android:id="@+id/read_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginRight="@dimen/d5"
                     android:alpha="0.32"
                     android:paddingRight="@dimen/d2"
                     android:text="168看过"
@@ -80,14 +76,12 @@
                     android:id="@+id/like_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
+                    android:layout_marginLeft="@dimen/d3"
                     android:alpha="0.32"
                     android:text="22赞"
                     android:textColor="@color/text_gray"
                     android:textSize="@dimen/h6"/>
-
-
-            </FrameLayout>
+            </LinearLayout>
 
 
         </LinearLayout>

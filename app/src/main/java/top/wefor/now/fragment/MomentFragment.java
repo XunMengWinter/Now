@@ -1,8 +1,8 @@
 package top.wefor.now.fragment;
 
+import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,12 +28,9 @@ import top.wefor.now.model.Moment;
  * Created by ice on 15/10/28.
  */
 public class MomentFragment extends BaseFragment {
-    private static final int MSG_SUCCESS = 0;
-    private static final int MSG_FAILURE = 1;
 
     private List<Moment> mMomentList;
     private MomentAdapter mAdapter;
-    private Thread mThread;
 
     public static MomentFragment newInstance() {
         MomentFragment fragment = new MomentFragment();
@@ -44,20 +41,26 @@ public class MomentFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mThread = new Thread() {
-            @Override
-            public void run() {
-                getMomentList();
-            }
-        };
-        threadStart();
-        setRetainInstance(true);
-    }
 
-    public void threadStart() {
-        if (mMomentList != null) return;
         mMomentList = new ArrayList<>();
-        mThread.start();
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                getMomentList();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                if (mMomentList.size() > 0) {
+                    mAdapter.notifyDataSetChanged();
+                    stopLoadingAnim();
+                } else
+                    showLoadingAnim();
+            }
+        }.execute();
+        setRetainInstance(true);
     }
 
     @Override
@@ -76,24 +79,15 @@ public class MomentFragment extends BaseFragment {
         mRecyclerView.setHasFixedSize(true);
 
         mAdapter = new MomentAdapter(getActivity(), mMomentList);
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            mAdapter.setImageWidthAndHeight();
+        else
+            mAdapter.setImageWidthAndHeight();
+
         mRecyclerView.setAdapter(mAdapter);
 
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
     }
-
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {//此方法在ui线程运行
-            switch (msg.what) {
-                case MSG_SUCCESS:
-                    mAdapter.notifyDataSetChanged();
-                    stopLoadingAnim();
-                    break;
-
-                case MSG_FAILURE:
-                    break;
-            }
-        }
-    };
 
     private void getMomentList() {
         mMomentList.clear();
@@ -123,6 +117,5 @@ public class MomentFragment extends BaseFragment {
             }
             mMomentList.add(moment);
         }
-        if (mMomentList.size() > 0) mHandler.obtainMessage(MSG_SUCCESS).sendToTarget();
     }
 }

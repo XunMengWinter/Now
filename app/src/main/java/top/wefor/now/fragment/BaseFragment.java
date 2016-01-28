@@ -16,6 +16,7 @@ import top.wefor.now.R;
  */
 public class BaseFragment extends Fragment {
     protected RecyclerView mRecyclerView;
+    protected View mLoadingView;
 
     public static BaseFragment newInstance() {
         return new BaseFragment();
@@ -25,6 +26,8 @@ public class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
+        mLoadingView = view.findViewById(R.id.loading_view);
+        mLoadingView.setVisibility(View.GONE);
         return view;
     }
 
@@ -39,13 +42,13 @@ public class BaseFragment extends Fragment {
     }
 
     protected void stopLoadingAnim() {
-        if (getView() != null)
-            getView().findViewById(R.id.loading_view).setVisibility(View.GONE);
+        if (mLoadingView != null)
+            mLoadingView.setVisibility(View.GONE);
     }
 
     protected void showLoadingAnim() {
-        if (getView() != null)
-            getView().findViewById(R.id.loading_view).setVisibility(View.VISIBLE);
+        if (mLoadingView != null)
+            mLoadingView.setVisibility(View.VISIBLE);
     }
 
     public void onResume() {

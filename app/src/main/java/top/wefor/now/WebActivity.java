@@ -157,7 +157,7 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         mWebView.setWebChromeClient(new ChromeClient());
         mWebView.setWebViewClient(new ViewClient());
         mWebView.getSettings().setLoadWithOverviewMode(true);
-        if (!isWifiConnected(mContext))
+        if (!NowApplication.isWifiConnected())
             mWebView.getSettings().setLoadsImagesAutomatically(false);
 
         mWebView.getSettings().setAppCacheEnabled(true);
