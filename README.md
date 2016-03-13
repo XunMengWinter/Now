@@ -8,11 +8,18 @@ Download NowView 1.0 in GooglePlay: https://play.google.com/store/apps/details?i
 ![alt tag](https://raw.githubusercontent.com/XunMengWinter/Now/master/images/nowview20160129.jpg)
 
 Changes
+
+v1.4更新日志：
+    1.加入rxAndroid；
+    2.加入retrofit；
+    3.代码优化。
+
 v1.3更新日志：
     1.Zcool模块界面由一列变成竖屏2列横屏3列；
     2.适配Zcool与Moment横屏模式;
     3.抛弃Apache Http，使用OkHttp；
     4.代码优化。
+    
 v1.2更新日志：
     相比第一个版本添加了版块删选、图片源选择及新增 National Geographic 版块，基本通过SharedPreferences来实现。
 
@@ -26,12 +33,19 @@ v1.2更新日志：
 
     // forgive me too lazy to introduce
     
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'com.race604.flyrefresh:library:2.0.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.2.0'
+    compile 'com.android.support:cardview-v7:23.2.0'
+    compile 'com.google.code.gson:gson:2.4'
+
+    compile files('libs/open_sdk_r5509.jar')
+    compile files('libs/jsoup-1.8.3.jar')
+    compile files('libs/umeng-analytics-v5.6.4.jar')
+    compile files('libs/umeng-update-v2.6.0.1.jar')
+    compile files('libs/libammsdk.jar')
+
     compile 'com.jakewharton:butterknife:7.0.1'
     compile('com.github.florent37:materialviewpager:1.1.3@aar') {
         transitive = true
@@ -40,17 +54,13 @@ v1.2更新日志：
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.zhy:okhttputils:2.2.0'
-    compile files('libs/jsoup-1.8.3.jar')
     compile 'com.alibaba:fastjson:1.2.7'
-    compile files('libs/umeng-analytics-v5.6.4.jar')
-    compile files('libs/umeng-update-v2.6.0.1.jar')
-    compile files('libs/open_sdk_r5276.jar')
-    compile files('libs/libammsdk.jar')
-    compile 'com.github.jkwiecien:EasyImage:1.0.9'
     compile 'com.wang.avi:library:1.0.1'
     compile 'jp.wasabeef:recyclerview-animators:2.1.0'
     compile 'com.commit451:PhotoView:1.2.4'
-    
-    compile 'com.wang.avi:library:1.0.1'
-    
-    compile 'com.nineoldandroids:library:2.4.0'
+
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
