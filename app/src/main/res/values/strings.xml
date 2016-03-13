@@ -42,10 +42,19 @@
         http://jsoup.org/ \n\n
         视图框架\n
         https://github.com/florent37/MaterialViewPager \n\n
+        RxAndroid\n
+        https://github.com/ReactiveX/RxAndroid \n\n
+        Butter Knife
+        http://jakewharton.github.io/butterknife/ \n\n
+        Retrofit\n
+        https://github.com/square/retrofit \n\n
+        Glide\n
+        https://github.com/bumptech/glide \n\n
         左侧边右滑返回\n
         https://github.com/SkillCollege/SimplifyReader \n\n
         知乎列表\n
         https://github.com/tangqi92/BuildingBlocks \n\n
+        ......
     </string>
     <string name="pic_url_1">http://wefor.top/now/now-aerial.jpg</string>
     <string name="pic_url_2">http://wefor.top/now/now-mountain.jpg</string>
@@ -90,5 +99,6 @@
         <item>@string/source_mac</item>
         <item>@string/source_color</item>
     </string-array>
+    <string name="title_activity_big_image">BigImageActivity</string>
 
 </resources>

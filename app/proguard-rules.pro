@@ -74,20 +74,20 @@ public static final int *;
 -dontwarn okio.**
 -keep class com.squareup.okhttp.** { *;}
 
-##不混淆android-async-http(这里的与你用的httpClient框架决定)
-#-keep class com.loopj.android.http.**{*;}
-#
-## 不混淆org.apache.http.legacy.jar
-# -dontwarn android.net.compatibility.**
-# -dontwarn android.net.http.**
-# -dontwarn com.android.internal.http.multipart.**
-# -dontwarn org.apache.commons.**
-# -dontwarn org.apache.http.**
-# -keep class android.net.compatibility.**{*;}
-# -keep class android.net.http.**{*;}
-# -keep class com.android.internal.http.multipart.**{*;}
-# -keep class org.apache.commons.**{*;}
-# -keep class org.apache.http.**{*;}
+#不混淆android-async-http(这里的与你用的httpClient框架决定)
+-keep class com.loopj.android.http.**{*;}
+
+# 不混淆org.apache.http.legacy.jar
+ -dontwarn android.net.compatibility.**
+ -dontwarn android.net.http.**
+ -dontwarn com.android.internal.http.multipart.**
+ -dontwarn org.apache.commons.**
+ -dontwarn org.apache.http.**
+ -keep class android.net.compatibility.**{*;}
+ -keep class android.net.http.**{*;}
+ -keep class com.android.internal.http.multipart.**{*;}
+ -keep class org.apache.commons.**{*;}
+ -keep class org.apache.http.**{*;}
 
 #下面三个是SDK23打包时的warning处理
 #tencent

@@ -4,10 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import top.wefor.now.model.entity.BDImg;
+
 /**
  * Created by ice on 15/11/27.
  */
-public class BDImgResult {
+public class BDImgResult extends BaseResult {
     @SerializedName("col")
     public String col;
     @SerializedName("tag")
