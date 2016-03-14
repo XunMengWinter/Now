@@ -3,6 +3,7 @@
 视图基于 https://github.com/florent37/MaterialViewPager 
 
 Download NowView 1.0 in GooglePlay: https://play.google.com/store/apps/details?id=top.wefor.nowview
+APK下载: http://www.wefor.top/android/now/
 
 效果图
 ![alt tag](https://raw.githubusercontent.com/XunMengWinter/Now/master/images/nowview20160129.jpg)
