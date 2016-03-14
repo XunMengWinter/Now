@@ -3,7 +3,6 @@ package top.wefor.now.ui.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
@@ -15,8 +14,8 @@ import java.util.List;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import rx.Observer;
 import top.wefor.now.R;
+import top.wefor.now.http.BaseObserver;
 import top.wefor.now.http.ZhihuApi;
 import top.wefor.now.model.ZhihuDailyResult;
 import top.wefor.now.model.entity.ZhihuDaily;
@@ -79,38 +78,12 @@ public class ZhihuFragment extends BaseFragment {
     private void getZhihuList() {
         // Debug url
 //        String url = "http://news.at.zhihu.com/api/4/news/before/20150822";
-//
-//        mZhihuApi.getDailyNews(date)
-//                .subscribe(new BaseObserver<ZhihuDailyResult>() {
-//                    @Override
-//                    protected void onSucceed(ZhihuDailyResult result) {
-//                        for (ZhihuDaily item : result.stories) {
-//                            mNewsList.add(item);
-//                        }
-//                        mAdapter.notifyDataSetChanged();
-//                        stopLoadingAnim();
-//                    }
-//                });
-
         mZhihuApi.getDailyNews(date)
-                .subscribe(new Observer<ZhihuDailyResult>() {
+                .subscribe(new BaseObserver<ZhihuDailyResult>() {
                     @Override
-                    public void onCompleted() {
-                        Log.i("xyz","onCompleted");
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i("xyz","onError" + e.getMessage());
-
-                    }
-
-                    @Override
-                    public void onNext(ZhihuDailyResult zhihuDailyResult) {
-                        Log.i("xyz","onNext");
-                        if (zhihuDailyResult.stories != null) {
-                            for (ZhihuDaily item : zhihuDailyResult.stories) {
+                    protected void onSucceed(ZhihuDailyResult result) {
+                        if (result.stories != null) {
+                            for (ZhihuDaily item : result.stories) {
                                 mNewsList.add(item);
                             }
                             mAdapter.notifyDataSetChanged();
@@ -118,7 +91,6 @@ public class ZhihuFragment extends BaseFragment {
                         }
                     }
                 });
-
     }
 
 }
