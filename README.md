@@ -14,9 +14,10 @@ Changes
 v1.5更新日志：
     1.去除标题栏（将ToolBar高度设置为0）；
     2.加入Realm，实现本地存储；
-    3.WebView设置缓存并在非Wifi下读取缓存；
-    4.自定义Recyclerview，实现上拉加载更多与下拉刷新（通过监听onScrollStateChanged(int state),当state＝SCROLL_STATE_SETTLING时表示列表拉不动了）；
-    5.Fragment代码整理。
+    3.加入Fresco，使用SimpleDraweeView替换ImageView;
+    4.WebView设置缓存并在非Wifi下读取缓存；
+    5.自定义Recyclerview，实现上拉加载更多与下拉刷新（通过监听onScrollStateChanged(int state),当state＝SCROLL_STATE_SETTLING时表示列表拉不动了）；
+    6.Fragment代码整理。
 
 v1.4更新日志：
     1.加入rxAndroid；
