@@ -5,6 +5,7 @@
 Download NowView 1.0 in GooglePlay: https://play.google.com/store/apps/details?id=top.wefor.nowview
 
 APK下载: http://www.wefor.top/android/now/
+     Or: http://pan.baidu.com/s/1hsqAX5i
 
 效果图
 ![alt tag](https://raw.githubusercontent.com/XunMengWinter/Now/master/images/nowview20160129.jpg)
