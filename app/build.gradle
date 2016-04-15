@@ -11,8 +11,8 @@ android {
         applicationId "top.wefor.nowview"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 7
-        versionName "1.4"
+        versionCode 8
+        versionName "1.5"
     }
     buildTypes {
         release {
