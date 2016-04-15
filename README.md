@@ -11,6 +11,13 @@ APK下载: http://www.wefor.top/android/now/
 
 Changes
 
+v1.5更新日志：
+    1.去除标题栏（将ToolBar高度设置为0）；
+    2.加入Realm，实现本地存储；
+    3.WebView设置缓存并在非Wifi下读取缓存；
+    4.自定义Recyclerview，实现上拉加载更多与下拉刷新（通过监听onScrollStateChanged(int state),当state＝SCROLL_STATE_SETTLING时表示列表拉不动了）；
+    5.Fragment代码整理。
+
 v1.4更新日志：
     1.加入rxAndroid；
     2.加入retrofit；
@@ -35,31 +42,19 @@ v1.2更新日志：
 
     // forgive me too lazy to introduce
     
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support:design:23.1.0'
-    compile 'com.android.support:recyclerview-v7:23.2.0'
-    compile 'com.android.support:cardview-v7:23.2.0'
-    compile 'com.google.code.gson:gson:2.4'
-
-    compile files('libs/open_sdk_r5509.jar')
-    compile files('libs/jsoup-1.8.3.jar')
-    compile files('libs/umeng-analytics-v5.6.4.jar')
-    compile files('libs/umeng-update-v2.6.0.1.jar')
-    compile files('libs/libammsdk.jar')
-
     compile 'com.jakewharton:butterknife:7.0.1'
     compile('com.github.florent37:materialviewpager:1.1.3@aar') {
         transitive = true
     }
     compile 'com.orhanobut:logger:1.10'
-    compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'com.makeramen:roundedimageview:2.2.1'
+    compile 'com.facebook.fresco:fresco:0.9.0+'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.commit451:PhotoView:1.2.4'
+
     compile 'com.zhy:okhttputils:2.2.0'
     compile 'com.alibaba:fastjson:1.2.7'
     compile 'com.wang.avi:library:1.0.1'
     compile 'jp.wasabeef:recyclerview-animators:2.1.0'
-    compile 'com.commit451:PhotoView:1.2.4'
 
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
