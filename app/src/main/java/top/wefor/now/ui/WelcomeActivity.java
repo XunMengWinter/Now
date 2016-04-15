@@ -5,40 +5,41 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
-import com.bumptech.glide.Glide;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.Call;
-import top.wefor.now.NowApplication;
 import top.wefor.now.R;
 import top.wefor.now.http.Urls;
-import top.wefor.now.model.entity.BDImg;
 import top.wefor.now.model.BDImgResult;
+import top.wefor.now.model.entity.BDImg;
 import top.wefor.now.utils.Constants;
+import top.wefor.now.utils.NowAppUtils;
 
 /**
  * Created by ice on 15/11/22.
  */
 public class WelcomeActivity extends BaseCompatActivity {
 
-    @Bind(R.id.view)
-    ImageView mImageView;
+    @Bind(R.id.simpleDraweeView)
+    SimpleDraweeView mSimpleDraweeView;
 
     @Bind(R.id.textView)
     TextView mTextView;
@@ -56,9 +57,17 @@ public class WelcomeActivity extends BaseCompatActivity {
         mStartDate = new Date();
         mPreferences = getSharedPreferences(Constants.PREFS_NAME, 0);
         SharedPreferences.Editor editor = mPreferences.edit();
-        File file = new File(mPreferences.getString(Constants.COVER_IMAGE, ""));
-        Log.i("xyz img path ", mPreferences.getString(Constants.COVER_IMAGE, ""));
-        if (file.exists()) Glide.with(this).load(file).into(mImageView);
+//        File file = new File(mPreferences.getString(Constants.COVER_IMAGE, ""));
+//        Log.i("xyz img path ", mPreferences.getString(Constants.COVER_IMAGE, ""));
+//        if (file.exists()) mSimpleDraweeView.setImageURI(Uri.fromFile(file));
+        String coverImgUrl = mPreferences.getString(Constants.COVER_IMAGE, "");
+        if (!TextUtils.isEmpty(coverImgUrl))
+            mSimpleDraweeView.setImageURI(Uri.parse(coverImgUrl));
+        else {
+            GenericDraweeHierarchy hierarchy = mSimpleDraweeView.getHierarchy();
+            hierarchy.setPlaceholderImage(R.mipmap.img_first_welcome);
+        }
+
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
             String version = String.format(getResources().getString(R.string.app_version), packageInfo.versionName);
@@ -75,14 +84,14 @@ public class WelcomeActivity extends BaseCompatActivity {
                     break;
                 }
             case Constants.TYPE_BD:
-                if (!NowApplication.isWifiConnected()) {
+                if (!NowAppUtils.isWifiConnected()) {
                     toMainPage();
                     break;
                 }
                 getCoverImgsThenToMainPage();
                 break;
             case Constants.TYPE_MAC:
-                if (!NowApplication.isWifiConnected()) {
+                if (!NowAppUtils.isWifiConnected()) {
                     toMainPage();
                     break;
                 }

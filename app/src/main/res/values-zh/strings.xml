@@ -18,7 +18,7 @@
     <string name="send_email_failed">没有找到可以发送邮件的应用，\n
         我的邮箱是：\n
         315721484@qq.com</string>
-    <string name="fist_time_notice">你好，这是你第一次打开 Now ～ \n\n
+    <string name="fist_time_notice">你好，欢迎来到 Now ～ \n\n
         Now 将风景与阅读融为一体，需要加载顶部风景图才能继续，建议在wifi环境下加载。\n
         (仅需加载一次，加载后不再提醒)</string>
     <string name="enter">确认加载</string>

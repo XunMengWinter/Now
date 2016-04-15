@@ -9,7 +9,7 @@ import android.view.WindowManager;
 
 import java.lang.reflect.Method;
 
-import top.wefor.now.NowApplication;
+import top.wefor.now.NowApp;
 
 /**
  * Created by ice on 2/2/16.
@@ -20,7 +20,7 @@ public class UIHelper {
 
     private static String getNavBarOverride() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WindowManager wm = (WindowManager) NowApplication.sContext.getSystemService(Context.WINDOW_SERVICE);
+            WindowManager wm = (WindowManager) NowApp.getInstance().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
             try {
                 // 相当于SystemProperties.get
                 Class c = Class.forName("android.os.SystemProperties");
@@ -36,7 +36,7 @@ public class UIHelper {
 
     @TargetApi(14)
     private static boolean hasNavBar() {
-        Resources res = NowApplication.sContext.getResources();
+        Resources res = NowApp.getInstance().getApplicationContext().getResources();
         // resources.getIdentifier() 方法可以获取指定报名下的资源文件ID，后两个参数表示资源类型和默认报名
         int resourceId = res.getIdentifier(SHOW_NAV_BAR_RES_NAME, "bool", "android");
         if (resourceId != 0) {
@@ -47,7 +47,7 @@ public class UIHelper {
             }
             return false;
         } else {
-            return !ViewConfiguration.get(NowApplication.sContext).hasPermanentMenuKey();
+            return !ViewConfiguration.get(NowApp.getInstance().getApplicationContext()).hasPermanentMenuKey();
         }
     }
 
@@ -58,7 +58,7 @@ public class UIHelper {
 
         if (!hasNavBar()) return 0;
 
-        Resources resources = NowApplication.sContext.getResources();
+        Resources resources = NowApp.getInstance().getApplicationContext().getResources();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0)
             return resources.getDimensionPixelSize(resourceId);
@@ -69,7 +69,7 @@ public class UIHelper {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
             return 0;
 
-        Resources resources = NowApplication.sContext.getResources();
+        Resources resources = NowApp.getInstance().getApplicationContext().getResources();
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0)
             return resources.getDimensionPixelSize(resourceId);

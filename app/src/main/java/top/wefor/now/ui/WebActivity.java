@@ -12,11 +12,11 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.bumptech.glide.Glide;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.tauth.IUiListener;
@@ -29,12 +29,14 @@ import java.util.concurrent.ExecutionException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import top.wefor.now.NowApplication;
 import top.wefor.now.R;
 import top.wefor.now.utils.Constants;
+import top.wefor.now.utils.NowAppUtils;
 import top.wefor.now.utils.Share;
 
 /*
+ * Created by ice on 15/10/26.
+ *
  * Thanks to
  * Author: drakeet
  */
@@ -140,13 +142,11 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
             @Override
             public void run() {
                 super.run();
-                try {
-                    bitmap = Glide.with(WebActivity.this).load(picUrl).asBitmap().into(100, 100).get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    bitmap = Glide.with(WebActivity.this).load(picUrl).asBitmap().into(100, 100).get();
+//                } catch (InterruptedException | ExecutionException e) {
+//                    e.printStackTrace();
+//                }
             }
         }.start();
 
@@ -154,15 +154,22 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
         boolean isJSEnabled = settings.getBoolean(Constants.JAVA_SCRIPT_ENABLED, true);
 
-        mWebView.getSettings().setJavaScriptEnabled(isJSEnabled);
         mWebView.setWebChromeClient(new ChromeClient());
         mWebView.setWebViewClient(new ViewClient());
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        if (!NowApplication.isWifiConnected())
-            mWebView.getSettings().setLoadsImagesAutomatically(false);
 
-        mWebView.getSettings().setAppCacheEnabled(true);
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(isJSEnabled);
+        webSettings.setLoadWithOverviewMode(true);
+
+        webSettings.setAppCacheEnabled(true);
+        webSettings.setAppCachePath(Constants.WEB_CACHE_DIR);
+
+        if (NowAppUtils.isWifiConnected())
+            webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        else
+            webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         mWebView.loadUrl(mUrl);
+
         mWebView.setOnTouchListener(this);
         setTitle(mTitle);
         mFloatingActionButton.setVisibility(View.GONE);
@@ -207,6 +214,7 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
+            Log.i("xyz", newProgress + " progress");
             mProgressbar.setProgress(newProgress);
             if (newProgress == 100) {
                 mProgressbar.setVisibility(View.GONE);

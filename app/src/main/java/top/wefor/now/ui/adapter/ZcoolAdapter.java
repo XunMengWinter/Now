@@ -3,15 +3,16 @@ package top.wefor.now.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -19,10 +20,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import top.wefor.now.NowApplication;
 import top.wefor.now.R;
-import top.wefor.now.ui.WebActivity;
 import top.wefor.now.model.entity.Zcool;
+import top.wefor.now.ui.WebActivity;
+import top.wefor.now.utils.NowAppUtils;
 
 /**
  * Created by ice on 15/10/26.
@@ -31,8 +32,12 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
 
     public Integer IMAGE_WIDTH, IMAGE_HEIGHT;
 
+    /**
+     * fit px by px
+     */
     public void setImageWidthAndHeight(int columns) {
-        IMAGE_WIDTH = NowApplication.getWidth() / columns - NowApplication.sResources.getDimensionPixelSize(R.dimen.d3) * 2;
+        int d3 = context.getResources().getDimensionPixelSize(R.dimen.d3);
+        IMAGE_WIDTH = (NowAppUtils.getWidth() - d3 * 2) / columns - d3 * 2;
         IMAGE_HEIGHT = IMAGE_WIDTH * 3 / 4;
     }
 
@@ -84,11 +89,10 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
         Zcool news = contents.get(position);
         Logger.d(position + "");
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
-        // 图像地址（官方 API 使用数组形式，目前暂未有使用多张图片的情形出现，曾见无 images 属性的情况，请在使用中注意 ）
-
-        Glide.with(context).load(news.imgUrl).override(IMAGE_WIDTH, IMAGE_HEIGHT).into(cardViewHolder.mImageView);
+        Uri imgUri = Uri.parse(news.imgUrl);
+        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
         cardViewHolder.mTitleTv.setText(news.title);
-        cardViewHolder.mNameTv.setText(news.name);
+        cardViewHolder.mNameTv.setText("by " + news.name);
         cardViewHolder.mReadTv.setText(news.readCount + " 看过");
         cardViewHolder.mLikeTv.setText(news.likeCount + " 赞");
     }
@@ -96,8 +100,6 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
     public class CardViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.news_list_card_view)
         CardView mCardView;
-        @Bind(R.id.view)
-        ImageView mImageView;
         @Bind(R.id.title_textView)
         TextView mTitleTv;
         @Bind(R.id.name_textView)
@@ -106,19 +108,21 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
         TextView mReadTv;
         @Bind(R.id.like_textView)
         TextView mLikeTv;
+        @Bind(R.id.simpleDraweeView)
+        SimpleDraweeView mSimpleDraweeView;
 
         public CardViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
 
-            ViewGroup.LayoutParams layoutParams = mImageView.getLayoutParams();
-            layoutParams.width = IMAGE_WIDTH;
-            layoutParams.height = IMAGE_HEIGHT;
-            mImageView.setLayoutParams(layoutParams);
-
-//            ViewGroup.LayoutParams cardLayoutParams = mCardView.getLayoutParams();
-//            cardLayoutParams.width = IMAGE_WIDTH;
-//            mCardView.setLayoutParams(cardLayoutParams);
+            if (NowAppUtils.isBelowLollipop()) {
+                //set round corner
+                RoundingParams roundingParams = new RoundingParams();
+                int d2 = context.getResources().getDimensionPixelSize(R.dimen.d2);
+                roundingParams.setCornersRadii(d2, d2, 0, 0);
+                mSimpleDraweeView.getHierarchy().setRoundingParams(roundingParams);
+            }
+            mSimpleDraweeView.setAspectRatio(1f);
         }
 
         public CardViewHolder(View v, int viewType) {

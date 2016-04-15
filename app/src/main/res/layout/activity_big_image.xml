@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="top.wefor.now.ui.BigImageActivity">
+    >
 
-    <uk.co.senab.photoview.PhotoView
-        android:id="@+id/photoView"
+    <ImageView
+        android:background="#000000"
+        android:id="@+id/simpleDraweeView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        />
+        <!--fresco:actualImageScaleType="fitCenter"-->
+
 </RelativeLayout>

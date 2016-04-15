@@ -2,21 +2,23 @@
 <LinearLayout
     android:id="@+id/rootView"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/black"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/d4"
-    >
+    android:padding="@dimen/d4">
 
-    <ImageView
-        android:id="@+id/view"
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/simpleDraweeView"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/d4"
         android:layout_marginRight="@dimen/d4"
-        android:src="#dfa"/>
+        fresco:viewAspectRatio="1.33"
+        />
+    <!--fresco:roundedCornerRadius="@dimen/d2"-->
 
     <TextView
         android:id="@+id/title_textView"
@@ -26,6 +28,7 @@
         android:text="@string/tag"
         android:textColor="#eee"
         android:textSize="@dimen/h6"
+        android:layout_margin="@dimen/d2"
         />
 
     <TextView

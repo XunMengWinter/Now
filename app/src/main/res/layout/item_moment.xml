@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
@@ -40,43 +40,59 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="@dimen/moment_image_height"
-                    android:layout_height="@dimen/moment_image_height"
-                    android:scaleType="centerCrop"
-                    android:src="@color/red_light"
-                    app:riv_corner_radius_bottom_left="@dimen/d2"
-                    />
+                <!--<com.facebook.drawee.view.SimpleDraweeView-->
+                    <!--android:id="@+id/simpleDraweeView1"-->
+                    <!--android:layout_width="@dimen/moment_image_height"-->
+                    <!--android:layout_height="@dimen/moment_image_height"-->
+                    <!--fresco:placeholderImage="@color/red_light"-->
+                    <!--/>-->
+                <ImageView
+                android:id="@+id/simpleDraweeView1"
+                android:layout_width="@dimen/moment_image_height"
+                android:layout_height="@dimen/moment_image_height"
+                android:scaleType="centerCrop"
+                android:src="@color/red_light"
+                />
 
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="@dimen/d3"
                     android:layout_weight="1"/>
 
+                <!--<com.facebook.drawee.view.SimpleDraweeView-->
+                    <!--android:id="@+id/simpleDraweeView2"-->
+                    <!--android:layout_width="@dimen/moment_image_height"-->
+                    <!--android:layout_height="@dimen/moment_image_height"-->
+                    <!--fresco:placeholderImage="@color/green_light"-->
+                    <!--/>-->
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="@dimen/moment_image_height"
-                    android:layout_height="@dimen/moment_image_height"
-                    android:scaleType="centerCrop"
-                    android:src="@color/green_light"
-                    />
+                <ImageView
+                android:id="@+id/simpleDraweeView2"
+                android:layout_width="@dimen/moment_image_height"
+                android:layout_height="@dimen/moment_image_height"
+                android:scaleType="centerCrop"
+                android:src="@color/green_light"
+                />
 
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="@dimen/d3"
                     android:layout_weight="1"/>
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="@dimen/moment_image_height"
-                    android:layout_height="@dimen/moment_image_height"
-                    android:scaleType="centerCrop"
-                    android:src="@color/purple_light"
-                    app:riv_corner_radius_bottom_right="@dimen/d2"
-                    />
+                <!--<com.facebook.drawee.view.SimpleDraweeView-->
+                    <!--android:id="@+id/simpleDraweeView3"-->
+                    <!--android:layout_width="@dimen/moment_image_height"-->
+                    <!--android:layout_height="@dimen/moment_image_height"-->
+                    <!--fresco:placeholderImage="@color/purple_light"-->
+                    <!--/>-->
                 <!--app:riv_corner_radius="@dimen/d2"-->
+                <ImageView
+                android:id="@+id/simpleDraweeView3"
+                android:layout_width="@dimen/moment_image_height"
+                android:layout_height="@dimen/moment_image_height"
+                android:scaleType="centerCrop"
+                android:src="@color/purple_light"
+                />
 
 
             </LinearLayout>

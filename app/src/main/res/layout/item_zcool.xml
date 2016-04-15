@@ -1,89 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.v7.widget.CardView
+    android:id="@+id/news_list_card_view"
+    style="@style/card_view_margin"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/card_view_margin"
+    card_view:cardCornerRadius="@dimen/d2"
     >
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/news_list_card_view"
-        style="@style/card_view_margin"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
+        android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="@dimen/d2"
-        >
+        android:background="@drawable/ripple_zcool"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/rootView"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/simpleDraweeView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ripple_zcool"
-            android:orientation="vertical">
+            />
+        <!--fresco:roundedCornerRadius="@dimen/d2"-->
+        <!--fresco:viewAspectRatio="1.33"-->
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:scaleType="centerCrop"
-                android:src="#dfa"
-                app:riv_corner_radius_top_left="@dimen/d2"
-                app:riv_corner_radius_top_right="@dimen/d2"
-                />
+        <TextView
+            android:id="@+id/title_textView"
+            style="@style/text_base"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/d3"
+            android:layout_marginTop="@dimen/d3"
+            android:singleLine="true"
+            android:text="Winter is coming "
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/h4"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/d3">
 
             <TextView
-                android:id="@+id/title_textView"
-                style="@style/text_base"
+                android:id="@+id/name_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="寻梦Winter"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/h6"/>
+
+
+            <TextView
+                android:id="@+id/read_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/d3"
-                android:layout_marginTop="@dimen/d3"
-                android:text="Winter is coming "
-                android:textColor="@color/primary_text"
-                android:textSize="@dimen/h4"
-                />
+                android:alpha="0.32"
+                android:paddingRight="@dimen/d2"
+                android:text="168看过"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/h6"
+                android:visibility="gone"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/like_textView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/d3">
-
-                <TextView
-                    android:id="@+id/name_textView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_weight="1"
-                    android:text="寻梦Winter"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="@dimen/h6"/>
-
-
-                <TextView
-                    android:id="@+id/read_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.32"
-                    android:paddingRight="@dimen/d2"
-                    android:text="168看过"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/h6"/>
-
-                <TextView
-                    android:id="@+id/like_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d3"
-                    android:alpha="0.32"
-                    android:text="22赞"
-                    android:textColor="@color/text_gray"
-                    android:textSize="@dimen/h6"/>
-            </LinearLayout>
-
-
+                android:layout_marginLeft="@dimen/d3"
+                android:alpha="0.32"
+                android:text="22赞"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/h6"
+                android:visibility="gone"/>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
-</FrameLayout>
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

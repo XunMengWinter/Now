@@ -33,10 +33,6 @@ import top.wefor.now.utils.Constants;
  */
 public class OtherFragment extends BaseFragment {
 
-    ObservableScrollView mScrollView;
-    private View mColumnSelectView, mHeadPictureView;
-    private SharedPreferences mPreferences;
-
     @OnClick(R.id.wiki_imageButton)
     void openWiki() {
         Intent intent = new Intent(getActivity(), WebActivity.class);
@@ -174,6 +170,10 @@ public class OtherFragment extends BaseFragment {
         }
 
     }
+
+    ObservableScrollView mScrollView;
+    private View mColumnSelectView, mHeadPictureView;
+    private SharedPreferences mPreferences;
 
     public static OtherFragment newInstance() {
         return new OtherFragment();

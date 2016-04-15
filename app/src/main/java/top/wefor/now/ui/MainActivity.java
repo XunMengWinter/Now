@@ -10,32 +10,31 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.umeng.update.UmengUpdateAgent;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
-import top.wefor.now.NowApplication;
 import top.wefor.now.R;
 import top.wefor.now.ui.fragment.BaseFragment;
-import top.wefor.now.ui.fragment.MomentFragment;
-import top.wefor.now.ui.fragment.NGFragment;
+import top.wefor.now.ui.fragment.MomentListFragment;
+import top.wefor.now.ui.fragment.NGListFragment;
 import top.wefor.now.ui.fragment.OtherFragment;
-import top.wefor.now.ui.fragment.ZcoolFragment;
-import top.wefor.now.ui.fragment.ZhihuFragment;
+import top.wefor.now.ui.fragment.ZcoolListFragment;
+import top.wefor.now.ui.fragment.ZhihuListFragment;
 import top.wefor.now.utils.Constants;
+import top.wefor.now.utils.NowAppUtils;
+import top.wefor.now.utils.UIHelper;
 
 public class MainActivity extends BaseCompatActivity {
 
@@ -59,12 +58,12 @@ public class MainActivity extends BaseCompatActivity {
         setContentView(R.layout.activity_main);
 
         mPreferences = getSharedPreferences(Constants.PREFS_NAME, 0);
-        boolean isNotFirst = mPreferences.getBoolean(Constants.NOT_FIRST, false);
+        boolean isFirst = mPreferences.getBoolean(Constants.IS_FIRST, true);
         String imgs = mPreferences.getString(Constants.HEAD_IMAGES, null);
         Log.i("xyz", "imgs " + imgs);
         if (imgs != null)
             mImgList = JSON.parseArray(imgs);
-        if (mImgList != null && mImgList.size() > 0 && NowApplication.isWifiConnected())
+        if (mImgList != null && mImgList.size() > 0 && NowAppUtils.isWifiConnected())
             saveCoverImg();
 
 //        if (!BuildConfig.DEBUG)
@@ -88,28 +87,30 @@ public class MainActivity extends BaseCompatActivity {
                 actionBar.setDisplayUseLogoEnabled(false);
                 actionBar.setHomeButtonEnabled(true);
             }
+
+            toolbar.setLayoutParams(new RelativeLayout.LayoutParams(toolbar.getWidth(), UIHelper.getStatusBarHeight()));
         }
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, 0, 0);
-//        mDrawer.setDrawerListener(mDrawerToggle);
+        mDrawer.setDrawerListener(mDrawerToggle);
 
-//        checkIsFirst();
-        showAll();
+        checkIsFirst();
+//        showAll();
     }
 
     private void checkIsFirst() {
-        boolean isNotFirst = mPreferences.getBoolean(Constants.NOT_FIRST, false);
-        if (!isNotFirst) {
+        boolean isFirst = mPreferences.getBoolean(Constants.IS_FIRST, true);
+        if (isFirst) {
             new AlertDialog.Builder(this)
                     .setTitle("Welcome to Now")
                     .setMessage(getString(R.string.fist_time_notice))
                     .setPositiveButton(getString(R.string.enter), (dialog, which) -> {
-                        showAll();
                         SharedPreferences.Editor editor = mPreferences.edit();
-                        editor.putBoolean(Constants.NOT_FIRST, true);
+                        editor.putBoolean(Constants.IS_FIRST, false);
                         editor.apply();
 
                         dialog.dismiss();
+                        showAll();
                     })
                     .setNegativeButton(getString(R.string.exit), (dialog, which) -> MainActivity.this.finish())
                     .create().show();
@@ -124,22 +125,22 @@ public class MainActivity extends BaseCompatActivity {
         mColors = new ArrayList<>();
 
         if (mPreferences.getBoolean(getString(R.string.zcool), true)) {
-            mFragmentArrayList.add(ZcoolFragment.newInstance());
+            mFragmentArrayList.add(ZcoolListFragment.newInstance());
             mTitles.add(getString(R.string.zcool));
             mColors.add(R.color.zcool);
         }
         if (mPreferences.getBoolean(getString(R.string.ng), true)) {
-            mFragmentArrayList.add(NGFragment.newInstance());
+            mFragmentArrayList.add(NGListFragment.newInstance());
             mTitles.add(getString(R.string.ng));
             mColors.add(R.color.ng);
         }
         if (mPreferences.getBoolean(getString(R.string.zhihu), true)) {
-            mFragmentArrayList.add(ZhihuFragment.newInstance());
+            mFragmentArrayList.add(ZhihuListFragment.newInstance());
             mTitles.add(getString(R.string.zhihu));
             mColors.add(R.color.zhihu);
         }
         if (mPreferences.getBoolean(getString(R.string.moment), true)) {
-            mFragmentArrayList.add(MomentFragment.newInstance());
+            mFragmentArrayList.add(MomentListFragment.newInstance());
             mTitles.add(getString(R.string.moment));
             mColors.add(R.color.moment);
         }
@@ -189,12 +190,11 @@ public class MainActivity extends BaseCompatActivity {
         mDrawerToggle.syncState();
     }
 
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        return mDrawerToggle.onOptionsItemSelected(item) ||
-//                super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return mDrawerToggle.onOptionsItemSelected(item) ||
+                super.onOptionsItemSelected(item);
+    }
 
     private void setViewPagerListener() {
         if (mImgList == null || mImgList.size() < mSize - 1)
@@ -216,15 +216,9 @@ public class MainActivity extends BaseCompatActivity {
     }
 
     private void saveCoverImg() {
-//        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Constants.COVER_IMAGE_PATH;
-        Glide.with(MainActivity.this).load(mImgList.getString(mImgList.size() - 1)).downloadOnly(new SimpleTarget<File>() {
-            @Override
-            public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
-                SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putString(Constants.COVER_IMAGE, resource.getAbsolutePath());
-                editor.apply();
-            }
-        });
+//                SharedPreferences.Editor editor = mPreferences.edit();
+//                editor.putString(Constants.COVER_IMAGE, resource.getAbsolutePath());
+//                editor.apply();
     }
 
 }

@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import java.util.Random;
 
-import top.wefor.now.NowApplication;
+import top.wefor.now.NowApp;
 import top.wefor.now.R;
 
 /**
@@ -42,13 +42,13 @@ public class Colors {
     }
 
     public static int getRandomColorFromArray(int colorArray) {
-        int[] colors = NowApplication.sResources.getIntArray(colorArray);
+        int[] colors = NowApp.getInstance().getResources().getIntArray(colorArray);
         int i = sRandom.nextInt(colors.length);
         return colors[i];
     }
 
     public static int softColor() {
-        int[] colors = NowApplication.sResources.getIntArray(R.array.soft_colors);
+        int[] colors = NowApp.getInstance().getResources().getIntArray(R.array.soft_colors);
         int i = sRandom.nextInt(colors.length);
         return colors[i];
     }

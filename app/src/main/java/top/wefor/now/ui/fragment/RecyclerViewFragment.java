@@ -16,7 +16,7 @@ import top.wefor.now.R;
 /**
  * Created by florentchampigny on 24/04/15.
  */
-public class RecyclerViewFragment extends BaseFragment {
+public class RecyclerViewFragment extends BaseListFragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -47,5 +47,15 @@ public class RecyclerViewFragment extends BaseFragment {
         }
 
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+    }
+
+    @Override
+    public void getData() {
+
+    }
+
+    @Override
+    public void showList() {
+
     }
 }
