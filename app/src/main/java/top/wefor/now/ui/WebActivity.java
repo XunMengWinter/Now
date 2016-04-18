@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -17,14 +18,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.squareup.picasso.Picasso;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -142,11 +144,11 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
             @Override
             public void run() {
                 super.run();
-//                try {
-//                    bitmap = Glide.with(WebActivity.this).load(picUrl).asBitmap().into(100, 100).get();
-//                } catch (InterruptedException | ExecutionException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    bitmap = Picasso.with(WebActivity.this).load(picUrl).resize(100, 100).get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }.start();
 
@@ -300,7 +302,7 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         if (mTitle != null)
             bundle.putString(QQShare.SHARE_TO_QQ_TITLE, mTitle);
         // 分享的图片URL
-        if (picUrl != null && !picUrl.equals("")) {
+        if (!TextUtils.isEmpty(picUrl)) {
             if (type == TYPE_QQ)
                 bundle.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, picUrl);
             else {

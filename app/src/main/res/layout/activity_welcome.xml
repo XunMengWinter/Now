@@ -15,7 +15,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="@dimen/d4"
-        fresco:placeholderImage="@mipmap/img_first_welcome"
         fresco:actualImageScaleType="fitCenter"
         android:id="@+id/simpleDraweeView"
         />
