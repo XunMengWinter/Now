@@ -20,5 +20,4 @@ public class CommonUtils {
         return (int) context.getResources().getDimension(R.dimen.tabsHeight);
     }
 
-
 }
