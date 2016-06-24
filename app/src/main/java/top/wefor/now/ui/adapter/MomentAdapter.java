@@ -93,7 +93,7 @@ public class MomentAdapter extends TestRecyclerViewAdapter<Moment> {
         } else if (news.content != null) {
             cardViewHolder.mImageLinearLayout.setVisibility(View.GONE);
             cardViewHolder.mTextLinearLayout.setVisibility(View.VISIBLE);
-            cardViewHolder.mTextContentTextView.setText("" + news.title);
+            cardViewHolder.mTextTitleTextView.setText("" + news.title);
             cardViewHolder.mTextContentTextView.setText("" + news.content);
         }
 
