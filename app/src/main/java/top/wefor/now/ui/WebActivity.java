@@ -28,7 +28,7 @@ import com.tencent.tauth.UiError;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import top.wefor.now.R;
@@ -53,13 +53,22 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
     public static final Integer TYPE_QZONE = 0;
     public static final Integer TYPE_QQ = 1;
 
-    @Bind(R.id.progressbar)
+    public static void startThis(Context context, String url, String title, String picUrl, String summary) {
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.putExtra(WebActivity.EXTRA_TITLE, title);
+        intent.putExtra(WebActivity.EXTRA_URL, url);
+        intent.putExtra(WebActivity.EXTRA_PIC_URL, picUrl);
+        intent.putExtra(WebActivity.EXTRA_SUMMARY, summary);
+        context.startActivity(intent);
+    }
+
+    @BindView(R.id.progressbar)
     ProgressBar mProgressbar;
-    @Bind(R.id.webView)
+    @BindView(R.id.webView)
     WebView mWebView;
-    @Bind(R.id.cardView)
+    @BindView(R.id.cardView)
     CardView mCardView;
-    @Bind(R.id.loading_view)
+    @BindView(R.id.loading_view)
     View mLoadingView;
 
     @OnClick(R.id.wechat_textView)
@@ -114,7 +123,7 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         }
     }
 
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton mFloatingActionButton;
 
     Context mContext;
@@ -197,7 +206,6 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
     protected void onDestroy() {
         super.onDestroy();
         if (mWebView != null) mWebView.destroy();
-        ButterKnife.unbind(this);
     }
 
     @Override

@@ -1,11 +1,11 @@
 package top.wefor.now.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +14,16 @@ import android.widget.TextView;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import top.wefor.now.R;
 import top.wefor.now.model.entity.Zcool;
+import top.wefor.now.ui.BigImageActivity;
 import top.wefor.now.ui.WebActivity;
 import top.wefor.now.utils.NowAppUtils;
 
@@ -89,8 +91,10 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
         Zcool news = contents.get(position);
         Logger.d(position + "");
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
-        Uri imgUri = Uri.parse(news.imgUrl);
-        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
+//        Uri imgUri = Uri.parse(news.imgUrl);
+//        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
+        if (!TextUtils.isEmpty(news.imgUrl))
+            Picasso.with(context).load(news.imgUrl).into(cardViewHolder.mSimpleDraweeView);
         cardViewHolder.mTitleTv.setText(news.title);
         cardViewHolder.mNameTv.setText("by " + news.name);
         cardViewHolder.mReadTv.setText(news.readCount + " 看过");
@@ -98,23 +102,24 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
     }
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.news_list_card_view)
+        @BindView(R.id.news_list_card_view)
         CardView mCardView;
-        @Bind(R.id.title_textView)
+        @BindView(R.id.title_textView)
         TextView mTitleTv;
-        @Bind(R.id.name_textView)
+        @BindView(R.id.name_textView)
         TextView mNameTv;
-        @Bind(R.id.read_textView)
+        @BindView(R.id.read_textView)
         TextView mReadTv;
-        @Bind(R.id.like_textView)
+        @BindView(R.id.like_textView)
         TextView mLikeTv;
-        @Bind(R.id.simpleDraweeView)
+        @BindView(R.id.simpleDraweeView)
         SimpleDraweeView mSimpleDraweeView;
 
         public CardViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
 
+            // because us Picasso loadView,so this is not work.
             if (NowAppUtils.isBelowLollipop()) {
                 //set round corner
                 RoundingParams roundingParams = new RoundingParams();
@@ -122,7 +127,7 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
                 roundingParams.setCornersRadii(d2, d2, 0, 0);
                 mSimpleDraweeView.getHierarchy().setRoundingParams(roundingParams);
             }
-            mSimpleDraweeView.setAspectRatio(1f);
+            mSimpleDraweeView.setAspectRatio(4/3f);
         }
 
         public CardViewHolder(View v, int viewType) {
@@ -135,12 +140,15 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
         void onClick(View v) {
             // TODO do what you want :) you can use WebActivity to load detail content
             Zcool news = contents.get(getLayoutPosition());
-            Intent intent = new Intent(v.getContext(), WebActivity.class);
-            intent.putExtra(WebActivity.EXTRA_TITLE, news.title);
-            intent.putExtra(WebActivity.EXTRA_URL, news.url);
-            intent.putExtra(WebActivity.EXTRA_PIC_URL, news.imgUrl);
-            v.getContext().startActivity(intent);
+            WebActivity.startThis(context, news.url, news.title, news.imgUrl,
+                    context.getString(R.string.share_summary_zcool));
         }
+
+        @OnClick(R.id.simpleDraweeView)
+        void showBigImage(View v) {
+            BigImageActivity.startThis(context, v, contents.get(getLayoutPosition()).imgUrl);
+        }
+
     }
 
 }

@@ -33,6 +33,8 @@ import top.wefor.now.swipeback.Utils;
  * Email:   1076559197@qq.com | tauchen1990@gmail.com
  * Date:    2015/3/11.
  * Description:
+ * 支持右滑返回
+ * 样式需设置为 @style/AppTheme.Translucent"
  */
 public abstract class BaseSwipeBackCompatActivity extends BaseCompatActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;

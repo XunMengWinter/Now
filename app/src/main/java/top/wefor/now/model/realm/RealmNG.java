@@ -33,6 +33,7 @@ public class RealmNG extends RealmObject implements Serializable {
         return ng;
     }
 
+    public void hello(String x,int i){}
     public void setFromEntity(NG ng) {
         url = ng.url;
         imgUrl = ng.imgUrl;

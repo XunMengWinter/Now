@@ -1,6 +1,5 @@
 package top.wefor.now.ui.fragment;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -41,9 +40,9 @@ public class OtherFragment extends BaseFragment {
         startActivity(intent);
     }
 
-    @Bind(R.id.js_checkBox)
+    @BindView(R.id.js_checkBox)
     CheckBox mJsCB;
-    @Bind(R.id.js_textView)
+    @BindView(R.id.js_textView)
     TextView mJsTv;
 
     @OnCheckedChanged(R.id.js_checkBox)
@@ -96,7 +95,7 @@ public class OtherFragment extends BaseFragment {
         return view;
     }
 
-    @Bind(R.id.headPicture_textView)
+    @BindView(R.id.headPicture_textView)
     TextView mHeadPictureTv;
 
     @OnClick(R.id.headPicture_linearLayout)
@@ -105,15 +104,12 @@ public class OtherFragment extends BaseFragment {
             mHeadPictureView = getActivity().getLayoutInflater().inflate(R.layout.dialog_head_picture, null);
             RadioGroup radioGroup = (RadioGroup) mHeadPictureView.findViewById(R.id.radioGroup);
             radioGroup.check(radioGroup.getChildAt(mPreferences.getInt(Constants.COVER_SOURCE, 0)).getId());
-            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
-                    SharedPreferences.Editor editor = mPreferences.edit();
-                    editor.putInt(Constants.COVER_SOURCE, group.indexOfChild(radioButton));
-                    editor.apply();
-                    mHeadPictureTv.setText(radioButton.getText());
-                }
+            radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putInt(Constants.COVER_SOURCE, group.indexOfChild(radioButton));
+                editor.apply();
+                mHeadPictureTv.setText(radioButton.getText());
             });
         } else
             ((ViewGroup) mHeadPictureView.getParent()).removeView(mHeadPictureView);
@@ -129,13 +125,10 @@ public class OtherFragment extends BaseFragment {
         new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.about))
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_about, null))
-                .setPositiveButton("个人网站", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(getString(R.string.my_website)));
-                        startActivity(intent);
-                    }
+                .setPositiveButton("个人网站", (dialogInterface, i) -> {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(getString(R.string.my_jianshu)));
+                    startActivity(intent);
                 })
                 .create().show();
     }
@@ -145,13 +138,10 @@ public class OtherFragment extends BaseFragment {
         new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.thanks))
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_thanks, null))
-                .setPositiveButton("GitHub", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(getString(R.string.my_github)));
-                        startActivity(intent);
-                    }
+                .setPositiveButton("GitHub", (dialogInterface, i) -> {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(getString(R.string.my_github)));
+                    startActivity(intent);
                 })
                 .create().show();
     }

@@ -23,7 +23,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import java.util.Calendar;
 import java.util.Date;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import top.wefor.now.R;
@@ -38,10 +38,10 @@ import top.wefor.now.utils.NowAppUtils;
  */
 public class WelcomeActivity extends BaseCompatActivity {
 
-    @Bind(R.id.simpleDraweeView)
+    @BindView(R.id.simpleDraweeView)
     SimpleDraweeView mSimpleDraweeView;
 
-    @Bind(R.id.textView)
+    @BindView(R.id.textView)
     TextView mTextView;
 
     private Date mStartDate;
@@ -51,6 +51,7 @@ public class WelcomeActivity extends BaseCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
 
@@ -117,6 +118,7 @@ public class WelcomeActivity extends BaseCompatActivity {
     }
 
     private void getCoverImgsThenToMainPage() {
+
         OkHttpUtils.get()
                 .url(Urls.BDIMG_BASE_URL.replace("page", "" + (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 10)))
                 .build()

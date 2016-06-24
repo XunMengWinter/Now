@@ -27,4 +27,9 @@
     <string name="column_select">版块选择</string>
     <string name="head_picture">顶部图片源</string>
 
+    <string name="share_summary_zcool">From 站酷</string>
+    <string name="share_summary_ng">From 国家地理</string>
+    <string name="share_summary_zhihu">From 知乎</string>
+    <string name="share_summary_moment">From 豆瓣一刻</string>
+
 </resources>

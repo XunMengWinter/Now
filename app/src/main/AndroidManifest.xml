@@ -25,7 +25,7 @@
         <activity
             android:name=".ui.WelcomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.NoneTranslucent">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -37,7 +37,7 @@
             android:name=".ui.MainActivity"
             android:configChanges="keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoneTranslucent">
+            >
         </activity>
 
         <service
@@ -72,13 +72,15 @@
 
 
         <activity
+            android:theme="@style/AppTheme.Translucent"
             android:name=".ui.WebActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name=".ui.BigImageActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_big_image">
+            android:label="@string/title_activity_big_image"
+            >
         </activity>
     </application>
 

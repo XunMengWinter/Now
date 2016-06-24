@@ -40,59 +40,37 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <!--<com.facebook.drawee.view.SimpleDraweeView-->
-                    <!--android:id="@+id/simpleDraweeView1"-->
-                    <!--android:layout_width="@dimen/moment_image_height"-->
-                    <!--android:layout_height="@dimen/moment_image_height"-->
-                    <!--fresco:placeholderImage="@color/red_light"-->
-                    <!--/>-->
-                <ImageView
-                android:id="@+id/simpleDraweeView1"
-                android:layout_width="@dimen/moment_image_height"
-                android:layout_height="@dimen/moment_image_height"
-                android:scaleType="centerCrop"
-                android:src="@color/red_light"
-                />
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/simpleDraweeView1"
+                    android:layout_width="@dimen/moment_image_height"
+                    android:layout_height="@dimen/moment_image_height"
+                    fresco:placeholderImage="@color/red_light"
+                    />
 
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="@dimen/d3"
                     android:layout_weight="1"/>
 
-                <!--<com.facebook.drawee.view.SimpleDraweeView-->
-                    <!--android:id="@+id/simpleDraweeView2"-->
-                    <!--android:layout_width="@dimen/moment_image_height"-->
-                    <!--android:layout_height="@dimen/moment_image_height"-->
-                    <!--fresco:placeholderImage="@color/green_light"-->
-                    <!--/>-->
-
-                <ImageView
-                android:id="@+id/simpleDraweeView2"
-                android:layout_width="@dimen/moment_image_height"
-                android:layout_height="@dimen/moment_image_height"
-                android:scaleType="centerCrop"
-                android:src="@color/green_light"
-                />
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/simpleDraweeView2"
+                    android:layout_width="@dimen/moment_image_height"
+                    android:layout_height="@dimen/moment_image_height"
+                    fresco:placeholderImage="@color/green_light"
+                    />
 
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="@dimen/d3"
                     android:layout_weight="1"/>
 
-                <!--<com.facebook.drawee.view.SimpleDraweeView-->
-                    <!--android:id="@+id/simpleDraweeView3"-->
-                    <!--android:layout_width="@dimen/moment_image_height"-->
-                    <!--android:layout_height="@dimen/moment_image_height"-->
-                    <!--fresco:placeholderImage="@color/purple_light"-->
-                    <!--/>-->
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/simpleDraweeView3"
+                    android:layout_width="@dimen/moment_image_height"
+                    android:layout_height="@dimen/moment_image_height"
+                    fresco:placeholderImage="@color/purple_light"
+                    />
                 <!--app:riv_corner_radius="@dimen/d2"-->
-                <ImageView
-                android:id="@+id/simpleDraweeView3"
-                android:layout_width="@dimen/moment_image_height"
-                android:layout_height="@dimen/moment_image_height"
-                android:scaleType="centerCrop"
-                android:src="@color/purple_light"
-                />
 
 
             </LinearLayout>

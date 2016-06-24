@@ -21,13 +21,10 @@
         <item name="android:statusBarColor" tools:targetApi="21">@color/statusBarColor</item>
         <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
-
-        <item name="android:windowIsTranslucent">true</item>
-
     </style>
 
-    <style name="AppTheme.NoneTranslucent" parent="AppTheme">
-        <item name="android:windowIsTranslucent">false</item>
+    <style name="AppTheme.Translucent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="style_no_show_activity" parent="style_activity_dialog">

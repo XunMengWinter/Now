@@ -1,8 +1,14 @@
 package top.wefor.now.ui;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -10,12 +16,27 @@ import com.squareup.picasso.Picasso;
 import top.wefor.now.R;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class BigImageActivity extends BaseSwipeBackCompatActivity {
+public class BigImageActivity extends BaseCompatActivity {
 
     public static final String IMAGE_URL = "image_url";
     public static final String TRANSIT_PIC = "picture";
     PhotoViewAttacher mPhotoViewAttacher;
     ImageView mSimpleDraweeView;
+
+    public static void startThis(Context context, View view, String imageUrl) {
+        Intent intent = new Intent(context, BigImageActivity.class);
+        intent.putExtra(BigImageActivity.IMAGE_URL, imageUrl);
+        ActivityOptionsCompat optionsCompat
+                = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                (Activity) context, view, BigImageActivity.TRANSIT_PIC);
+        try {
+            ActivityCompat.startActivity((Activity) context, intent,
+                    optionsCompat.toBundle());
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            context.startActivity(intent);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -8,6 +8,7 @@ import android.view.View;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
@@ -19,6 +20,7 @@ import top.wefor.now.model.ZhihuDailyResult;
 import top.wefor.now.model.entity.Zhihu;
 import top.wefor.now.ui.adapter.ZhihuAdapter;
 import top.wefor.now.utils.Constants;
+import top.wefor.now.utils.PrefUtil;
 
 public class ZhihuListFragment extends BaseListFragment<Zhihu> {
 
@@ -78,11 +80,16 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
     public void getData() {
         // Debug url
 //        String url = "http://news.at.zhihu.com/api/4/news/before/20150822";
+        if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_ZHIHU)) {
+            showList();
+            return;
+        }
         mZhihuApi.getDailyNews(date)
                 .subscribe(new BaseObserver<ZhihuDailyResult>() {
                     @Override
                     protected void onSucceed(ZhihuDailyResult result) {
                         if (result.stories != null) {
+                            PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_ZHIHU,new Date().getTime());
                             mList.clear();
                             for (Zhihu item : result.stories) {
                                 mList.add(item);

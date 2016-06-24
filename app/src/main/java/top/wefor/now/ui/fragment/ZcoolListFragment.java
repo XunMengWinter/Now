@@ -14,6 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.Date;
 
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
@@ -27,6 +28,8 @@ import top.wefor.now.database.ZcoolDbHelper;
 import top.wefor.now.http.Urls;
 import top.wefor.now.model.entity.Zcool;
 import top.wefor.now.ui.adapter.ZcoolAdapter;
+import top.wefor.now.utils.Constants;
+import top.wefor.now.utils.PrefUtil;
 
 /**
  * Created by ice on 15/10/28.
@@ -90,6 +93,9 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
                 .create(new Observable.OnSubscribe<Document>() {
                     @Override
                     public void call(Subscriber<? super Document> subscriber) {
+                        if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_ZCOOL))
+                            subscriber.onNext(null);
+
                         try {
                             Document document = Jsoup.connect(Urls.ZCOOL_URL).get();
                             subscriber.onNext(document);
@@ -107,7 +113,7 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
                     if (document == null) {
                         return;
                     }
-
+                    PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_ZCOOL,new Date().getTime());
                     // Links
                     Element userWorks = document.body().getElementById("user-works");
 

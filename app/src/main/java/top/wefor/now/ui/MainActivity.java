@@ -221,4 +221,29 @@ public class MainActivity extends BaseCompatActivity {
 //                editor.apply();
     }
 
+
+    //用于 finish 当前 Activity 的 Runnable ;
+    private Runnable mFinishRunnable = this::finish;
+
+    /**
+     * 按返回键时延迟执行 mFinishRunnable ;
+     * 并将当前Activity隐藏在后台, 看起来就像退出了一样。
+     */
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed(); //注释掉 super 代码.
+        mViewPager.postDelayed(mFinishRunnable, Constants.VALUE_FINISH_DELAYED_TIME);
+        moveTaskToBack(true);
+    }
+
+    /**
+     * 用户可能误触了返回键, 重回Activity后应该取消延迟执行的 mFinishRunnable .
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mViewPager.removeCallbacks(mFinishRunnable);
+    }
+
+
 }

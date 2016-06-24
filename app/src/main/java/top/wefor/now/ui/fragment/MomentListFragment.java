@@ -15,6 +15,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.Date;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -24,6 +25,8 @@ import top.wefor.now.database.MomentDbHelper;
 import top.wefor.now.http.Urls;
 import top.wefor.now.model.entity.Moment;
 import top.wefor.now.ui.adapter.MomentAdapter;
+import top.wefor.now.utils.Constants;
+import top.wefor.now.utils.PrefUtil;
 
 /**
  * Created by ice on 15/10/28.
@@ -80,6 +83,10 @@ public class MomentListFragment extends BaseListFragment<Moment> {
                 .create(new Observable.OnSubscribe<Document>() {
                     @Override
                     public void call(Subscriber<? super Document> subscriber) {
+                        if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_MOMENT)) {
+                            subscriber.onNext(null);
+                        }
+
                         try {
                             Document document = Jsoup.connect(Urls.MOMENT_URL).get();
                             subscriber.onNext(document);
@@ -94,6 +101,7 @@ public class MomentListFragment extends BaseListFragment<Moment> {
                 .doOnNext(document -> {
                     mList.clear();
                     if (document == null) return;
+                    PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_MOMENT,new Date().getTime());
                     // Links
                     Element userWorks = document.body().getElementById("selection");
                     if (userWorks == null) return;

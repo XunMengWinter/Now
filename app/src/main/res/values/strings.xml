@@ -72,6 +72,7 @@
     <string name="exit">Exit</string>
     <string name="my_zcool">http://icewinter.zcool.com.cn</string>
     <string name="my_website">http://wefor.top/android/now/</string>
+    <string name="my_jianshu">http://www.jianshu.com/users/e36e60b5af17/latest_articles</string>
     <string name="my_github">https://github.com/XunMengWinter</string>
 
     <string name="zcool">Zcool</string>
@@ -104,4 +105,8 @@
     </string-array>
     <string name="title_activity_big_image">BigImageActivity</string>
 
+    <string name="share_summary_zcool">From Zcool</string>
+    <string name="share_summary_ng">From National Geographic</string>
+    <string name="share_summary_zhihu">From Zhihu</string>
+    <string name="share_summary_moment">From Douban Moment</string>
 </resources>

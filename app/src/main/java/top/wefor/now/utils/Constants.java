@@ -43,4 +43,12 @@ public final class Constants {
 
     public static final int LIST_PAGE_SIZE = 7;
     public static final int LIST_FIRST_PAGE = 1;
+
+    public static final String KEY_REFRESH_TIME_ZCOOL = "refreshTimeZcool";
+    public static final String KEY_REFRESH_TIME_NG = "refreshTimeNg";
+    public static final String KEY_REFRESH_TIME_ZHIHU = "refreshTimeZhihu";
+    public static final String KEY_REFRESH_TIME_MOMENT = "refreshTimeMoment";
+
+    public static final long VALUE_REFRESH_INTERVAL = 1000 * 60 * 10;
+    public static final long VALUE_FINISH_DELAYED_TIME = 1000 * 60;
 }
