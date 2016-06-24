@@ -2,17 +2,17 @@
 一款Android图文精选app，通过抓取网页获得图文列表。目前包含站酷（Zcool）精选、国家地理（National Geographic）每日一图、知乎日报、豆瓣一刻（Moment）,详情页用webview显示，带QQ、微信等分享方式。
 视图基于 https://github.com/florent37/MaterialViewPager 
 
-Download NowView 1.0 in GooglePlay: https://play.google.com/store/apps/details?id=top.wefor.nowview
+> Download NowView 1.0 in GooglePlay: https://play.google.com/store/apps/details?id=top.wefor.nowview
 
-APK下载: http://www.wefor.top/android/now/
+## APK下载: http://www.wefor.top/android/now/
      Or: http://pan.baidu.com/s/1hsqAX5i
 
-效果图
+## 效果图
 ![alt tag](https://raw.githubusercontent.com/XunMengWinter/Now/master/images/nowview20160129.jpg)
 
 Changes
 
-v1.5更新日志：
+## v1.5更新日志：
     1.去除标题栏（将ToolBar高度设置为0）；
     2.加入Realm，实现本地存储；
     3.加入Fresco，使用SimpleDraweeView替换ImageView;
@@ -20,21 +20,21 @@ v1.5更新日志：
     5.自定义Recyclerview，实现上拉加载更多与下拉刷新（通过监听onScrollStateChanged(int state),当state＝SCROLL_STATE_SETTLING时表示列表拉不动了）；
     6.Fragment代码整理。
 
-v1.4更新日志：
+### v1.4更新日志：
     1.加入rxAndroid；
     2.加入retrofit；
     3.代码优化。
 
-v1.3更新日志：
+### v1.3更新日志：
     1.Zcool模块界面由一列变成竖屏2列横屏3列；
     2.适配Zcool与Moment横屏模式;
     3.抛弃Apache Http，使用OkHttp；
     4.代码优化。
     
-v1.2更新日志：
+### v1.2更新日志：
     相比第一个版本添加了版块删选、图片源选择及新增 National Geographic 版块，基本通过SharedPreferences来实现。
 
-之前日志：［不懂后台，只能用Jsoup从网页抓取数据。本来也想添加500px，Pinterst等图文，结果Jsoup无法抓取其网页，后续只能通过api来获得了。啊，api获取还得申请key，填一大堆资料，走些乱七八糟的流程，瞬间没了动力。
+### 之前日志：［不懂后台，只能用Jsoup从网页抓取数据。本来也想添加500px，Pinterst等图文，结果Jsoup无法抓取其网页，后续只能通过api来获得了。啊，api获取还得申请key，填一大堆资料，走些乱七八糟的流程，瞬间没了动力。
 
 万年不弄PS，所以界面尽量在间距布局上做文章，图标杂线基本能省的都省了。CardView放图片无法铺满边界有点不好。Other页面的交互事件几乎全部用Dialog来处理，Dialog.setView()感觉蛮好用的。
 
