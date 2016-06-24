@@ -3,9 +3,7 @@
 视图基于 https://github.com/florent37/MaterialViewPager 
 
 > Download NowView 1.0 in GooglePlay: https://play.google.com/store/apps/details?id=top.wefor.nowview
-
- APK下载: http://www.wefor.top/android/now/
-     Or: http://pan.baidu.com/s/1hsqAX5i
+> Download in BaiduYun: https://pan.baidu.com/s/1mhOfWrY
 
 ## 效果图
 ![alt tag](https://raw.githubusercontent.com/XunMengWinter/Now/master/images/nowview20160129.jpg)
@@ -45,12 +43,14 @@ Changes
 
     // forgive me too lazy to introduce
     
-    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile('com.github.florent37:materialviewpager:1.1.3@aar') {
         transitive = true
     }
     compile 'com.orhanobut:logger:1.10'
-    compile 'com.facebook.fresco:fresco:0.9.0+'
+    //Fresco:图片显示、加载、定制
+    compile 'com.facebook.fresco:fresco:0.11.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.commit451:PhotoView:1.2.4'
 
