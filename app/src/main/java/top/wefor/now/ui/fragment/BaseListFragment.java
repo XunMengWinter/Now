@@ -14,7 +14,7 @@ import io.realm.exceptions.RealmMigrationNeededException;
 import top.wefor.now.NowApp;
 import top.wefor.now.R;
 import top.wefor.now.ui.interactor.OnLoadMoreListener;
-import top.wefor.now.utils.Constants;
+import top.wefor.now.Constants;
 import top.wefor.now.widget.LoadMoreRecyclerView;
 
 /**

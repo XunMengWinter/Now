@@ -25,7 +25,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import top.wefor.now.R;
 import top.wefor.now.ui.WebActivity;
-import top.wefor.now.utils.Constants;
+import top.wefor.now.Constants;
 
 /**
  * Created by ice on 15/10/28.

@@ -32,7 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import top.wefor.now.R;
-import top.wefor.now.utils.Constants;
+import top.wefor.now.Constants;
 import top.wefor.now.utils.NowAppUtils;
 import top.wefor.now.utils.Share;
 

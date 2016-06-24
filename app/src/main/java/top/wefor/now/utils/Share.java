@@ -10,6 +10,8 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import top.wefor.now.Constants;
+
 /**
  * Created by ice on 15/10/30.
  */

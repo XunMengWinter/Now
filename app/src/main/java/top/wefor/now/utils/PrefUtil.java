@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 
 import java.util.Date;
 
+import top.wefor.now.Constants;
 import top.wefor.now.NowApp;
 
 /**

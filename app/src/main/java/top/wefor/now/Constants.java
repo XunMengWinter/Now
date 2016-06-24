@@ -1,4 +1,4 @@
-package top.wefor.now.utils;
+package top.wefor.now;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

@@ -17,18 +17,23 @@ android {
     }
     buildTypes {
         release {
-//            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             lintOptions {
                 disable 'MissingTranslation'
             }
         }
     }
 
+    //为了解决部分第三方库重复打包了META-INF的问题
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
     lintOptions {
+        checkReleaseBuilds false
         abortOnError false
     }
-
 
     dexOptions {
         incremental true

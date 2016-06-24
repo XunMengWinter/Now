@@ -33,7 +33,7 @@ import top.wefor.now.http.Urls;
 import top.wefor.now.model.entity.NG;
 import top.wefor.now.ui.adapter.NGAdapter;
 import top.wefor.now.ui.interactor.OnImageClickListener;
-import top.wefor.now.utils.Constants;
+import top.wefor.now.Constants;
 
 /**
  * Created by ice on 15/10/28.

@@ -13,7 +13,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import top.wefor.now.R;
@@ -65,11 +65,11 @@ public class NGAdapter extends TestRecyclerViewAdapter<NG> {
     }
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.simpleDraweeView)
+        @BindView(R.id.simpleDraweeView)
         SimpleDraweeView mSimpleDraweeView;
-        @Bind(R.id.title_textView)
+        @BindView(R.id.title_textView)
         TextView mTitleTv;
-        @Bind(R.id.content_textView)
+        @BindView(R.id.content_textView)
         TextView mContentTv;
 
         public CardViewHolder(View v) {
@@ -83,7 +83,6 @@ public class NGAdapter extends TestRecyclerViewAdapter<NG> {
                 ButterKnife.bind(this, v);
 
         }
-
         @OnClick(R.id.rootView)
         void onClick(View v) {
             // TODO do what you want :) you can use WebActivity to load detail content

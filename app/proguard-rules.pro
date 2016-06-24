@@ -47,6 +47,7 @@ public static final int *;
 -keep public class * implements java.io.Serializable {
     public *;
 }
+
 -keepclassmembers class * implements java.io.Serializable {
     static final long serialVersionUID;
     private static final java.io.ObjectStreamField[] serialPersistentFields;
@@ -69,37 +70,61 @@ public static final int *;
     @butterknife.* <methods>;
 }
 
-#OKhttp
--dontwarn com.squareup.okhttp.**
+# rxjava
+-keep class rx.schedulers.Schedulers {
+    public static <methods>;
+}
+-keep class rx.schedulers.ImmediateScheduler {
+    public <methods>;
+}
+-keep class rx.schedulers.TestScheduler {
+    public <methods>;
+}
+-keep class rx.schedulers.Schedulers {
+    public static ** test();
+}
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+    long producerIndex;
+    long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    long producerNode;
+    long consumerNode;
+}
+
+#fresco
+# Keep our interfaces so they can be used by other ProGuard rules.
+# See http://sourceforge.net/p/proguard/bugs/466/
+-keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
+
+# Do not strip any method/class that is annotated with @DoNotStrip
+-keep @com.facebook.common.internal.DoNotStrip class *
+-keepclassmembers class * {
+    @com.facebook.common.internal.DoNotStrip *;
+}
+
+# Keep native methods
+-keepclassmembers class * {
+    native <methods>;
+}
+
 -dontwarn okio.**
--keep class com.squareup.okhttp.** { *;}
+-dontwarn javax.annotation.**
+-dontwarn com.android.volley.toolbox.**
 
-#不混淆android-async-http(这里的与你用的httpClient框架决定)
--keep class com.loopj.android.http.**{*;}
+-dontwarn io.realm.**
+-keep class com.github.mikephil.charting.** { *; }
 
-# 不混淆org.apache.http.legacy.jar
- -dontwarn android.net.compatibility.**
- -dontwarn android.net.http.**
- -dontwarn com.android.internal.http.multipart.**
- -dontwarn org.apache.commons.**
- -dontwarn org.apache.http.**
- -keep class android.net.compatibility.**{*;}
- -keep class android.net.http.**{*;}
- -keep class com.android.internal.http.multipart.**{*;}
- -keep class org.apache.commons.**{*;}
- -keep class org.apache.http.**{*;}
-
-#下面三个是SDK23打包时的warning处理
 #tencent
 -dontwarn com.tencent.**
 #umeng
 -dontwarn com.umeng.**
 
 -keepattributes SourceFile,LineNumberTable
--keep class com.parse.*{ *; }
--dontwarn com.parse.**
 -dontwarn com.squareup.picasso.**
--keepclasseswithmembernames class * {
-    native <methods>;
-}
 
+-dontwarn com.alibaba.fastjson.**
+-keep class com.alibaba.fastjson.** { *;}
+
+-dontwarn top.wefor.now.model.**
+-keep class top.wefor.now.model.** { *; }

@@ -28,7 +28,7 @@ import top.wefor.now.database.ZcoolDbHelper;
 import top.wefor.now.http.Urls;
 import top.wefor.now.model.entity.Zcool;
 import top.wefor.now.ui.adapter.ZcoolAdapter;
-import top.wefor.now.utils.Constants;
+import top.wefor.now.Constants;
 import top.wefor.now.utils.PrefUtil;
 
 /**

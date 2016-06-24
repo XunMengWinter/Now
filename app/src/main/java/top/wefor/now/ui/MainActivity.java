@@ -32,7 +32,7 @@ import top.wefor.now.ui.fragment.NGListFragment;
 import top.wefor.now.ui.fragment.OtherFragment;
 import top.wefor.now.ui.fragment.ZcoolListFragment;
 import top.wefor.now.ui.fragment.ZhihuListFragment;
-import top.wefor.now.utils.Constants;
+import top.wefor.now.Constants;
 import top.wefor.now.utils.NowAppUtils;
 import top.wefor.now.utils.UIHelper;
 

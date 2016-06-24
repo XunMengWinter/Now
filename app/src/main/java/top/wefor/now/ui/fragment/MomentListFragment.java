@@ -25,7 +25,7 @@ import top.wefor.now.database.MomentDbHelper;
 import top.wefor.now.http.Urls;
 import top.wefor.now.model.entity.Moment;
 import top.wefor.now.ui.adapter.MomentAdapter;
-import top.wefor.now.utils.Constants;
+import top.wefor.now.Constants;
 import top.wefor.now.utils.PrefUtil;
 
 /**

@@ -10,7 +10,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import top.wefor.now.utils.Constants;
+import top.wefor.now.Constants;
 
 /**
  * 微信客户端回调

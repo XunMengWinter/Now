@@ -19,7 +19,7 @@ import top.wefor.now.http.ZhihuApi;
 import top.wefor.now.model.ZhihuDailyResult;
 import top.wefor.now.model.entity.Zhihu;
 import top.wefor.now.ui.adapter.ZhihuAdapter;
-import top.wefor.now.utils.Constants;
+import top.wefor.now.Constants;
 import top.wefor.now.utils.PrefUtil;
 
 public class ZhihuListFragment extends BaseListFragment<Zhihu> {

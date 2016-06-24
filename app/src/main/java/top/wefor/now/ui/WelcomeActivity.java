@@ -30,7 +30,7 @@ import top.wefor.now.R;
 import top.wefor.now.http.Urls;
 import top.wefor.now.model.BDImgResult;
 import top.wefor.now.model.entity.BDImg;
-import top.wefor.now.utils.Constants;
+import top.wefor.now.Constants;
 import top.wefor.now.utils.NowAppUtils;
 
 /**
