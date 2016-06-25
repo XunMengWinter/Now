@@ -1,5 +1,5 @@
 # NowView 2.0
 On the road.
 
-[The old banch](https://github.com/XunMengWinter/Now/tree/master)
+[See the old banch: 1.0+](https://github.com/XunMengWinter/Now/tree/master)
 
