@@ -13,7 +13,7 @@ Changes
 ## v1.5.1更新日志
     1.点击图片查看大图；
     2.bug修复。
-    P.s 下个版本为 [NowView 2.0][https://github.com/XunMengWinter/Now/tree/now2]，代码重构。
+    P.s 下个版本为 [NowView 2.0](https://github.com/XunMengWinter/Now/tree/now2)，代码重构。
 
 ## v1.5更新日志：
     1.去除标题栏（将ToolBar高度设置为0）；
