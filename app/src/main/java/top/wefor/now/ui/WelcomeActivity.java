@@ -8,14 +8,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -26,8 +24,8 @@ import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
 import top.wefor.now.data.http.BaseObserver;
 import top.wefor.now.data.http.NowApi;
-import top.wefor.now.data.model.BDImgResult;
-import top.wefor.now.data.model.entity.BDImg;
+import top.wefor.now.data.model.GankMeizhiResult;
+import top.wefor.now.data.model.entity.GankMeizhi;
 import top.wefor.now.utils.NowAppUtils;
 
 /**
@@ -66,36 +64,13 @@ public class WelcomeActivity extends BaseCompatActivity {
             e.printStackTrace();
         }
 
-        int type = mPreferencesHelper.getHeadImageIndex();
+        int type = mPreferencesHelper.getHeadImageType();
         switch (type) {
-            case Constants.TYPE_NG:
-                if (!mPreferencesHelper.getHeadImages().equals("")) {
+            case Constants.TYPE_GANK_MEIZHI:
+                if (NowAppUtils.isWifiConnected() || TextUtils.isEmpty(mPreferencesHelper.getHeadImages()))
+                    getCoverImgsThenToMainPage();
+                else
                     toMainPage();
-                    break;
-                }
-            case Constants.TYPE_BD:
-                if (!NowAppUtils.isWifiConnected()) {
-                    toMainPage();
-                    break;
-                }
-                getCoverImgsThenToMainPage();
-                break;
-            case Constants.TYPE_MAC:
-                if (!NowAppUtils.isWifiConnected()) {
-                    toMainPage();
-                    break;
-                }
-                JSONArray jsonArray = new JSONArray();
-                jsonArray.add(getString(R.string.pic_url_1));
-                jsonArray.add(getString(R.string.pic_url_2));
-                jsonArray.add(getString(R.string.pic_url_3));
-                jsonArray.add(getString(R.string.pic_url_4));
-                mPreferencesHelper.setHeadImages(jsonArray.toJSONString());
-                toMainPage();
-                break;
-            case Constants.TYPE_COLOR:
-                mPreferencesHelper.setHeadImages("");
-                toMainPage();
                 break;
             default:
                 toMainPage();
@@ -105,15 +80,14 @@ public class WelcomeActivity extends BaseCompatActivity {
     }
 
     private void getCoverImgsThenToMainPage() {
-        new NowApi().getBDImage(Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 10)
-                .subscribe(new BaseObserver<BDImgResult>() {
+        new NowApi().getGankMeizhi()
+                .subscribe(new BaseObserver<GankMeizhiResult>() {
                     @Override
-                    protected void onSucceed(BDImgResult result) {
+                    protected void onSucceed(GankMeizhiResult result) {
                         JSONArray jsonArray = new JSONArray();
-                        for (BDImg item : result.imgs) {
-                            Log.i("xyz", "img " + item.imageUrl);
-                            if (item.imageUrl != null)
-                                jsonArray.add(item.imageUrl);
+                        for (GankMeizhi item : result.results) {
+                            if (item.url != null)
+                                jsonArray.add(item.url);
                         }
                         mPreferencesHelper.setHeadImages(jsonArray.toJSONString());
                         toMainPage();

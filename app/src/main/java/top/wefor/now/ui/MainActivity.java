@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +24,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -88,7 +88,7 @@ public class MainActivity extends BaseCompatActivity {
 
         String imgs = mPreferencesHelper.getHeadImages();
         Log.i("xyz", "imgs " + imgs);
-        if (imgs != null)
+        if (!TextUtils.isEmpty(imgs))
             mImgList = JSON.parseArray(imgs);
 
         setTitle("");
@@ -257,6 +257,9 @@ public class MainActivity extends BaseCompatActivity {
             mJsTv.setText(R.string.js_close_description);
         }
 
+        mHeadPictureTv.setText(getResources().getStringArray(
+                R.array.head_picture_source)[mPreferencesHelper.getHeadImageType()]);
+
         RxView.clicks(mWikiImageButton).subscribe(aVoid -> {
             Intent intent = new Intent(this, WebActivity.class);
             intent.putExtra(WebActivity.EXTRA_TITLE, getString(R.string.wiki_title));
@@ -295,12 +298,32 @@ public class MainActivity extends BaseCompatActivity {
             if (mHeadPictureView == null) {
                 mHeadPictureView = getLayoutInflater().inflate(R.layout.dialog_head_picture, null);
                 RadioGroup radioGroup = (RadioGroup) mHeadPictureView.findViewById(R.id.radioGroup);
-                radioGroup.check(radioGroup.getChildAt(mPreferencesHelper.getHeadImageIndex()).getId());
+                radioGroup.check(radioGroup.getChildAt(mPreferencesHelper.getHeadImageType()).getId());
                 radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
                     RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
-                    mPreferencesHelper.setHeadImageIndex(group.indexOfChild(radioButton));
+                    mPreferencesHelper.setHeadImageType(group.indexOfChild(radioButton));
                     mHeadPictureTv.setText(radioButton.getText());
                     setFinishNow();
+
+                    switch (radioGroup.indexOfChild(radioButton)) {
+                        case Constants.TYPE_NG:
+                            mPreferencesHelper.setHeadImages(mPreferencesHelper.getNgImages());
+                            break;
+                        case Constants.TYPE_GANK_MEIZHI:
+                            mPreferencesHelper.setHeadImages("");
+                            break;
+                        case Constants.TYPE_MAC:
+                            JSONArray jsonArray = new JSONArray();
+                            jsonArray.add(getString(R.string.pic_url_1));
+                            jsonArray.add(getString(R.string.pic_url_2));
+                            jsonArray.add(getString(R.string.pic_url_3));
+                            jsonArray.add(getString(R.string.pic_url_4));
+                            mPreferencesHelper.setHeadImages(jsonArray.toJSONString());
+                            break;
+                        case Constants.TYPE_COLOR:
+                            mPreferencesHelper.setHeadImages("");
+                            break;
+                    }
                 });
             } else
                 ((ViewGroup) mHeadPictureView.getParent()).removeView(mHeadPictureView);

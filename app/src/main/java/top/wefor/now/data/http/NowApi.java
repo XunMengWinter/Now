@@ -1,10 +1,9 @@
 package top.wefor.now.data.http;
 
-import retrofit2.http.Path;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import top.wefor.now.data.model.BDImgResult;
+import top.wefor.now.data.model.GankMeizhiResult;
 import top.wefor.now.data.model.ZhihuDailyResult;
 import top.wefor.now.utils.RetrofitUtil;
 
@@ -13,10 +12,9 @@ import top.wefor.now.utils.RetrofitUtil;
  * https://github.com/izzyleung/ZhihuDailyPurify/wiki/知乎日报-API-分析
  * Author: izzyleung
  */
-public final class NowApi implements ApiService {
+public final class NowApi {
 
     // getZhihuDaily GET
-    @Override
     public Observable<ZhihuDailyResult> getZhihuDaily(String date) {
         return RetrofitUtil.getApi(Urls.ZHIHU_NEWS).getZhihuDaily(date)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
@@ -27,9 +25,9 @@ public final class NowApi implements ApiService {
         return Urls.ZHIHU_DAILY_NEWS_CONTENT + id;
     }
 
-    @Override
-    public Observable<BDImgResult> getBDImage(@Path("page") int page) {
-        return RetrofitUtil.getApi(Urls.BAIDU).getBDImage(page)
+    public Observable<GankMeizhiResult> getGankMeizhi() {
+        return RetrofitUtil.getApi(Urls.GANK).getGankMeizhi()
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
 }

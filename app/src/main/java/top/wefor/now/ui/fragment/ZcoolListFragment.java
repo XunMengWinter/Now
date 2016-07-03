@@ -78,7 +78,7 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
 //        scaleAdapter.setInterpolator(new OvershootInterpolator());
         mRecyclerView.setAdapter(scaleAdapter);
 
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
 
         if (mList.size() < 1) {
             getData();

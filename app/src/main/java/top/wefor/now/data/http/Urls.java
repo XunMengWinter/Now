@@ -17,5 +17,7 @@ public class Urls {
     // TODO replace page with number
     public static final String BAIDU = "http://image.baidu.com/";
 
+    public static final String GANK = "http://gank.io/";
+
     public static final String HEAD_BASE_URL = "http://image.baidu.com/channel?c=%E6%91%84%E5%BD%B1&t=%E5%9B%BD%E5%AE%B6%E5%9C%B0%E7%90%86&s=0";
 }

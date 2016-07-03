@@ -1,6 +1,5 @@
 package top.wefor.now.ui.fragment;
 
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,7 +27,8 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import top.wefor.now.Constants;
+import top.wefor.now.App;
+import top.wefor.now.PreferencesHelper;
 import top.wefor.now.data.database.NGDbHelper;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.NG;
@@ -71,7 +71,7 @@ public class NGListFragment extends BaseListFragment<NG> implements NGAdapter.On
         mAdapter.mOnImageClickListener = this;
         mRecyclerView.setAdapter(mAdapter);
 
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
 
         if (mList.size() < 1) {
             getData();
@@ -118,22 +118,15 @@ public class NGListFragment extends BaseListFragment<NG> implements NGAdapter.On
                         mList.add(nG);
                     }
                     if (mList.size() > 0) {
-                        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.PREFS_NAME, 0);
+                        PreferencesHelper preferencesHelper = new PreferencesHelper(App.getInstance());
                         //设置封面图,set Cover image
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString(Constants.COVER_IMAGE, mList.get(0).imgUrl);
-                        editor.apply();
+                        preferencesHelper.setCoverImage(mList.get(0).imgUrl);
 
-                        int type = preferences.getInt(Constants.COVER_SOURCE, 0);
                         // setHeadImages
-                        if (type == Constants.TYPE_NG) {
-                            SharedPreferences.Editor editor2 = preferences.edit();
-                            JSONArray jsonArray = new JSONArray();
-                            for (NG ng : mList)
-                                jsonArray.add(ng.imgUrl);
-                            editor2.putString(Constants.HEAD_IMAGES, jsonArray.toJSONString());
-                            editor2.apply();
-                        }
+                        JSONArray jsonArray = new JSONArray();
+                        for (int i = 0; i < Math.min(mList.size(), 6); i++)
+                            jsonArray.add(mList.get(i).imgUrl);
+                        preferencesHelper.setNgImages(jsonArray.toJSONString());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -142,7 +135,6 @@ public class NGListFragment extends BaseListFragment<NG> implements NGAdapter.On
                     zcoolDbHelper.saveToDatabase();
                     showList();
                 });
-
     }
 
     @Override

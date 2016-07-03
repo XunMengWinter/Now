@@ -67,7 +67,7 @@ public class MomentListFragment extends BaseListFragment<Moment> {
 
         mRecyclerView.setAdapter(mAdapter);
 
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
 
         if (mList.size() < 1) {
             getData();

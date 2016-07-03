@@ -32,11 +32,11 @@ public class PreferencesHelper {
         mPreferences.edit().putBoolean(Constants.JAVA_SCRIPT_ENABLED, isJSEnabled).apply();
     }
 
-    public int getHeadImageIndex() {
-        return mPreferences.getInt(Constants.COVER_SOURCE, 0);
+    public int getHeadImageType() {
+        return mPreferences.getInt(Constants.COVER_SOURCE, Constants.TYPE_MAC);
     }
 
-    public void setHeadImageIndex(int headImageIndex) {
+    public void setHeadImageType(int headImageIndex) {
         mPreferences.edit().putInt(Constants.COVER_SOURCE, headImageIndex).apply();
     }
 
@@ -60,5 +60,16 @@ public class PreferencesHelper {
         return mPreferences.getString(Constants.COVER_IMAGE, "");
     }
 
+    public void setCoverImage(String imageUrl){
+        mPreferences.edit().putString(Constants.COVER_IMAGE, imageUrl).apply();
+    }
+
+    public void setNgImages(String images){
+        mPreferences.edit().putString(Constants.NG_IMAGES, images).apply();
+    }
+
+    public String getNgImages(){
+        return mPreferences.getString(Constants.NG_IMAGES, "");
+    }
 
 }

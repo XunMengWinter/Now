@@ -14,6 +14,7 @@ public final class Constants {
 
     public static final String COVER_IMAGE = "coverImage";
     public static final String HEAD_IMAGES = "headImages";
+    public static final String NG_IMAGES = "ngImages";
     public static final String DIR = "NowView";
     public static final String IMAGE_DIR = DIR + File.separator + "image";
     public static final String COVER_IMAGE_PATH = IMAGE_DIR + File.separator + "cover.jpg";
@@ -23,7 +24,7 @@ public final class Constants {
 
     public static final String COVER_SOURCE = "cover_source";
     public static final int TYPE_NG = 0;
-    public static final int TYPE_BD = 1;
+    public static final int TYPE_GANK_MEIZHI = 1;
     public static final int TYPE_MAC = 2;
     public static final int TYPE_COLOR = 3;
 

@@ -70,7 +70,7 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
         mRecyclerView.setAdapter(scaleAdapter);
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
 
         if (mList.size() < 1) {
             getData();
