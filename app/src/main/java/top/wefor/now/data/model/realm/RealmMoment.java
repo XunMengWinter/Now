@@ -13,9 +13,9 @@ import top.wefor.now.data.model.entity.Moment;
  */
 public class RealmMoment extends RealmObject implements Serializable {
     @PrimaryKey
+    public String pk;
     @SerializedName("url")
     public String url;
-    public String pk;
     @SerializedName("title")
     public String title;
     @SerializedName("imgUrls")

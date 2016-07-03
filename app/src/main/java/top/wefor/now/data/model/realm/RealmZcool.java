@@ -13,10 +13,10 @@ import top.wefor.now.data.model.entity.Zcool;
  */
 public class RealmZcool extends RealmObject implements Serializable {
 
+    @PrimaryKey
     @SerializedName("pk")
     public String pk;
 
-    @PrimaryKey
     @SerializedName("url")
     public String url;
 
