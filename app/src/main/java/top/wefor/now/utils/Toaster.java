@@ -3,7 +3,7 @@ package top.wefor.now.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-import top.wefor.now.NowApp;
+import top.wefor.now.App;
 
 /**
  * @author kaka from github
@@ -15,7 +15,7 @@ public class Toaster {
     private Context context;
 
     public Toaster() {
-        context = NowApp.getInstance().getApplicationContext();
+        context = App.getInstance().getApplicationContext();
     }
 
 

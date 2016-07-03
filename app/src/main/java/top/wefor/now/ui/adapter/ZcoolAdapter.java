@@ -2,7 +2,6 @@ package top.wefor.now.ui.adapter;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -22,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import top.wefor.now.R;
-import top.wefor.now.model.entity.Zcool;
+import top.wefor.now.data.model.entity.Zcool;
 import top.wefor.now.ui.BigImageActivity;
 import top.wefor.now.ui.WebActivity;
 import top.wefor.now.utils.NowAppUtils;
@@ -30,7 +29,7 @@ import top.wefor.now.utils.NowAppUtils;
 /**
  * Created by ice on 15/10/26.
  */
-public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
+public class ZcoolAdapter extends BaseRecyclerViewAdapter<Zcool> {
 
     public Integer IMAGE_WIDTH, IMAGE_HEIGHT;
 
@@ -87,8 +86,7 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
 
     @Override
     protected void bindCellViewHolder(RecyclerView.ViewHolder cellViewHolder, int position) {
-        super.bindCellViewHolder(cellViewHolder, position);
-        Zcool news = contents.get(position);
+        Zcool news = mList.get(position);
         Logger.d(position + "");
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
 //        Uri imgUri = Uri.parse(news.imgUrl);
@@ -139,14 +137,14 @@ public class ZcoolAdapter extends TestRecyclerViewAdapter<Zcool> {
         @OnClick(R.id.rootView)
         void onClick(View v) {
             // TODO do what you want :) you can use WebActivity to load detail content
-            Zcool news = contents.get(getLayoutPosition());
+            Zcool news = mList.get(getLayoutPosition());
             WebActivity.startThis(context, news.url, news.title, news.imgUrl,
                     context.getString(R.string.share_summary_zcool));
         }
 
         @OnClick(R.id.simpleDraweeView)
         void showBigImage(View v) {
-            BigImageActivity.startThis(context, v, contents.get(getLayoutPosition()).imgUrl);
+            BigImageActivity.startThis(context, v, mList.get(getLayoutPosition()).imgUrl);
         }
 
     }

@@ -19,14 +19,13 @@
         app:viewpager_headerAdditionalHeight="20dp"
         app:viewpager_headerAlpha="1.0"
         app:viewpager_headerHeight="200dp"
-        app:viewpager_hideLogoWithFade="false"
+        app:viewpager_hideLogoWithFade="true"
         app:viewpager_hideToolbarAndTitle="true"
         app:viewpager_imageHeaderDarkLayerAlpha="0.2"
         app:viewpager_logoMarginTop="100dp"
         app:viewpager_pagerTitleStrip="@layout/material_view_pager_pagertitlestrip_newstand"
         app:viewpager_parallaxHeaderFactor="1"
         app:viewpager_transparentToolbar="true"
-
         />
 
     <!--<View-->
@@ -36,6 +35,6 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"/>-->
 
-    <!--<include layout="@layout/drawer" />-->
+    <include layout="@layout/drawer_other" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -19,10 +19,10 @@ package top.wefor.now.ui;
 import android.os.Bundle;
 import android.view.View;
 
-import top.wefor.now.swipeback.SwipeBackActivityBase;
-import top.wefor.now.swipeback.SwipeBackActivityHelper;
-import top.wefor.now.swipeback.SwipeBackLayout;
-import top.wefor.now.swipeback.Utils;
+import top.wefor.now.ui.widget.swipeback.SwipeBackActivityBase;
+import top.wefor.now.ui.widget.swipeback.SwipeBackActivityHelper;
+import top.wefor.now.ui.widget.swipeback.SwipeBackLayout;
+import top.wefor.now.ui.widget.swipeback.Utils;
 
 /**
  * Created by ice on 15/10/25.

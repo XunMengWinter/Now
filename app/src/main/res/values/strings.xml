@@ -59,10 +59,10 @@
 
         ......
     </string>
-    <string name="pic_url_1">http://wefor.top/now/now-aerial.jpg</string>
-    <string name="pic_url_2">http://wefor.top/now/now-mountain.jpg</string>
-    <string name="pic_url_3">http://wefor.top/now/now-forest.jpg</string>
-    <string name="pic_url_4">http://wefor.top/now/now-moon.png</string>
+    <string name="pic_url_1">https://raw.githubusercontent.com/XunMengWinter/source/master/images/now-aerial.jpg</string>
+    <string name="pic_url_2">https://raw.githubusercontent.com/XunMengWinter/source/master/images/now-mountain.jpg</string>
+    <string name="pic_url_3">https://raw.githubusercontent.com/XunMengWinter/source/master/images/now-forest.jpg</string>
+    <string name="pic_url_4">https://raw.githubusercontent.com/XunMengWinter/source/master/images/now-moon.jpg</string>
     <string name="fist_time_notice">
         Hello, welcome to Now ~ \n\n
         Now union beautiful images and nice text, we need load upper images to make perfect experience, so,press Enter to continue.\n

@@ -17,15 +17,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import top.wefor.now.R;
-import top.wefor.now.http.Urls;
-import top.wefor.now.model.entity.NG;
+import top.wefor.now.data.http.Urls;
+import top.wefor.now.data.model.entity.NG;
 import top.wefor.now.ui.WebActivity;
-import top.wefor.now.ui.interactor.OnImageClickListener;
 
 /**
  * Created by ice on 15/10/26.
  */
-public class NGAdapter extends TestRecyclerViewAdapter<NG> {
+public class NGAdapter extends BaseRecyclerViewAdapter<NG> {
 
     public NGAdapter(Context context, List<NG> contents) {
         super(context, contents);
@@ -54,8 +53,7 @@ public class NGAdapter extends TestRecyclerViewAdapter<NG> {
 
     @Override
     protected void bindCellViewHolder(RecyclerView.ViewHolder cellViewHolder, int position) {
-        super.bindCellViewHolder(cellViewHolder, position);
-        NG news = contents.get(position);
+        NG news = mList.get(position);
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
         Uri imgUri = Uri.parse(news.imgUrl);
         cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
@@ -83,21 +81,23 @@ public class NGAdapter extends TestRecyclerViewAdapter<NG> {
                 ButterKnife.bind(this, v);
 
         }
+
         @OnClick(R.id.rootView)
         void onClick(View v) {
             // TODO do what you want :) you can use WebActivity to load detail content
-            NG news = contents.get(getLayoutPosition());
+            NG news = mList.get(getLayoutPosition());
             Intent intent = new Intent(v.getContext(), WebActivity.class);
             intent.putExtra(WebActivity.EXTRA_TITLE, news.title);
             intent.putExtra(WebActivity.EXTRA_URL, Urls.NG_BASE_URL + news.url);
             intent.putExtra(WebActivity.EXTRA_PIC_URL, news.imgUrl);
+            intent.putExtra(WebActivity.EXTRA_SUMMARY, context.getString(R.string.share_summary_ng));
             v.getContext().startActivity(intent);
         }
 
         @OnClick(R.id.simpleDraweeView)
         void showBigImage(View v) {
             if (mOnImageClickListener != null) {
-                NG news = contents.get(getLayoutPosition());
+                NG news = mList.get(getLayoutPosition());
                 String imageUrl = news.imgUrl;
                 mOnImageClickListener.onImageClick(imageUrl);
             }
@@ -107,4 +107,7 @@ public class NGAdapter extends TestRecyclerViewAdapter<NG> {
 
     public OnImageClickListener mOnImageClickListener;
 
+    public interface OnImageClickListener {
+        void onImageClick(String imageUrl);
+    }
 }

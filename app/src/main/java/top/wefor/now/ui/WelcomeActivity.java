@@ -2,13 +2,11 @@ package top.wefor.now.ui;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -16,21 +14,20 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import top.wefor.now.R;
-import top.wefor.now.http.Urls;
-import top.wefor.now.model.BDImgResult;
-import top.wefor.now.model.entity.BDImg;
+import top.wefor.now.App;
 import top.wefor.now.Constants;
+import top.wefor.now.PreferencesHelper;
+import top.wefor.now.R;
+import top.wefor.now.data.http.BaseObserver;
+import top.wefor.now.data.http.NowApi;
+import top.wefor.now.data.model.BDImgResult;
+import top.wefor.now.data.model.entity.BDImg;
 import top.wefor.now.utils.NowAppUtils;
 
 /**
@@ -38,15 +35,12 @@ import top.wefor.now.utils.NowAppUtils;
  */
 public class WelcomeActivity extends BaseCompatActivity {
 
-    @BindView(R.id.simpleDraweeView)
-    SimpleDraweeView mSimpleDraweeView;
-
-    @BindView(R.id.textView)
-    TextView mTextView;
+    @BindView(R.id.simpleDraweeView) SimpleDraweeView mSimpleDraweeView;
+    @BindView(R.id.textView) TextView mTextView;
 
     private Date mStartDate;
     final long WELCOME_TIME = 1500;
-    private SharedPreferences mPreferences;
+    PreferencesHelper mPreferencesHelper = new PreferencesHelper(App.getInstance());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +50,7 @@ public class WelcomeActivity extends BaseCompatActivity {
         ButterKnife.bind(this);
 
         mStartDate = new Date();
-        mPreferences = getSharedPreferences(Constants.PREFS_NAME, 0);
-        SharedPreferences.Editor editor = mPreferences.edit();
-//        File file = new File(mPreferences.getString(Constants.COVER_IMAGE, ""));
-//        Log.i("xyz img path ", mPreferences.getString(Constants.COVER_IMAGE, ""));
-//        if (file.exists()) mSimpleDraweeView.setImageURI(Uri.fromFile(file));
-        String coverImgUrl = mPreferences.getString(Constants.COVER_IMAGE, "");
+        String coverImgUrl = mPreferencesHelper.getCoverImage();
         if (!TextUtils.isEmpty(coverImgUrl))
             mSimpleDraweeView.setImageURI(Uri.parse(coverImgUrl));
         else {
@@ -77,10 +66,10 @@ public class WelcomeActivity extends BaseCompatActivity {
             e.printStackTrace();
         }
 
-        int type = mPreferences.getInt(Constants.COVER_SOURCE, 0);
+        int type = mPreferencesHelper.getHeadImageIndex();
         switch (type) {
             case Constants.TYPE_NG:
-                if (!mPreferences.getString(Constants.HEAD_IMAGES, "").equals("")) {
+                if (!mPreferencesHelper.getHeadImages().equals("")) {
                     toMainPage();
                     break;
                 }
@@ -101,13 +90,11 @@ public class WelcomeActivity extends BaseCompatActivity {
                 jsonArray.add(getString(R.string.pic_url_2));
                 jsonArray.add(getString(R.string.pic_url_3));
                 jsonArray.add(getString(R.string.pic_url_4));
-                editor.putString(Constants.HEAD_IMAGES, jsonArray.toJSONString());
-                editor.apply();
+                mPreferencesHelper.setHeadImages(jsonArray.toJSONString());
                 toMainPage();
                 break;
             case Constants.TYPE_COLOR:
-                editor.putString(Constants.HEAD_IMAGES, "");
-                editor.apply();
+                mPreferencesHelper.setHeadImages("");
                 toMainPage();
                 break;
             default:
@@ -118,48 +105,27 @@ public class WelcomeActivity extends BaseCompatActivity {
     }
 
     private void getCoverImgsThenToMainPage() {
-
-        OkHttpUtils.get()
-                .url(Urls.BDIMG_BASE_URL.replace("page", "" + (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 10)))
-                .build()
-                .execute(new StringCallback() {
+        new NowApi().getBDImage(Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + 10)
+                .subscribe(new BaseObserver<BDImgResult>() {
                     @Override
-                    public void onError(Call call, Exception e) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String response) {
-                        Gson gson = new Gson();
-                        BDImgResult bdImgResult = gson.fromJson(response, BDImgResult.class);
-                        if (bdImgResult.imgs != null) {
-                            JSONArray jsonArray = new JSONArray();
-                            for (BDImg item : bdImgResult.imgs) {
-                                Log.i("xyz", "img " + item.imageUrl);
-                                if (item.imageUrl != null)
-                                    jsonArray.add(item.imageUrl);
-                            }
-                            SharedPreferences.Editor editor = mPreferences.edit();
-                            editor.putString(Constants.HEAD_IMAGES, jsonArray.toJSONString());
-                            editor.apply();
-                            toMainPage();
+                    protected void onSucceed(BDImgResult result) {
+                        JSONArray jsonArray = new JSONArray();
+                        for (BDImg item : result.imgs) {
+                            Log.i("xyz", "img " + item.imageUrl);
+                            if (item.imageUrl != null)
+                                jsonArray.add(item.imageUrl);
                         }
+                        mPreferencesHelper.setHeadImages(jsonArray.toJSONString());
+                        toMainPage();
                     }
                 });
     }
 
     private void toMainPage() {
-        if (getWaitTime() <= 0) {
+        if (getWaitTime() <= 0)
             go();
-        } else {
-            final Handler handler = new Handler();
-            Runnable runnable = new Runnable() {
-                public void run() {
-                    go();
-                }
-            };
-            handler.postDelayed(runnable, getWaitTime());
-        }
+        else
+            mTextView.postDelayed(this::go, getWaitTime());
     }
 
     private int getWaitTime() {

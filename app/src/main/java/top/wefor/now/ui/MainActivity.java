@@ -1,7 +1,10 @@
 package top.wefor.now.ui;
 
-import android.content.SharedPreferences;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.widget.DrawerLayout;
@@ -12,69 +15,85 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxCompoundButton;
 import com.umeng.update.UmengUpdateAgent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import top.wefor.now.App;
+import top.wefor.now.Constants;
+import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
 import top.wefor.now.ui.fragment.BaseFragment;
 import top.wefor.now.ui.fragment.MomentListFragment;
 import top.wefor.now.ui.fragment.NGListFragment;
-import top.wefor.now.ui.fragment.OtherFragment;
 import top.wefor.now.ui.fragment.ZcoolListFragment;
 import top.wefor.now.ui.fragment.ZhihuListFragment;
-import top.wefor.now.Constants;
-import top.wefor.now.utils.NowAppUtils;
 import top.wefor.now.utils.UIHelper;
 
 public class MainActivity extends BaseCompatActivity {
 
-    private MaterialViewPager mViewPager;
-    private DrawerLayout mDrawer;
+    @BindView(R.id.materialViewPager) MaterialViewPager mMaterialViewPager;
+    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
+    @BindView(R.id.js_checkBox) CheckBox mJsCB;
+    @BindView(R.id.js_textView) TextView mJsTv;
+    @BindView(R.id.headPicture_textView) TextView mHeadPictureTv;
+
+    @BindView(R.id.other_rootView) LinearLayout mOtherRootView;
+    @BindView(R.id.wiki_imageButton) ImageButton mWikiImageButton;
+    @BindView(R.id.columnSelect_textView) TextView mColumnSelectTextView;
+    @BindView(R.id.headPicture_linearLayout) LinearLayout mHeadPictureLinearLayout;
+    @BindView(R.id.about_textView) TextView mAboutTextView;
+    @BindView(R.id.thanks_textView) TextView mThanksTextView;
+    @BindView(R.id.suggest_linearLayout) LinearLayout mSuggestLinearLayout;
+
+    PreferencesHelper mPreferencesHelper = new PreferencesHelper(App.getInstance());
+
+    private View mColumnSelectView, mHeadPictureView;
     private ActionBarDrawerToggle mDrawerToggle;
     Toolbar toolbar;
 
-    private ArrayList<BaseFragment> mFragmentArrayList;
-    ArrayList<String> mTitles;
-    ArrayList<Integer> mColors;
     private Integer mSize, mLuckyNum;
     private JSONArray mImgList;
-
-    private SharedPreferences mPreferences;
+    public ArrayList<MyTabItem> mMyTabItems;
+    //用于 finish 当前 Activity 的 Runnable.
+    private Runnable mFinishRunnable = this::finish;
+    private boolean isFinishNow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UmengUpdateAgent.update(this);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        mPreferences = getSharedPreferences(Constants.PREFS_NAME, 0);
-        boolean isFirst = mPreferences.getBoolean(Constants.IS_FIRST, true);
-        String imgs = mPreferences.getString(Constants.HEAD_IMAGES, null);
+        String imgs = mPreferencesHelper.getHeadImages();
         Log.i("xyz", "imgs " + imgs);
         if (imgs != null)
             mImgList = JSON.parseArray(imgs);
-        if (mImgList != null && mImgList.size() > 0 && NowAppUtils.isWifiConnected())
-            saveCoverImg();
-
-//        if (!BuildConfig.DEBUG)
-//            Fabric.with(this, new Crashlytics());
 
         setTitle("");
 
-        mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
-
-        toolbar = mViewPager.getToolbar();
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toolbar = mMaterialViewPager.getToolbar();
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -91,25 +110,21 @@ public class MainActivity extends BaseCompatActivity {
             toolbar.setLayoutParams(new RelativeLayout.LayoutParams(toolbar.getWidth(), UIHelper.getStatusBarHeight()));
         }
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, 0, 0);
-        mDrawer.setDrawerListener(mDrawerToggle);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, 0, 0);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         checkIsFirst();
-//        showAll();
+
+        initDrawer();
     }
 
     private void checkIsFirst() {
-        boolean isFirst = mPreferences.getBoolean(Constants.IS_FIRST, true);
-        if (isFirst) {
+        if (mPreferencesHelper.isFirst()) {
             new AlertDialog.Builder(this)
                     .setTitle("Welcome to Now")
                     .setMessage(getString(R.string.fist_time_notice))
                     .setPositiveButton(getString(R.string.enter), (dialog, which) -> {
-                        SharedPreferences.Editor editor = mPreferences.edit();
-                        editor.putBoolean(Constants.IS_FIRST, false);
-                        editor.apply();
-
-                        dialog.dismiss();
+                        mPreferencesHelper.setFirst(false);
                         showAll();
                     })
                     .setNegativeButton(getString(R.string.exit), (dialog, which) -> MainActivity.this.finish())
@@ -118,45 +133,44 @@ public class MainActivity extends BaseCompatActivity {
             showAll();
     }
 
+    public class MyTabItem {
+        public String title;
+        public BaseFragment fragment;
+        public
+        @ColorRes int colorRes;
+
+        public MyTabItem(String title, BaseFragment fragment, int colorRes) {
+            this.title = title;
+            this.fragment = fragment;
+            this.colorRes = colorRes;
+        }
+
+
+    }
 
     private void showAll() {
-        mFragmentArrayList = new ArrayList<>();
-        mTitles = new ArrayList<>();
-        mColors = new ArrayList<>();
-
-        if (mPreferences.getBoolean(getString(R.string.zcool), true)) {
-            mFragmentArrayList.add(ZcoolListFragment.newInstance());
-            mTitles.add(getString(R.string.zcool));
-            mColors.add(R.color.zcool);
+        mMyTabItems = new ArrayList<>();
+        if (mPreferencesHelper.isModuleSelected(getString(R.string.zcool))) {
+            mMyTabItems.add(new MyTabItem(getString(R.string.zcool), ZcoolListFragment.newInstance(), R.color.zcool));
         }
-        if (mPreferences.getBoolean(getString(R.string.ng), true)) {
-            mFragmentArrayList.add(NGListFragment.newInstance());
-            mTitles.add(getString(R.string.ng));
-            mColors.add(R.color.ng);
+        if (mPreferencesHelper.isModuleSelected(getString(R.string.ng))) {
+            mMyTabItems.add(new MyTabItem(getString(R.string.ng), NGListFragment.newInstance(), R.color.ng));
         }
-        if (mPreferences.getBoolean(getString(R.string.zhihu), true)) {
-            mFragmentArrayList.add(ZhihuListFragment.newInstance());
-            mTitles.add(getString(R.string.zhihu));
-            mColors.add(R.color.zhihu);
+        if (mPreferencesHelper.isModuleSelected(getString(R.string.zhihu))) {
+            mMyTabItems.add(new MyTabItem(getString(R.string.zhihu), ZhihuListFragment.newInstance(), R.color.zhihu));
         }
-        if (mPreferences.getBoolean(getString(R.string.moment), true)) {
-            mFragmentArrayList.add(MomentListFragment.newInstance());
-            mTitles.add(getString(R.string.moment));
-            mColors.add(R.color.moment);
+        if (mPreferencesHelper.isModuleSelected(getString(R.string.moment))) {
+            mMyTabItems.add(new MyTabItem(getString(R.string.moment), MomentListFragment.newInstance(), R.color.moment));
         }
 
-        mFragmentArrayList.add(OtherFragment.newInstance());
-        mTitles.add(getString(R.string.fragment_other));
-        mColors.add(R.color.purple);
-
-        mSize = mTitles.size();
+        mSize = mMyTabItems.size();
         mLuckyNum = new Random().nextInt(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
-        mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+        mMaterialViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
             @Override
             public Fragment getItem(int position) {
-                return mFragmentArrayList.get(position % mSize);
+                return mMyTabItems.get(position % mSize).fragment;
             }
 
             @Override
@@ -166,21 +180,14 @@ public class MainActivity extends BaseCompatActivity {
 
             @Override
             public CharSequence getPageTitle(int position) {
-                return mTitles.get(position % mSize);
+                return mMyTabItems.get(position % mSize).title;
             }
         });
 
         setViewPagerListener();
 
-        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
-        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-
-        View logo = findViewById(R.id.logo_white);
-        if (logo != null)
-            logo.setOnClickListener(v -> {
-                mViewPager.notifyHeaderChanged();
-                Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
-            });
+        mMaterialViewPager.getViewPager().setOffscreenPageLimit(mMaterialViewPager.getViewPager().getAdapter().getCount());
+        mMaterialViewPager.getPagerTitleStrip().setViewPager(mMaterialViewPager.getViewPager());
 
     }
 
@@ -198,32 +205,22 @@ public class MainActivity extends BaseCompatActivity {
 
     private void setViewPagerListener() {
         if (mImgList == null || mImgList.size() < mSize - 1)
-            mViewPager.setMaterialViewPagerListener(page -> HeaderDesign.fromColorResAndDrawable(
-                    mColors.get(page % mSize),
-                    getResources().getDrawable(mColors.get(page % mSize))));
-        else mViewPager.setMaterialViewPagerListener(page -> {
-            if (mColors.get(page % mSize) == R.color.ng)
+            mMaterialViewPager.setMaterialViewPagerListener(page -> HeaderDesign.fromColorResAndDrawable(
+                    mMyTabItems.get(page % mSize).colorRes,
+                    getResources().getDrawable(mMyTabItems.get(page % mSize).colorRes)));
+        else mMaterialViewPager.setMaterialViewPagerListener(page -> {
+            if (mMyTabItems.get(page % mSize).colorRes == R.color.ng)
                 return HeaderDesign.fromColorResAndDrawable(
                         R.color.ng,
                         getResources().getDrawable(R.color.ng));
 
             int size = Math.min(mImgList.size(), mSize);
             return HeaderDesign.fromColorResAndUrl(
-                    mColors.get(page % mSize),
+                    mMyTabItems.get(page % mSize).colorRes,
                     mImgList.getString((page + mLuckyNum) % size));
         });
 
     }
-
-    private void saveCoverImg() {
-//                SharedPreferences.Editor editor = mPreferences.edit();
-//                editor.putString(Constants.COVER_IMAGE, resource.getAbsolutePath());
-//                editor.apply();
-    }
-
-
-    //用于 finish 当前 Activity 的 Runnable ;
-    private Runnable mFinishRunnable = this::finish;
 
     /**
      * 按返回键时延迟执行 mFinishRunnable ;
@@ -232,7 +229,15 @@ public class MainActivity extends BaseCompatActivity {
     @Override
     public void onBackPressed() {
 //        super.onBackPressed(); //注释掉 super 代码.
-        mViewPager.postDelayed(mFinishRunnable, Constants.VALUE_FINISH_DELAYED_TIME);
+        if (mDrawerLayout.isDrawerOpen(mOtherRootView)) {
+            mDrawerLayout.closeDrawer(mOtherRootView);
+            return;
+        }
+        if (isFinishNow) {
+            finish();
+            return;
+        }
+        mMaterialViewPager.postDelayed(mFinishRunnable, Constants.VALUE_FINISH_DELAYED_TIME);
         moveTaskToBack(true);
     }
 
@@ -242,8 +247,123 @@ public class MainActivity extends BaseCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mViewPager.removeCallbacks(mFinishRunnable);
+        mMaterialViewPager.removeCallbacks(mFinishRunnable);
     }
 
+    private void initDrawer() {
+        //视图默认为打开  default is checked in view
+        if (mPreferencesHelper.isJSEnabled()) {
+            mJsCB.setChecked(true);
+            mJsTv.setText(R.string.js_close_description);
+        }
+
+        RxView.clicks(mWikiImageButton).subscribe(aVoid -> {
+            Intent intent = new Intent(this, WebActivity.class);
+            intent.putExtra(WebActivity.EXTRA_TITLE, getString(R.string.wiki_title));
+            intent.putExtra(WebActivity.EXTRA_URL, getString(R.string.wiki_url));
+            startActivity(intent);
+        });
+
+        RxCompoundButton.checkedChanges(mJsCB).subscribe(isChecked -> {
+            if (isChecked)
+                mJsTv.setText(R.string.js_close_description);
+            else
+                mJsTv.setText(R.string.js_open_description);
+            mPreferencesHelper.setJSEnabled(mJsCB.isEnabled());
+        });
+
+        RxView.clicks(mColumnSelectTextView).subscribe(aVoid -> {
+            if (mColumnSelectView == null) {
+                mColumnSelectView = getLayoutInflater().inflate(R.layout.dialog_column_select, null);
+                LinearLayout linearLayout = (LinearLayout) mColumnSelectView.findViewById(R.id.linearLayout);
+                linearLayout.addView(checkBox(getString(R.string.zcool)));
+                linearLayout.addView(checkBox(getString(R.string.ng)));
+                linearLayout.addView(checkBox(getString(R.string.zhihu)));
+                linearLayout.addView(checkBox(getString(R.string.moment)));
+            } else {
+                ViewGroup parent = (ViewGroup) mColumnSelectView.getParent();
+                parent.removeView(mColumnSelectView);
+            }
+
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.column_select))
+                    .setView(mColumnSelectView)
+                    .create().show();
+        });
+
+        RxView.clicks(mHeadPictureLinearLayout).subscribe(aVoid -> {
+            if (mHeadPictureView == null) {
+                mHeadPictureView = getLayoutInflater().inflate(R.layout.dialog_head_picture, null);
+                RadioGroup radioGroup = (RadioGroup) mHeadPictureView.findViewById(R.id.radioGroup);
+                radioGroup.check(radioGroup.getChildAt(mPreferencesHelper.getHeadImageIndex()).getId());
+                radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                    RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
+                    mPreferencesHelper.setHeadImageIndex(group.indexOfChild(radioButton));
+                    mHeadPictureTv.setText(radioButton.getText());
+                    setFinishNow();
+                });
+            } else
+                ((ViewGroup) mHeadPictureView.getParent()).removeView(mHeadPictureView);
+
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.head_picture))
+                    .setView(mHeadPictureView)
+                    .create().show();
+        });
+
+        RxView.clicks(mAboutTextView).subscribe(aVoid -> {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.about))
+                    .setView(getLayoutInflater().inflate(R.layout.dialog_about, null))
+                    .setPositiveButton("我的简书", (dialogInterface, i) -> {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(getString(R.string.my_jianshu)));
+                        startActivity(intent);
+                    })
+                    .create().show();
+        });
+
+        RxView.clicks(mThanksTextView).subscribe(aVoid -> {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.thanks))
+                    .setView(getLayoutInflater().inflate(R.layout.dialog_thanks, null))
+                    .setPositiveButton("GitHub", (dialogInterface, i) -> {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(getString(R.string.my_github)));
+                        startActivity(intent);
+                    })
+                    .create().show();
+        });
+
+        RxView.clicks(mSuggestLinearLayout).subscribe(aVoid -> {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("message/rfc822");
+            i.putExtra(Intent.EXTRA_EMAIL, new String[]{Constants.MY_EMAIL_QQ, Constants.MY_EMAIL_GOOGLE});
+            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
+            try {
+                startActivity(Intent.createChooser(i, getString(R.string.send_email)));
+            } catch (ActivityNotFoundException ex) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.send_email_failed).create().show();
+            }
+        });
+    }
+
+    private View checkBox(final String name) {
+        View view = getLayoutInflater().inflate(R.layout.item_column_select, null);
+        CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
+        checkBox.setText(name);
+        checkBox.setChecked(mPreferencesHelper.isModuleSelected(name));
+
+        RxCompoundButton.checkedChanges(checkBox).subscribe(isChecked -> {
+            mPreferencesHelper.setModuleSelected(name, isChecked);
+            setFinishNow();
+        });
+        return view;
+    }
+
+    private void setFinishNow() {
+        isFinishNow = true;
+    }
 
 }

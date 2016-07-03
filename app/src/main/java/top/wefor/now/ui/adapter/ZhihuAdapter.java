@@ -17,15 +17,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import top.wefor.now.R;
-import top.wefor.now.http.ZhihuApi;
-import top.wefor.now.model.entity.Zhihu;
+import top.wefor.now.data.http.NowApi;
+import top.wefor.now.data.model.entity.Zhihu;
 import top.wefor.now.ui.BigImageActivity;
 import top.wefor.now.ui.WebActivity;
 
 /**
  * Created by ice on 15/10/26.
  */
-public class ZhihuAdapter extends TestRecyclerViewAdapter<Zhihu> {
+public class ZhihuAdapter extends BaseRecyclerViewAdapter<Zhihu> {
 
     public ZhihuAdapter(Context context, List<Zhihu> contents) {
         super(context, contents);
@@ -56,8 +56,7 @@ public class ZhihuAdapter extends TestRecyclerViewAdapter<Zhihu> {
 
     @Override
     protected void bindCellViewHolder(RecyclerView.ViewHolder cellViewHolder, int position) {
-        super.bindCellViewHolder(cellViewHolder, position);
-        Zhihu news = contents.get(position);
+        Zhihu news = mList.get(position);
         Logger.d(position + "");
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
         // 图像地址（官方 API 使用数组形式，目前暂未有使用多张图片的情形出现，曾见无 images 属性的情况，请在使用中注意 ）
@@ -88,19 +87,19 @@ public class ZhihuAdapter extends TestRecyclerViewAdapter<Zhihu> {
         @OnClick(R.id.ll_card_parent)
         void onClick(View v) {
             // TODO do what you want :) you can use WebActivity to load detail content
-            Zhihu news = contents.get(getLayoutPosition());
-            String news_url = ZhihuApi.getNewsContent(news.id);
+            Zhihu news = mList.get(getLayoutPosition());
+            String news_url = NowApi.getNewsContent(news.id);
             String imageUrl = null;
             if (news.images != null && news.images.size() > 0)
                 imageUrl = news.images.get(0);
 
             WebActivity.startThis(context, news_url, news.title, imageUrl,
-                    context.getString(R.string.share_summary_zcool));
+                    context.getString(R.string.share_summary_zhihu));
         }
 
         @OnClick(R.id.simpleDraweeView)
         void showBigImage(View v) {
-            Zhihu news = contents.get(getLayoutPosition());
+            Zhihu news = mList.get(getLayoutPosition());
             if (news.images != null && news.images.size() > 0)
                 BigImageActivity.startThis(context, v, news.images.get(0));
         }

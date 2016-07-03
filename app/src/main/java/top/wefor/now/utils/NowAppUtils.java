@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 
-import top.wefor.now.NowApp;
+import top.wefor.now.App;
 
 /**
  * Created by ice on 16/4/13 01:14.
@@ -13,17 +13,17 @@ import top.wefor.now.NowApp;
 public class NowAppUtils {
 
     public static Integer getWidth() {
-        DisplayMetrics metrics = NowApp.getInstance().getResources().getDisplayMetrics();
+        DisplayMetrics metrics = App.getInstance().getResources().getDisplayMetrics();
         return metrics.widthPixels;
     }
 
     public static Integer getHeight() {
-        DisplayMetrics metrics = NowApp.getInstance().getResources().getDisplayMetrics();
+        DisplayMetrics metrics = App.getInstance().getResources().getDisplayMetrics();
         return metrics.heightPixels;
     }
 
     public static boolean isWifiConnected() {
-        ConnectivityManager connManager = (ConnectivityManager) NowApp.getInstance()
+        ConnectivityManager connManager = (ConnectivityManager) App.getInstance()
                 .getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (networkInfo.isConnected())

@@ -13,18 +13,19 @@ import java.util.Date;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import top.wefor.now.database.ZhihuDbHelper;
-import top.wefor.now.http.BaseObserver;
-import top.wefor.now.http.ZhihuApi;
-import top.wefor.now.model.ZhihuDailyResult;
-import top.wefor.now.model.entity.Zhihu;
+import rx.schedulers.Schedulers;
+import top.wefor.now.data.database.ZhihuDbHelper;
+import top.wefor.now.data.http.BaseObserver;
+import top.wefor.now.data.http.NowApi;
+import top.wefor.now.data.model.ZhihuDailyResult;
+import top.wefor.now.data.model.entity.Zhihu;
 import top.wefor.now.ui.adapter.ZhihuAdapter;
 import top.wefor.now.Constants;
 import top.wefor.now.utils.PrefUtil;
 
 public class ZhihuListFragment extends BaseListFragment<Zhihu> {
 
-    private ZhihuApi mZhihuApi = new ZhihuApi();
+    private NowApi mNowApi = new NowApi();
     private ZhihuAdapter mAdapter;
     private String date;
 
@@ -69,7 +70,7 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
         mRecyclerView.setAdapter(scaleAdapter);
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         if (mList.size() < 1) {
             getData();
@@ -84,7 +85,17 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
             showList();
             return;
         }
-        mZhihuApi.getDailyNews(date)
+
+//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                //do
+//            }
+//        },new IntentFilter("sfds"));
+//        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent("sfds"));
+
+        mNowApi.getZhihuDaily(date)
+                .subscribeOn(Schedulers.immediate())
                 .subscribe(new BaseObserver<ZhihuDailyResult>() {
                     @Override
                     protected void onSucceed(ZhihuDailyResult result) {
@@ -107,6 +118,19 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
                     }
                 });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+//        PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
+//            @Override
+//            public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+//                //
+//            }
+//        };
+    }
+
+
 
     @Override
     public void showList() {

@@ -20,9 +20,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import top.wefor.now.NowApp;
+import top.wefor.now.App;
 import top.wefor.now.R;
-import top.wefor.now.model.entity.Moment;
+import top.wefor.now.data.model.entity.Moment;
 import top.wefor.now.ui.BigImageActivity;
 import top.wefor.now.ui.WebActivity;
 import top.wefor.now.utils.NowAppUtils;
@@ -30,12 +30,12 @@ import top.wefor.now.utils.NowAppUtils;
 /**
  * Created by ice on 15/10/26.
  */
-public class MomentAdapter extends TestRecyclerViewAdapter<Moment> {
+public class MomentAdapter extends BaseRecyclerViewAdapter<Moment> {
 
     private Integer IMAGE_WIDTH, IMAGE_HEIGHT;
 
     public void setImageWidthAndHeight() {
-        int width = (NowAppUtils.getWidth() - 4 * NowApp.getInstance().getResources().getDimensionPixelSize(R.dimen.d3)) / 3;
+        int width = (NowAppUtils.getWidth() - 4 * App.getInstance().getResources().getDimensionPixelSize(R.dimen.d3)) / 3;
         IMAGE_WIDTH = width;
         IMAGE_HEIGHT = width * 4 / 5;
     }
@@ -69,8 +69,7 @@ public class MomentAdapter extends TestRecyclerViewAdapter<Moment> {
 
     @Override
     protected void bindCellViewHolder(RecyclerView.ViewHolder cellViewHolder, int position) {
-        super.bindCellViewHolder(cellViewHolder, position);
-        Moment news = contents.get(position);
+        Moment news = mList.get(position);
         Logger.d(position + "");
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
 
@@ -148,7 +147,7 @@ public class MomentAdapter extends TestRecyclerViewAdapter<Moment> {
         @Override
         public void onClick(View v) {
             // TODO do what you want :) you can use WebActivity to load detail content
-            Moment news = contents.get(getLayoutPosition());
+            Moment news = mList.get(getLayoutPosition());
             String summary = context.getString(R.string.share_summary_moment);
             String imageUrl = null;
             if (news.imgUrls != null) {

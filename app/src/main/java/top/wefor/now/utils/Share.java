@@ -32,8 +32,7 @@ public class Share {
             return;
         }
         WXWebpageObject webpage = new WXWebpageObject();
-        if (webpage != null)
-            webpage.webpageUrl = url;
+        webpage.webpageUrl = url;
 
         WXMediaMessage msg = new WXMediaMessage(webpage);
         if (title != null)

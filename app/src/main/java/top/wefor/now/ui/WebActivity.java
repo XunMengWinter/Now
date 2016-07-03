@@ -2,7 +2,6 @@ package top.wefor.now.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -31,8 +30,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import top.wefor.now.R;
+import top.wefor.now.App;
 import top.wefor.now.Constants;
+import top.wefor.now.PreferencesHelper;
+import top.wefor.now.R;
 import top.wefor.now.utils.NowAppUtils;
 import top.wefor.now.utils.Share;
 
@@ -62,14 +63,10 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         context.startActivity(intent);
     }
 
-    @BindView(R.id.progressbar)
-    ProgressBar mProgressbar;
-    @BindView(R.id.webView)
-    WebView mWebView;
-    @BindView(R.id.cardView)
-    CardView mCardView;
-    @BindView(R.id.loading_view)
-    View mLoadingView;
+    @BindView(R.id.progressbar) ProgressBar mProgressbar;
+    @BindView(R.id.webView) WebView mWebView;
+    @BindView(R.id.cardView) CardView mCardView;
+    @BindView(R.id.loading_view) View mLoadingView;
 
     @OnClick(R.id.wechat_textView)
     void shareWechat() {
@@ -161,15 +158,11 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
             }
         }.start();
 
-        // Restore preferences
-        SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
-        boolean isJSEnabled = settings.getBoolean(Constants.JAVA_SCRIPT_ENABLED, true);
-
         mWebView.setWebChromeClient(new ChromeClient());
         mWebView.setWebViewClient(new ViewClient());
 
         WebSettings webSettings = mWebView.getSettings();
-        webSettings.setJavaScriptEnabled(isJSEnabled);
+        webSettings.setJavaScriptEnabled(new PreferencesHelper(App.getInstance()).isJSEnabled());
         webSettings.setLoadWithOverviewMode(true);
 
         webSettings.setAppCacheEnabled(true);

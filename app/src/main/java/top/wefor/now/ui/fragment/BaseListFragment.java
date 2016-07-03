@@ -11,16 +11,15 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.exceptions.RealmMigrationNeededException;
-import top.wefor.now.NowApp;
-import top.wefor.now.R;
-import top.wefor.now.ui.interactor.OnLoadMoreListener;
+import top.wefor.now.App;
 import top.wefor.now.Constants;
-import top.wefor.now.widget.LoadMoreRecyclerView;
+import top.wefor.now.R;
+import top.wefor.now.ui.widget.LoadMoreRecyclerView;
 
 /**
  * Created by ice on 15/10/28.
  */
-public abstract class BaseListFragment<T> extends BaseFragment implements OnLoadMoreListener {
+public abstract class BaseListFragment<T> extends BaseFragment implements LoadMoreRecyclerView.OnLoadMoreListener {
     protected LoadMoreRecyclerView mRecyclerView;
     protected int mPage = Constants.LIST_FIRST_PAGE;
     protected final int PAGE_SIZE = Constants.LIST_PAGE_SIZE;
@@ -42,7 +41,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements OnLoad
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRealmConfig = new RealmConfiguration.Builder(NowApp.getInstance().getApplicationContext()).build();
+        mRealmConfig = new RealmConfiguration.Builder(App.getInstance().getApplicationContext()).build();
 
         try {
             mRealm = Realm.getInstance(mRealmConfig);
@@ -62,7 +61,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements OnLoad
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
         mRecyclerView = (LoadMoreRecyclerView) view.findViewById(R.id.recyclerView);
-        mRecyclerView.mLoadMoreListener = this;
+        mRecyclerView.mOnLoadMoreListener = this;
         return view;
     }
 

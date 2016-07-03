@@ -28,26 +28,23 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import top.wefor.now.database.NGDbHelper;
-import top.wefor.now.http.Urls;
-import top.wefor.now.model.entity.NG;
-import top.wefor.now.ui.adapter.NGAdapter;
-import top.wefor.now.ui.interactor.OnImageClickListener;
 import top.wefor.now.Constants;
+import top.wefor.now.data.database.NGDbHelper;
+import top.wefor.now.data.http.Urls;
+import top.wefor.now.data.model.entity.NG;
+import top.wefor.now.ui.adapter.NGAdapter;
 
 /**
  * Created by ice on 15/10/28.
  */
-public class NGListFragment extends BaseListFragment<NG> implements OnImageClickListener {
+public class NGListFragment extends BaseListFragment<NG> implements NGAdapter.OnImageClickListener {
     private static final int SIZE = 10;
 
     private NGAdapter mAdapter;
     protected SimpleDraweeView mBigSdv;
 
     public static NGListFragment newInstance() {
-        NGListFragment fragment = new NGListFragment();
-        // TODO you can use bundle to transfer data
-        return fragment;
+        return new NGListFragment();
     }
 
     @Override
@@ -74,7 +71,7 @@ public class NGListFragment extends BaseListFragment<NG> implements OnImageClick
         mAdapter.mOnImageClickListener = this;
         mRecyclerView.setAdapter(mAdapter);
 
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         if (mList.size() < 1) {
             getData();
@@ -171,5 +168,4 @@ public class NGListFragment extends BaseListFragment<NG> implements OnImageClick
         mBigSdv.setImageURI(Uri.parse(imageUrl));
 
     }
-
 }

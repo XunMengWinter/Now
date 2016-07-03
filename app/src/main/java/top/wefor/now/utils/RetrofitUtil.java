@@ -4,8 +4,8 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import top.wefor.now.http.ApiService;
-import top.wefor.now.http.Urls;
+import top.wefor.now.data.http.ApiService;
+import top.wefor.now.data.http.Urls;
 
 /**
  * Created by ice on 3/3/16.

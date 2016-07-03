@@ -21,9 +21,9 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import top.wefor.now.database.MomentDbHelper;
-import top.wefor.now.http.Urls;
-import top.wefor.now.model.entity.Moment;
+import top.wefor.now.data.database.MomentDbHelper;
+import top.wefor.now.data.http.Urls;
+import top.wefor.now.data.model.entity.Moment;
 import top.wefor.now.ui.adapter.MomentAdapter;
 import top.wefor.now.Constants;
 import top.wefor.now.utils.PrefUtil;
@@ -36,9 +36,7 @@ public class MomentListFragment extends BaseListFragment<Moment> {
     private MomentAdapter mAdapter;
 
     public static MomentListFragment newInstance() {
-        MomentListFragment fragment = new MomentListFragment();
-        // TODO you can use bundle to transfer data
-        return fragment;
+        return new MomentListFragment();
     }
 
     @Override
@@ -69,7 +67,7 @@ public class MomentListFragment extends BaseListFragment<Moment> {
 
         mRecyclerView.setAdapter(mAdapter);
 
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         if (mList.size() < 1) {
             getData();

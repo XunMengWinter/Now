@@ -126,5 +126,5 @@ public static final int *;
 -dontwarn com.alibaba.fastjson.**
 -keep class com.alibaba.fastjson.** { *;}
 
--dontwarn top.wefor.now.model.**
--keep class top.wefor.now.model.** { *; }
+-dontwarn top.wefor.now.data.model.**
+-keep class top.wefor.now.data.model.** { *; }

@@ -12,8 +12,8 @@ android {
         applicationId "top.wefor.nowview"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 10
-        versionName "1.5.1"
+        versionCode 11
+        versionName "2.0"
     }
     buildTypes {
         release {
@@ -61,39 +61,59 @@ allprojects {
 gradle.ext.supportLibraryVersion = '24.0.0'
 
 dependencies {
+    final SUPPORT_LIBRARY_VERSION = '24.0.0'
+    final BUTTER_KNIFE_VERSION = '8.1.0'
+    final DAGGER_VERSION = '2.4'
+    final RETROFIT_VERSION = '2.1.0'
+    final OK_HTTP_VERSION = '3.3.1'
+    final RX_BINDING_VERSION = '0.4.0'
+
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:appcompat-v7:$gradle.supportLibraryVersion"
-    compile "com.android.support:design:$gradle.supportLibraryVersion"
-    compile "com.android.support:cardview-v7:$gradle.supportLibraryVersion"
-    compile "com.android.support:support-v4:$gradle.supportLibraryVersion"
+    testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
 
     compile 'com.google.code.gson:gson:2.4'
 
     compile files('libs/open_sdk_r5509.jar')
-    compile files('libs/jsoup-1.8.3.jar')
     compile files('libs/umeng-analytics-v5.6.4.jar')
     compile files('libs/umeng-update-v2.6.0.1.jar')
     compile files('libs/libammsdk.jar')
 
-    compile 'com.jakewharton:butterknife:8.1.0'
-    apt 'com.jakewharton:butterknife-compiler:8.1.0'
-    compile('com.github.florent37:materialviewpager:1.1.3@aar') {
+    // jsoup HTML parser library @ http://jsoup.org/
+    compile 'org.jsoup:jsoup:1.9.2'
+    compile('com.github.florent37:materialviewpager:1.2.0@aar') {
         transitive = true
     }
-    compile 'com.orhanobut:logger:1.10'
+    compile "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
+    apt "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
     //Fresco:图片显示、加载、定制
     compile 'com.facebook.fresco:fresco:0.11.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.commit451:PhotoView:1.2.4'
 
-    compile 'com.zhy:okhttputils:2.2.0'
-    compile 'com.alibaba:fastjson:1.2.7'
-    compile 'com.wang.avi:library:1.0.1'
-    compile 'jp.wasabeef:recyclerview-animators:2.1.0'
+    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'com.alibaba:fastjson:1.1.52.android'
+    compile "com.squareup.okhttp3:okhttp:$OK_HTTP_VERSION"
+    compile "com.squareup.okhttp3:logging-interceptor:$OK_HTTP_VERSION"
+    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
 
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compile 'jp.wasabeef:recyclerview-animators:2.1.0'
+    compile 'com.orhanobut:logger:1.14'
+    compile 'com.wang.avi:library:1.0.1'
+
+    // RxBinding
+    compile "com.jakewharton.rxbinding:rxbinding:$RX_BINDING_VERSION"
+    compile "com.jakewharton.rxbinding:rxbinding-design:$RX_BINDING_VERSION"
+    compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7:$RX_BINDING_VERSION"
+
+    // RxPermissions
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
+
+
 }

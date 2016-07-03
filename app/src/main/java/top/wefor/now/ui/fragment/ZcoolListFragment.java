@@ -24,9 +24,9 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import top.wefor.now.R;
-import top.wefor.now.database.ZcoolDbHelper;
-import top.wefor.now.http.Urls;
-import top.wefor.now.model.entity.Zcool;
+import top.wefor.now.data.database.ZcoolDbHelper;
+import top.wefor.now.data.http.Urls;
+import top.wefor.now.data.model.entity.Zcool;
 import top.wefor.now.ui.adapter.ZcoolAdapter;
 import top.wefor.now.Constants;
 import top.wefor.now.utils.PrefUtil;
@@ -39,9 +39,7 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
     private ZcoolAdapter mAdapter;
 
     public static ZcoolListFragment newInstance() {
-        ZcoolListFragment fragment = new ZcoolListFragment();
-        // TODO you can use bundle to transfer data
-        return fragment;
+        return new ZcoolListFragment();
     }
 
     @Override
@@ -80,7 +78,7 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
 //        scaleAdapter.setInterpolator(new OvershootInterpolator());
         mRecyclerView.setAdapter(scaleAdapter);
 
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         if (mList.size() < 1) {
             getData();
