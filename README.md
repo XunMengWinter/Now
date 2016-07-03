@@ -9,5 +9,6 @@ On the road.
 * 将Other移至左侧Drawer；
 * 使用RxBinding 处理点击事件；
 * 将App中所用到的SharedPreferences整个成一个帮助类；
+* 顶部图片选择逻辑完善；
 * 包结构改动。
 
