@@ -1,4 +1,4 @@
-package top.wefor.now.ui;
+package top.wefor.now.ui.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -25,7 +25,8 @@ import top.wefor.now.R;
 import top.wefor.now.data.http.BaseObserver;
 import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.GankMeizhiResult;
-import top.wefor.now.data.model.entity.GankMeizhi;
+import top.wefor.now.data.model.entity.Gank;
+import top.wefor.now.ui.BaseCompatActivity;
 import top.wefor.now.utils.NowAppUtils;
 
 /**
@@ -85,7 +86,7 @@ public class WelcomeActivity extends BaseCompatActivity {
                     @Override
                     protected void onSucceed(GankMeizhiResult result) {
                         JSONArray jsonArray = new JSONArray();
-                        for (GankMeizhi item : result.results) {
+                        for (Gank item : result.results) {
                             if (item.url != null)
                                 jsonArray.add(item.url);
                         }

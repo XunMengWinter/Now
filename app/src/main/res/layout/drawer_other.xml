@@ -163,4 +163,14 @@
             android:textSize="@dimen/h5"/>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/gank_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/d4"
+        android:text="@string/activity_gank_daily"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/h4"/>
+
+
 </LinearLayout>

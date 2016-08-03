@@ -19,12 +19,12 @@ import butterknife.OnClick;
 import top.wefor.now.R;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.NG;
-import top.wefor.now.ui.WebActivity;
+import top.wefor.now.ui.activity.WebActivity;
 
 /**
  * Created by ice on 15/10/26.
  */
-public class NGAdapter extends BaseRecyclerViewAdapter<NG> {
+public class NGAdapter extends BaseListAdapter<NG> {
 
     public NGAdapter(Context context, List<NG> contents) {
         super(context, contents);

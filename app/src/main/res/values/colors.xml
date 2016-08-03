@@ -13,6 +13,7 @@
     <color name="accent_color">@color/green</color>
     <color name="colorPrimary">@color/green</color>
     <color name="colorPrimaryDark">@color/green_teal</color>
+    <color name="colorPrimaryAlpha">#ee009688</color>
     <color name="statusBarColor">@color/green</color>
     <color name="navigationBarColor">@android:color/black</color>
     <color name="drawerArrowColor">@android:color/white</color>

@@ -32,4 +32,6 @@
     <string name="share_summary_zhihu">From 知乎</string>
     <string name="share_summary_moment">From 豆瓣一刻</string>
 
+    <string name="activity_gank_daily">每日干货</string>
+
 </resources>

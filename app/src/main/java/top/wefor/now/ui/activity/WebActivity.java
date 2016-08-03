@@ -1,4 +1,4 @@
-package top.wefor.now.ui;
+package top.wefor.now.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +34,7 @@ import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
+import top.wefor.now.ui.BaseSwipeBackCompatActivity;
 import top.wefor.now.utils.NowAppUtils;
 import top.wefor.now.utils.Share;
 

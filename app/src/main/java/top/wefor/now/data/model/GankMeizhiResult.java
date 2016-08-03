@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import top.wefor.now.data.model.entity.GankMeizhi;
+import top.wefor.now.data.model.entity.Gank;
 
 /**
  * Created on 16/7/4.
@@ -21,6 +21,6 @@ public class GankMeizhiResult extends BaseResult {
     public boolean error;
 
     @SerializedName("results")
-    public List<GankMeizhi> results;
+    public List<Gank> results;
 
 }

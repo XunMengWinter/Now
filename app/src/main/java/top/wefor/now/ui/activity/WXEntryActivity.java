@@ -1,4 +1,4 @@
-package top.wefor.now.ui;
+package top.wefor.now.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;

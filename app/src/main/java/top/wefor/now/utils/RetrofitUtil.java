@@ -1,5 +1,7 @@
 package top.wefor.now.utils;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -12,8 +14,11 @@ import top.wefor.now.data.http.Urls;
  */
 public class RetrofitUtil {
     public static Retrofit.Builder get(String baseUrl) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .build();
         Retrofit.Builder builder = new Retrofit.Builder();
-        builder.client(new OkHttpClient())
+        builder.client(okHttpClient)
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create());

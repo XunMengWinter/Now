@@ -1,6 +1,7 @@
 package top.wefor.now.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,34 +9,48 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import top.wefor.now.R;
-
 /**
- * Created by florentchampigny on 24/04/15.
+ * Created by ice on 15/12/10.
  */
-public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    protected List<T> mList;
-
+public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
     protected Context context;
-    private Integer bigViewResId, smallViewResId;
+    protected LayoutInflater inflater;
+    protected List<T> mList;
+    protected RecyclerView mRecyclerView;
+    protected View mRootView;
+    protected OnAdapterItemClickListener<T> mItemClickListener;
 
-    protected static final int TYPE_HEADER = 0;
-    protected static final int TYPE_CELL = 1;
-
-    public BaseRecyclerViewAdapter(Context context, List<T> mList) {
-        this.mList = mList;
+    public BaseRecyclerViewAdapter(Context context, RecyclerView recyclerView) {
+        recyclerView.setAdapter(this);
+        mRecyclerView = recyclerView;
         this.context = context;
+        inflater = LayoutInflater.from(context);
     }
 
+    public BaseRecyclerViewAdapter(Context context, List<T> list) {
+        this.context = context;
+        inflater = LayoutInflater.from(context);
+        mList = list;
+    }
+
+    public BaseRecyclerViewAdapter(Context context, List<T> list, RecyclerView recyclerView) {
+        recyclerView.setAdapter(this);
+
+        mRecyclerView = recyclerView;
+        this.context = context;
+        inflater = LayoutInflater.from(context);
+        mList = list;
+
+//        setAnimation();
+    }
+
+    protected abstract int getLayoutRes();
+    protected abstract RecyclerView.ViewHolder getViewHolder(View view);
+
     @Override
-    public int getItemViewType(int position) {
-        switch (position) {
-            case 0:
-                return TYPE_HEADER;
-            default:
-                return TYPE_CELL;
-        }
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mRootView = inflater.inflate(getLayoutRes(), parent, false);
+        return getViewHolder(mRootView);
     }
 
     @Override
@@ -43,60 +58,33 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
         return mList.size();
     }
 
-
-    public Integer getBigViewResId() {
-        return bigViewResId == null ? R.layout.list_item_card_big : bigViewResId;
+    public void setList(List<T> list) {
+        mList = list;
+        this.notifyDataSetChanged();
     }
 
-    public void setBigViewResId(Integer bigViewResId) {
-        this.bigViewResId = bigViewResId;
+    public List<T> getList() {
+        return mList;
     }
 
-    public Integer getSmallViewResId() {
-        return smallViewResId == null ? R.layout.list_item_card_small : smallViewResId;
+    public void setOnItemClickListener(OnAdapterItemClickListener<T> onAdapterItemClickListener) {
+        mItemClickListener = onAdapterItemClickListener;
     }
 
-    public void setSmallViewResId(Integer smallViewResId) {
-        this.smallViewResId = smallViewResId;
+    public void update(List<T> newList) {
+        mList.clear();
+        mList.addAll(newList);
+        this.notifyDataSetChanged();
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = null;
-
-        switch (viewType) {
-            case TYPE_HEADER: {
-                view = LayoutInflater.from(parent.getContext())
-                        .inflate(getBigViewResId(), parent, false);
-
-
-                return new RecyclerView.ViewHolder(view) {
-                };
-            }
-            case TYPE_CELL: {
-                view = LayoutInflater.from(parent.getContext())
-                        .inflate(getSmallViewResId(), parent, false);
-                return new RecyclerView.ViewHolder(view) {
-                };
-            }
-        }
-        return null;
+    protected String pass(String anyStr) {
+        if (anyStr == null)
+            anyStr = "";
+        return anyStr;
     }
 
-    protected void bindHeaderViewHolder(RecyclerView.ViewHolder headViewHolder, int position) {
+    public interface OnAdapterItemClickListener<T> {
+        void onRecyclerViewItemClick(int position);
     }
 
-    protected abstract void bindCellViewHolder(RecyclerView.ViewHolder cellViewHolder, int position);
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (getItemViewType(position)) {
-            case TYPE_HEADER:
-                bindHeaderViewHolder(holder, position);
-                break;
-            case TYPE_CELL:
-                bindCellViewHolder(holder, position);
-                break;
-        }
-    }
 }

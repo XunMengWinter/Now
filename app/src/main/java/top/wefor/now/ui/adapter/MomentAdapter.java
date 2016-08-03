@@ -23,14 +23,14 @@ import butterknife.ButterKnife;
 import top.wefor.now.App;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Moment;
-import top.wefor.now.ui.BigImageActivity;
-import top.wefor.now.ui.WebActivity;
+import top.wefor.now.ui.activity.BigImageActivity;
+import top.wefor.now.ui.activity.WebActivity;
 import top.wefor.now.utils.NowAppUtils;
 
 /**
  * Created by ice on 15/10/26.
  */
-public class MomentAdapter extends BaseRecyclerViewAdapter<Moment> {
+public class MomentAdapter extends BaseListAdapter<Moment> {
 
     private Integer IMAGE_WIDTH, IMAGE_HEIGHT;
 

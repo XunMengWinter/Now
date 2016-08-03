@@ -19,13 +19,13 @@ import butterknife.OnClick;
 import top.wefor.now.R;
 import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.entity.Zhihu;
-import top.wefor.now.ui.BigImageActivity;
-import top.wefor.now.ui.WebActivity;
+import top.wefor.now.ui.activity.BigImageActivity;
+import top.wefor.now.ui.activity.WebActivity;
 
 /**
  * Created by ice on 15/10/26.
  */
-public class ZhihuAdapter extends BaseRecyclerViewAdapter<Zhihu> {
+public class ZhihuAdapter extends BaseListAdapter<Zhihu> {
 
     public ZhihuAdapter(Context context, List<Zhihu> contents) {
         super(context, contents);

@@ -1,4 +1,4 @@
-package top.wefor.now.ui;
+package top.wefor.now.ui.activity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -43,6 +43,7 @@ import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
+import top.wefor.now.ui.BaseCompatActivity;
 import top.wefor.now.ui.fragment.BaseFragment;
 import top.wefor.now.ui.fragment.MomentListFragment;
 import top.wefor.now.ui.fragment.NGListFragment;
@@ -65,6 +66,8 @@ public class MainActivity extends BaseCompatActivity {
     @BindView(R.id.about_textView) TextView mAboutTextView;
     @BindView(R.id.thanks_textView) TextView mThanksTextView;
     @BindView(R.id.suggest_linearLayout) LinearLayout mSuggestLinearLayout;
+    @BindView(R.id.gank_textView) TextView mGankTextView;
+
 
     PreferencesHelper mPreferencesHelper = new PreferencesHelper(App.getInstance());
 
@@ -370,6 +373,8 @@ public class MainActivity extends BaseCompatActivity {
                 builder.setMessage(R.string.send_email_failed).create().show();
             }
         });
+
+        RxView.clicks(mGankTextView).subscribe(aVoid -> startActivity(new Intent(MainActivity.this, GankDailyActivity.class)));
     }
 
     private View checkBox(final String name) {

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:fresco="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/empty_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/d6"
+        android:gravity="center"
+        android:text="@string/empty"
+        android:visibility="gone"
+        />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/empty_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        fresco:actualImageScaleType="centerInside"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <top.wefor.smartrestaurant.ui.widget.LoadMoreRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</FrameLayout>

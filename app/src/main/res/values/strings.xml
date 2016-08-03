@@ -109,4 +109,18 @@
     <string name="share_summary_ng">From National Geographic</string>
     <string name="share_summary_zhihu">From Zhihu</string>
     <string name="share_summary_moment">From Douban Moment</string>
+
+    <string name="activity_gank_daily">Gank Daily</string>
+
+    <string-array name="ganks">
+        <item>Android</item>
+        <item>iOS</item>
+        <item>App</item>
+        <item>瞎推荐</item>
+        <item>休息视频</item>
+        <item>拓展资源</item>
+        <item>福利</item>
+    </string-array>
+
+    <string name="empty">Empty content ~ T_T </string>
 </resources>

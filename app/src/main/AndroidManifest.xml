@@ -22,24 +22,6 @@
             android:name="UMENG_CHANNEL"
             android:value="Wandoujia"/>
 
-        <activity
-            android:name=".ui.WelcomeActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".ui.MainActivity"
-            android:configChanges="keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            >
-        </activity>
-
         <service
             android:name="com.umeng.update.net.DownloadingService"
             android:process=":DownloadingService">
@@ -72,16 +54,41 @@
 
 
         <activity
-            android:name=".ui.WebActivity"
+            android:name=".ui.activity.WelcomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            >
+        </activity>
+
+        <activity
+            android:name=".ui.activity.WebActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Translucent"/>
 
         <activity
-            android:name=".ui.BigImageActivity"
+            android:name=".ui.activity.BigImageActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_big_image"
             >
         </activity>
+
+        <activity
+            android:name=".ui.activity.GankDailyActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/activity_gank_daily"
+            android:theme="@style/AppThemeNormal.NoActionBar"/>
+
     </application>
 
 </manifest>

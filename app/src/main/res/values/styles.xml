@@ -27,6 +27,26 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <!-- Base application theme. -->
+    <style name="AppThemeNormal" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/accent_color</item>
+    </style>
+
+    <style name="AppThemeNormal.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent
+        </item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
     <style name="style_no_show_activity" parent="style_activity_dialog">
         <item name="android:backgroundDimAmount">0.2</item>
     </style>
@@ -46,25 +66,6 @@
         <item name="android:windowContentOverlay">@android:color/transparent</item>
         <!--<item name="android:windowAnimationStyle">@style/style_dialog_activity_animate</item>-->
     </style>
-    <!-- Dialog样式的Fragment -->
-    <style name="style_fragment_dialog" parent="@style/Theme.AppCompat.Light.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowFrame">@null</item>
-        <!-- 设置边框 -->
-        <item name="android:windowIsTranslucent">true</item>
-        <!-- 设置半透明 -->
-        <!-- 设置全屏 -->
-        <item name="windowNoTitle">true</item>
-        <!-- 设置title -->
-        <item name="windowActionBar">false</item>
-        <item name="android:windowContentOverlay">@android:color/transparent</item>
-        <!--<item name="android:windowAnimationStyle">@style/style_dialog_activity_animate</item>-->
-    </style>
-
-    <style name="style_dialog_activity_animate">
-        <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
-    </style>
 
     <style name="SwipeBackLayout">
         <item name="edge_size">0dp</item>
@@ -77,42 +78,6 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@color/transparent</item>
-    </style>
-
-    <style name="text_base">
-        <item name="android:lineSpacingMultiplier">1.5</item>
-    </style>
-
-    <style name="text_drawable" parent="text_base">
-        <item name="android:drawablePadding">@dimen/d3</item>
-        <item name="android:padding">@dimen/d3</item>
-        <item name="android:color">@color/primary_text</item>
-        <item name="android:textSize">@dimen/h4</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_weight">1</item>
-    </style>
-
-
-    <style name="card_view_margin">
-        <item name="android:layout_marginLeft">@dimen/card_view_margin</item>
-        <item name="android:layout_marginRight">@dimen/card_view_margin</item>
-        <item name="android:layout_marginBottom">@dimen/card_view_margin</item>
-    </style>
-
-    <style name="style_text_bar" parent="text_base">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_marginLeft">@dimen/d4</item>
-        <item name="android:layout_marginRight">@dimen/d4</item>
-        <item name="android:layout_marginTop">12dp</item>
-        <item name="android:background">@mipmap/bg_input_edittext</item>
-        <item name="android:drawablePadding">8dp</item>
-        <item name="android:padding">12dp</item>
     </style>
 
 </resources>

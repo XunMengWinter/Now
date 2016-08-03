@@ -1,0 +1,39 @@
+<resources>
+
+    <style name="text_base">
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <style name="text_drawable" parent="text_base">
+        <item name="android:drawablePadding">@dimen/d3</item>
+        <item name="android:padding">@dimen/d3</item>
+        <item name="android:color">@color/primary_text</item>
+        <item name="android:textSize">@dimen/h4</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+
+    <style name="card_view_margin">
+        <item name="android:layout_marginLeft">@dimen/card_view_margin</item>
+        <item name="android:layout_marginRight">@dimen/card_view_margin</item>
+        <item name="android:layout_marginBottom">@dimen/card_view_margin</item>
+    </style>
+
+    <style name="style_text_bar" parent="text_base">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/d4</item>
+        <item name="android:layout_marginRight">@dimen/d4</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:background">@mipmap/bg_input_edittext</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+</resources>

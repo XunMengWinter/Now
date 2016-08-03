@@ -1,4 +1,4 @@
-package top.wefor.now.ui;
+package top.wefor.now.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import top.wefor.now.R;
+import top.wefor.now.ui.BaseCompatActivity;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class BigImageActivity extends BaseCompatActivity {
