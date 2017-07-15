@@ -5,6 +5,9 @@ On the road.
 
 [Download Apk](https://raw.githubusercontent.com/XunMengWinter/source/master/apk/NowView.apk)
 
+[Web App](http://www.wefor.top/now)
+
+
 ### 2.0 更新日志
 * 将Other移至左侧Drawer；
 * 使用RxBinding 处理点击事件；
