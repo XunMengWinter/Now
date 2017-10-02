@@ -17,6 +17,7 @@ NowView 2.0 -> 3.1
 * 升级部分第三方库，去除部分sdk。
 
 > Where is 3.0 ？
+
 > NowView 3.0 升级Realm后未能兼容之前数据，执行了Realm数据表重置操作...嗯，一句try catch引发的结果...遂重新排坑打包。
 
 
