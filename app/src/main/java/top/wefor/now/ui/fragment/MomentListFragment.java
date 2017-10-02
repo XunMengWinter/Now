@@ -17,15 +17,19 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.util.Date;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import top.wefor.now.Constants;
 import top.wefor.now.data.database.MomentDbHelper;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.Moment;
 import top.wefor.now.ui.adapter.MomentAdapter;
-import top.wefor.now.Constants;
 import top.wefor.now.utils.PrefUtil;
 
 /**
@@ -67,7 +71,7 @@ public class MomentListFragment extends BaseListFragment<Moment> {
 
         mRecyclerView.setAdapter(mAdapter);
 
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         if (mList.size() < 1) {
             getData();
@@ -78,28 +82,25 @@ public class MomentListFragment extends BaseListFragment<Moment> {
     @Override
     public void getData() {
         Observable
-                .create(new Observable.OnSubscribe<Document>() {
-                    @Override
-                    public void call(Subscriber<? super Document> subscriber) {
-                        if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_MOMENT)) {
-                            subscriber.onNext(null);
-                        }
+                .create((ObservableOnSubscribe<Document>) observableEmitter -> {
+                    if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_MOMENT)) {
+                        observableEmitter.onComplete();
+                        return;
+                    }
 
-                        try {
-                            Document document = Jsoup.connect(Urls.MOMENT_URL).get();
-                            subscriber.onNext(document);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            subscriber.onNext(null);
-                        }
+                    try {
+                        Document document = Jsoup.connect(Urls.MOMENT_URL).get();
+                        observableEmitter.onNext(document);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        observableEmitter.onComplete();
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(document -> {
                     mList.clear();
-                    if (document == null) return;
-                    PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_MOMENT,new Date().getTime());
+                    PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_MOMENT, new Date().getTime());
                     // Links
                     Element userWorks = document.body().getElementById("selection");
                     if (userWorks == null) return;
@@ -122,10 +123,11 @@ public class MomentListFragment extends BaseListFragment<Moment> {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(document1 -> {
-                    MomentDbHelper zcoolDbHelper = new MomentDbHelper(mList, mRealm);
-                    zcoolDbHelper.saveToDatabase();
-                    showList();
+                .doOnComplete(this::showList)
+                .subscribe(document -> {
+                        MomentDbHelper zcoolDbHelper = new MomentDbHelper(mList, mRealm);
+                        zcoolDbHelper.saveToDatabase();
+                        showList();
                 });
     }
 

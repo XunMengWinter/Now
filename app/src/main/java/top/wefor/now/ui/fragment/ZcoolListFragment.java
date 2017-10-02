@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 
@@ -16,19 +17,18 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.util.Date;
 
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import top.wefor.now.Constants;
 import top.wefor.now.R;
 import top.wefor.now.data.database.ZcoolDbHelper;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.Zcool;
 import top.wefor.now.ui.adapter.ZcoolAdapter;
-import top.wefor.now.Constants;
 import top.wefor.now.utils.PrefUtil;
 
 /**
@@ -74,11 +74,12 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
         mRecyclerView.setItemAnimator(new FadeInAnimator());
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
+
 //        scaleAdapter.setFirstOnly(false);
 //        scaleAdapter.setInterpolator(new OvershootInterpolator());
         mRecyclerView.setAdapter(scaleAdapter);
 
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         if (mList.size() < 1) {
             getData();
@@ -87,20 +88,18 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
 
     @Override
     public void getData() {
-        Observable
-                .create(new Observable.OnSubscribe<Document>() {
-                    @Override
-                    public void call(Subscriber<? super Document> subscriber) {
-                        if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_ZCOOL))
-                            subscriber.onNext(null);
-
-                        try {
-                            Document document = Jsoup.connect(Urls.ZCOOL_URL).get();
-                            subscriber.onNext(document);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            subscriber.onNext(null);
-                        }
+        io.reactivex.Observable
+                .create((ObservableOnSubscribe<Document>) observableEmitter -> {
+                    if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_ZCOOL)) {
+                        observableEmitter.onComplete();
+                        return;
+                    }
+                    try {
+                        Document document = Jsoup.connect(Urls.ZCOOL_URL).get();
+                        observableEmitter.onNext(document);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        observableEmitter.onComplete();
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -108,10 +107,7 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
                 .doOnNext(document -> {
                     Log.i("xyz", "doOnNext");
                     mList.clear();
-                    if (document == null) {
-                        return;
-                    }
-                    PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_ZCOOL,new Date().getTime());
+                    PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_ZCOOL, new Date().getTime());
                     // Links
                     Element userWorks = document.body().getElementById("user-works");
 
@@ -130,7 +126,8 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(document1 -> {
+                .doOnComplete(this::showList)
+                .subscribe(document -> {
                     ZcoolDbHelper zcoolDbHelper = new ZcoolDbHelper(mList, mRealm);
                     zcoolDbHelper.saveToDatabase();
                     showList();

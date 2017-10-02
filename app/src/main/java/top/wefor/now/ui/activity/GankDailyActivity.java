@@ -15,6 +15,8 @@ import java.util.Date;
 
 import butterknife.BindArray;
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import top.wefor.now.R;
 import top.wefor.now.data.http.BaseObserver;
 import top.wefor.now.data.http.NowApi;
@@ -36,6 +38,7 @@ public class GankDailyActivity extends BaseToolbarActivity {
     @BindView(R.id.viewPager) ViewPager mViewPager;
 
     private Date mDate = new Date();
+    private int mRequestTimes;
     NowApi mNowApi = new NowApi();
     FragmentPagerAdapter mFragmentPagerAdapter;
 
@@ -77,13 +80,21 @@ public class GankDailyActivity extends BaseToolbarActivity {
         mNowApi.getGankDaily(DateUtil.toDate(mDate))
                 .subscribe(new BaseObserver<GankDailyResult>() {
                     @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
                     protected void onSucceed(GankDailyResult result) {
-                        if (result.error) {
+                        if (result.error || result.results == null || result.results.妹纸List == null) {
+                            if (mRequestTimes>=10){
+                                return;
+                            }
                             mDate = DateUtil.getLastdayDate(mDate);
                             getTheLastGank();
+                            mRequestTimes++;
                             return;
                         }
-                        if (result.results == null) return;
 
                         addGankList(result.results.androidList);
                         addGankList(result.results.iOSList);

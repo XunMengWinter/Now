@@ -3,7 +3,10 @@ package top.wefor.now.data.model.entity;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+
+import top.wefor.now.data.http.NowApi;
 
 /**
  * Created by tangqi on 8/20/15.
@@ -21,4 +24,15 @@ public class Zhihu implements Serializable {
     public String title;
     @SerializedName("multipic")
     public boolean multipic;
+
+    public NowItem ToNow() {
+        NowItem nowItem = new NowItem();
+        nowItem.url = NowApi.getNewsContent(this.id);
+        nowItem.collectedDate = new Date().getTime();
+        nowItem.imageUrl = this.images.get(0);
+        nowItem.title = this.title;
+        nowItem.from = "ZhiHu";
+        return nowItem;
+    }
+
 }

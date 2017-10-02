@@ -6,10 +6,14 @@
     android:background="@android:color/black"
     >
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <!--<com.facebook.drawee.view.SimpleDraweeView-->
+        <!--android:id="@+id/simpleDraweeView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--/>-->
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/simpleDraweeView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

@@ -29,9 +29,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
-import com.jakewharton.rxbinding.view.RxView;
-import com.jakewharton.rxbinding.widget.RxCompoundButton;
-import com.umeng.update.UmengUpdateAgent;
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxCompoundButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -85,7 +84,6 @@ public class MainActivity extends BaseCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UmengUpdateAgent.update(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -328,8 +326,9 @@ public class MainActivity extends BaseCompatActivity {
                             break;
                     }
                 });
-            } else
+            } else {
                 ((ViewGroup) mHeadPictureView.getParent()).removeView(mHeadPictureView);
+            }
 
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.head_picture))
@@ -341,9 +340,9 @@ public class MainActivity extends BaseCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.about))
                     .setView(getLayoutInflater().inflate(R.layout.dialog_about, null))
-                    .setPositiveButton("我的简书", (dialogInterface, i) -> {
+                    .setPositiveButton("wefor.top", (dialogInterface, i) -> {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(getString(R.string.my_jianshu)));
+                        intent.setData(Uri.parse(getString(R.string.my_website)));
                         startActivity(intent);
                     })
                     .create().show();
@@ -364,7 +363,7 @@ public class MainActivity extends BaseCompatActivity {
         RxView.clicks(mSuggestLinearLayout).subscribe(aVoid -> {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("message/rfc822");
-            i.putExtra(Intent.EXTRA_EMAIL, new String[]{Constants.MY_EMAIL_QQ, Constants.MY_EMAIL_GOOGLE});
+            i.putExtra(Intent.EXTRA_EMAIL, new String[]{Constants.MY_EMAIL_GOOGLE});
             i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
             try {
                 startActivity(Intent.createChooser(i, getString(R.string.send_email)));

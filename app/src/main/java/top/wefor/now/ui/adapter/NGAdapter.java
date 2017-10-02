@@ -2,13 +2,13 @@ package top.wefor.now.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -19,6 +19,7 @@ import butterknife.OnClick;
 import top.wefor.now.R;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.NG;
+import top.wefor.now.ui.activity.BigImageActivity;
 import top.wefor.now.ui.activity.WebActivity;
 
 /**
@@ -55,8 +56,9 @@ public class NGAdapter extends BaseListAdapter<NG> {
     protected void bindCellViewHolder(RecyclerView.ViewHolder cellViewHolder, int position) {
         NG news = mList.get(position);
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
-        Uri imgUri = Uri.parse(news.imgUrl);
-        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
+//        Uri imgUri = Uri.parse(news.imgUrl);
+//        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
+        Glide.with(context).load(news.imgUrl).into(cardViewHolder.mSimpleDraweeView);
         cardViewHolder.mTitleTv.setText(news.title);
         cardViewHolder.mContentTv.setText(news.content);
 
@@ -79,7 +81,6 @@ public class NGAdapter extends BaseListAdapter<NG> {
             super(v);
             if (viewType == TYPE_CELL)
                 ButterKnife.bind(this, v);
-
         }
 
         @OnClick(R.id.rootView)
@@ -96,18 +97,10 @@ public class NGAdapter extends BaseListAdapter<NG> {
 
         @OnClick(R.id.simpleDraweeView)
         void showBigImage(View v) {
-            if (mOnImageClickListener != null) {
-                NG news = mList.get(getLayoutPosition());
-                String imageUrl = news.imgUrl;
-                mOnImageClickListener.onImageClick(imageUrl);
-            }
+            BigImageActivity.startThis(context, v, mList.get(getLayoutPosition()).imgUrl);
         }
 
     }
 
-    public OnImageClickListener mOnImageClickListener;
 
-    public interface OnImageClickListener {
-        void onImageClick(String imageUrl);
-    }
 }

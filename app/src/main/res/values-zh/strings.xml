@@ -17,21 +17,29 @@
     <string name="send_email">给Winter发送邮件</string>
     <string name="send_email_failed">没有找到可以发送邮件的应用，\n
         我的邮箱是：\n
-        315721484@qq.com</string>
+        xunmengwinter@qq.com</string>
     <string name="fist_time_notice">你好，欢迎来到 Now ～ \n\n
         Now 将风景与阅读融为一体，需要加载顶部风景图才能继续，建议在wifi环境下加载。\n
         (仅需加载一次，加载后不再提醒)</string>
     <string name="enter">确认加载</string>
+    <string name="ok">OK</string>
     <string name="exit">以后再说</string>
 
     <string name="column_select">版块选择</string>
     <string name="head_picture">顶部图片源</string>
 
+    <string name="share_subject">来自 NowView</string>
     <string name="share_summary_zcool">From 站酷</string>
     <string name="share_summary_ng">From 国家地理</string>
     <string name="share_summary_zhihu">From 知乎</string>
     <string name="share_summary_moment">From 豆瓣一刻</string>
 
     <string name="activity_gank_daily">每日干货</string>
+    <string name="wiki_daily">Wikipedia Today</string>
+    <string name="suggest_subtitle">As you wish</string>
+    <string name="save_image">保存图片</string>
+    <string name="save_image_failed_permission">图片未保存，请在 \"设置-应用程序-NowView-权限\" 中允许 NowView \"存储\" 。</string>
+    <string name="save_image_success">图片已保存至 \"%s\" 目录</string>
+    <string name="save_image_failed">图片未保存</string>
 
 </resources>

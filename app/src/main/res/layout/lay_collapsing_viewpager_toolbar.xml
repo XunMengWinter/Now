@@ -10,8 +10,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
     android:theme="@style/AppTheme.AppBarOverlay"
+    android:fitsSystemWindows="true"
     >
 
     <android.support.design.widget.CollapsingToolbarLayout
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        app:contentScrim="@color/colorPrimaryAlpha"
+        app:contentScrim="@color/purple_normal"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
         >
 
@@ -27,7 +27,9 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/banner_sdv"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/head_image_height"
+            app:viewAspectRatio="1.5"
+            android:fitsSystemWindows="true"
+            android:layout_height="wrap_content"
             app:actualImageScaleType="centerCrop"/>
 
         <android.support.v7.widget.Toolbar
@@ -45,7 +47,7 @@
         android:id="@+id/gank_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/g_yellow"
+        android:background="@color/green_nomal"
         />
 
 </android.support.design.widget.AppBarLayout>

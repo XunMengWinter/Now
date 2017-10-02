@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 import top.wefor.now.data.model.entity.NG;
 
 /**
@@ -13,6 +14,7 @@ import top.wefor.now.data.model.entity.NG;
  */
 public class RealmNG extends RealmObject implements Serializable {
     @PrimaryKey
+    @Required
     public String pk;
     @SerializedName("url")
     public String url;

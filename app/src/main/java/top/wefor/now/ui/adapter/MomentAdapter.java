@@ -1,6 +1,7 @@
 package top.wefor.now.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,11 +12,11 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.bumptech.glide.Glide;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,9 +24,9 @@ import butterknife.ButterKnife;
 import top.wefor.now.App;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Moment;
-import top.wefor.now.ui.activity.BigImageActivity;
+import top.wefor.now.ui.activity.BigImagePagerActivity;
 import top.wefor.now.ui.activity.WebActivity;
-import top.wefor.now.utils.NowAppUtils;
+import top.wefor.now.utils.NowAppUtil;
 
 /**
  * Created by ice on 15/10/26.
@@ -35,7 +36,7 @@ public class MomentAdapter extends BaseListAdapter<Moment> {
     private Integer IMAGE_WIDTH, IMAGE_HEIGHT;
 
     public void setImageWidthAndHeight() {
-        int width = (NowAppUtils.getWidth() - 4 * App.getInstance().getResources().getDimensionPixelSize(R.dimen.d3)) / 3;
+        int width = (NowAppUtil.getWidth() - 4 * App.getInstance().getResources().getDimensionPixelSize(R.dimen.d3)) / 3;
         IMAGE_WIDTH = width;
         IMAGE_HEIGHT = width * 4 / 5;
     }
@@ -70,7 +71,6 @@ public class MomentAdapter extends BaseListAdapter<Moment> {
     @Override
     protected void bindCellViewHolder(RecyclerView.ViewHolder cellViewHolder, int position) {
         Moment news = mList.get(position);
-        Logger.d(position + "");
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
 
         if (news.imgUrls != null) {
@@ -78,15 +78,18 @@ public class MomentAdapter extends BaseListAdapter<Moment> {
             cardViewHolder.mImageLinearLayout.setVisibility(View.VISIBLE);
             cardViewHolder.mImageTitleTextView.setText("" + news.title);
             JSONArray jsonArray = JSON.parseArray(news.imgUrls);
+            List<String> imageUrls = new ArrayList<>();
+            List<View> imageViews = new ArrayList<>();
             for (int i = 0; i < jsonArray.size(); i++) {
-                String imageUrl = jsonArray.getString(i);
+                final int index = i;
+                final String imageUrl = jsonArray.getString(i);
+                imageUrls.add(imageUrl);
+                imageViews.add(cardViewHolder.mImageViews[i]);
 //                cardViewHolder.mImageViews[i].setImageURI(imgUri);
                 //由于BigImageActivity中用到的PhotoViewAttacher与Fresco不兼容，所以使用Picasso.
-                Picasso.with(context).load(imageUrl).into(cardViewHolder.mImageViews[i]);
-                //click to see big image
-                cardViewHolder.mImageViews[i].setTag(imageUrl);
+                Glide.with(context).load(imageUrl).into(cardViewHolder.mImageViews[i]);
                 cardViewHolder.mImageViews[i].setOnClickListener(v -> {
-                    BigImageActivity.startThis(context, v, (String) v.getTag());
+                    BigImagePagerActivity.startThis((AppCompatActivity) context, imageViews, imageUrls, index);
                 });
             }
         } else if (news.content != null) {
@@ -123,7 +126,7 @@ public class MomentAdapter extends BaseListAdapter<Moment> {
             mSimpleDraweeView3.setLayoutParams(params);
 
             // because us Picasso loadView,so this is not work.
-            if (NowAppUtils.isBelowLollipop()) {
+            if (NowAppUtil.isBelowLollipop()) {
                 //set round corner
                 RoundingParams roundingParams = new RoundingParams();
                 int d2 = context.getResources().getDimensionPixelSize(R.dimen.d2);

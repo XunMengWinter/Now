@@ -3,6 +3,7 @@ package top.wefor.now.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
@@ -17,15 +18,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,14 +36,14 @@ import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
 import top.wefor.now.ui.BaseSwipeBackCompatActivity;
-import top.wefor.now.utils.NowAppUtils;
+import top.wefor.now.utils.ImageUtil;
+import top.wefor.now.utils.NowAppUtil;
 import top.wefor.now.utils.Share;
 
 /*
  * Created by ice on 15/10/26.
  *
- * Thanks to
- * Author: drakeet
+ * Thanks drakeet
  */
 
 public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnTouchListener {
@@ -74,7 +75,6 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         mCardView.setVisibility(View.GONE);
         isMenuShow = false;
         Share.shareToWechat(this, mTitle, summary, mUrl, bitmap);
-
     }
 
     @OnClick(R.id.wechatcircle_textView)
@@ -105,7 +105,7 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, mTitle + " \n" + mUrl);
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Come from Now, see more, get now.");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
         intent = Intent.createChooser(intent, getString(R.string.share_to));
         startActivity(intent);
     }
@@ -151,9 +151,15 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
             @Override
             public void run() {
                 super.run();
+//                try {
+//                    bitmap = Picasso.with(WebActivity.this).load(picUrl).resize(100, 100).get();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
                 try {
-                    bitmap = Picasso.with(WebActivity.this).load(picUrl).resize(100, 100).get();
-                } catch (IOException e) {
+                    Drawable drawable = Glide.with(WebActivity.this).load(picUrl).submit(120, 120).get();
+                    bitmap = ImageUtil.drawableToBitmap(drawable);
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
             }
@@ -169,7 +175,7 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         webSettings.setAppCacheEnabled(true);
         webSettings.setAppCachePath(Constants.WEB_CACHE_DIR);
 
-        if (NowAppUtils.isWifiConnected())
+        if (NowAppUtil.isWifiConnected())
             webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
         else
             webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
@@ -288,9 +294,9 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Tencent.onActivityResultData(requestCode, resultCode, data, mQQUiListener);
-        if (null != mTencent)
+        if (null != mTencent) {
             mTencent.onActivityResult(requestCode, resultCode, data);
-
+        }
     }
 
     public void share(int type) {
@@ -343,4 +349,6 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
 
         }
     }
+
+
 }

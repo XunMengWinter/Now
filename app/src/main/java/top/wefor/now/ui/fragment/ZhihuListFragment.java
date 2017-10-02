@@ -10,17 +10,19 @@ import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import java.util.Calendar;
 import java.util.Date;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import rx.schedulers.Schedulers;
+import top.wefor.now.Constants;
 import top.wefor.now.data.database.ZhihuDbHelper;
 import top.wefor.now.data.http.BaseObserver;
 import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.ZhihuDailyResult;
 import top.wefor.now.data.model.entity.Zhihu;
 import top.wefor.now.ui.adapter.ZhihuAdapter;
-import top.wefor.now.Constants;
 import top.wefor.now.utils.PrefUtil;
 
 public class ZhihuListFragment extends BaseListFragment<Zhihu> {
@@ -70,7 +72,7 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
         mRecyclerView.setAdapter(scaleAdapter);
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         if (mList.size() < 1) {
             getData();
@@ -95,12 +97,17 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
 //        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent("sfds"));
 
         mNowApi.getZhihuDaily(date)
-                .subscribeOn(Schedulers.immediate())
+                .subscribeOn(Schedulers.computation())
                 .subscribe(new BaseObserver<ZhihuDailyResult>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
                     @Override
                     protected void onSucceed(ZhihuDailyResult result) {
                         if (result.stories != null) {
-                            PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_ZHIHU,new Date().getTime());
+                            PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_ZHIHU, new Date().getTime());
                             mList.clear();
                             for (Zhihu item : result.stories) {
                                 mList.add(item);
@@ -129,7 +136,6 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
 //            }
 //        };
     }
-
 
 
     @Override

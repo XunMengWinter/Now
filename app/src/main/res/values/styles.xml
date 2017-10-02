@@ -13,6 +13,10 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
 
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
+
         <!-- Material Theme -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -21,21 +25,22 @@
         <item name="android:statusBarColor" tools:targetApi="21">@color/statusBarColor</item>
         <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
+        <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
+    </style>
+
+    <style name="AppBigImageThem" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowTranslucentStatus" tools:targetApi="19">true</item>
+        <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
     </style>
 
     <style name="AppTheme.Translucent" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <!-- Base application theme. -->
-    <style name="AppThemeNormal" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/accent_color</item>
-    </style>
-
-    <style name="AppThemeNormal.NoActionBar">
+    <style name="AppThemeImmerse" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/purple_normal</item>
+        <item name="colorPrimaryDark">@color/purple_normal</item>
+        <item name="colorAccent">@color/alpha_purple</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>

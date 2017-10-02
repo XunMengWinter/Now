@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 import top.wefor.now.data.model.entity.Zhihu;
 
 /**
@@ -15,6 +16,7 @@ import top.wefor.now.data.model.entity.Zhihu;
  */
 public class RealmZhihu extends RealmObject implements Serializable {
     @PrimaryKey
+    @Required
     public String pk;
     @SerializedName("images")
     public String images;

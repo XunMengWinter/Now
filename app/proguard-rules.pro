@@ -16,19 +16,6 @@
 #   public *;
 #}
 
-#友盟
--keepclassmembers class * {
-   public <init>(org.json.JSONObject);
-}
-
--keep public class [top.wefor.now].R$*{
-public static final int *;
-}
-
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
 
 #微信
 -keep class com.tencent.mm.sdk.** {*;}
@@ -70,27 +57,16 @@ public static final int *;
     @butterknife.* <methods>;
 }
 
-# rxjava
--keep class rx.schedulers.Schedulers {
-    public static <methods>;
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
 }
--keep class rx.schedulers.ImmediateScheduler {
-    public <methods>;
-}
--keep class rx.schedulers.TestScheduler {
-    public <methods>;
-}
--keep class rx.schedulers.Schedulers {
-    public static ** test();
-}
--keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
-    long producerIndex;
-    long consumerIndex;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
-    long producerNode;
-    long consumerNode;
-}
+
+# for DexGuard only
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 #fresco
 # Keep our interfaces so they can be used by other ProGuard rules.
@@ -108,20 +84,21 @@ public static final int *;
     native <methods>;
 }
 
+# Retrofit & OkHttp3
 -dontwarn okio.**
 -dontwarn javax.annotation.**
 -dontwarn com.android.volley.toolbox.**
+-dontwarn okhttp3.**
 
--dontwarn io.realm.**
 -keep class com.github.mikephil.charting.** { *; }
 
 #tencent
 -dontwarn com.tencent.**
-#umeng
--dontwarn com.umeng.**
 
 -keepattributes SourceFile,LineNumberTable
 -dontwarn com.squareup.picasso.**
+
+
 
 -dontwarn com.alibaba.fastjson.**
 -keep class com.alibaba.fastjson.** { *;}

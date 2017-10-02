@@ -1,9 +1,11 @@
 package top.wefor.now.data.http;
 
+import com.orhanobut.logger.Logger;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.http.Path;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import top.wefor.now.data.model.GankDailyResult;
 import top.wefor.now.data.model.GankMeizhiResult;
 import top.wefor.now.data.model.ZhihuDailyResult;
@@ -21,8 +23,10 @@ public final class NowApi implements ApiService {
 
     @Override
     public Observable<ZhihuDailyResult> getZhihuDaily(String date) {
+        Logger.i(date);
         return RetrofitUtil.getApi(Urls.ZHIHU_NEWS).getZhihuDaily(date)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     // getDailyNewsContent GET

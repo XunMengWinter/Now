@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wikipedia"
+                android:text="@string/wiki_daily"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/h4"/>
 
@@ -47,6 +47,15 @@
             android:background="@drawable/selector_btn"/>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/gank_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/d4"
+        android:text="@string/activity_gank_daily"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/h4"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -157,20 +166,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="As you wish"
+            android:text="@string/suggest_subtitle"
             android:textColor="@color/secondary_text"
             android:textSize="@dimen/h5"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/gank_textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/d4"
-        android:text="@string/activity_gank_daily"
-        android:textColor="@color/primary_text"
-        android:textSize="@dimen/h4"/>
 
 
 </LinearLayout>

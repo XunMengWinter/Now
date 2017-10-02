@@ -3,7 +3,7 @@ package top.wefor.now.data.http;
 import android.text.TextUtils;
 import android.util.Log;
 
-import rx.Observer;
+import io.reactivex.Observer;
 import top.wefor.now.App;
 import top.wefor.now.data.model.BaseResult;
 
@@ -21,8 +21,8 @@ public abstract class BaseObserver<T extends BaseResult> implements Observer<T> 
     }
 
     @Override
-    public void onCompleted() {
-        Log.i("xyz", "onCompleted");
+    public void onComplete() {
+        Log.i("xyz", "onComplete");
     }
 
     @Override

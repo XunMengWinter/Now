@@ -4,13 +4,13 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
+import com.bumptech.glide.Glide;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -18,6 +18,8 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
@@ -27,7 +29,7 @@ import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.GankMeizhiResult;
 import top.wefor.now.data.model.entity.Gank;
 import top.wefor.now.ui.BaseCompatActivity;
-import top.wefor.now.utils.NowAppUtils;
+import top.wefor.now.utils.NowAppUtil;
 
 /**
  * Created by ice on 15/11/22.
@@ -50,9 +52,10 @@ public class WelcomeActivity extends BaseCompatActivity {
 
         mStartDate = new Date();
         String coverImgUrl = mPreferencesHelper.getCoverImage();
-        if (!TextUtils.isEmpty(coverImgUrl))
-            mSimpleDraweeView.setImageURI(Uri.parse(coverImgUrl));
-        else {
+        if (!TextUtils.isEmpty(coverImgUrl)) {
+//            mSimpleDraweeView.setImageURI(Uri.parse(coverImgUrl));
+            Glide.with(this).load(coverImgUrl).into(mSimpleDraweeView);
+        } else {
             GenericDraweeHierarchy hierarchy = mSimpleDraweeView.getHierarchy();
             hierarchy.setPlaceholderImage(R.mipmap.img_first_welcome);
         }
@@ -68,7 +71,7 @@ public class WelcomeActivity extends BaseCompatActivity {
         int type = mPreferencesHelper.getHeadImageType();
         switch (type) {
             case Constants.TYPE_GANK_MEIZHI:
-                if (NowAppUtils.isWifiConnected() || TextUtils.isEmpty(mPreferencesHelper.getHeadImages()))
+                if (NowAppUtil.isWifiConnected() || TextUtils.isEmpty(mPreferencesHelper.getHeadImages()))
                     getCoverImgsThenToMainPage();
                 else
                     toMainPage();
@@ -83,6 +86,11 @@ public class WelcomeActivity extends BaseCompatActivity {
     private void getCoverImgsThenToMainPage() {
         new NowApi().getGankMeizhi()
                 .subscribe(new BaseObserver<GankMeizhiResult>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
                     @Override
                     protected void onSucceed(GankMeizhiResult result) {
                         JSONArray jsonArray = new JSONArray();

@@ -1,10 +1,10 @@
 package top.wefor.now.data.http;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
-import top.wefor.now.data.model.GankMeizhiResult;
 import top.wefor.now.data.model.GankDailyResult;
+import top.wefor.now.data.model.GankMeizhiResult;
 import top.wefor.now.data.model.ZhihuDailyResult;
 
 /**
@@ -22,4 +22,6 @@ public interface ApiService {
     @GET("/api/day/{date}")
     Observable<GankDailyResult> getGankDaily(@Path("date") String date);
 
+//    @POST("/api/collect")
+//    Observable<NowCollectResult> postCollect(@Body NowCollectRequest nowCollectRequest);
 }

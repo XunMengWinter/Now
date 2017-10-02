@@ -10,8 +10,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.exceptions.RealmMigrationNeededException;
-import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
 import top.wefor.now.ui.widget.LoadMoreRecyclerView;
@@ -41,19 +39,17 @@ public abstract class BaseListFragment<T> extends BaseFragment implements LoadMo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRealmConfig = new RealmConfiguration.Builder(App.getInstance().getApplicationContext()).build();
+//        mRealmConfig = new RealmConfiguration.Builder(App.getInstance().getApplicationContext()).build();
 
-        try {
-            mRealm = Realm.getInstance(mRealmConfig);
-        } catch (RealmMigrationNeededException e) {
-            try {
-                Realm.deleteRealm(mRealmConfig);
-                mRealm = Realm.getInstance(mRealmConfig);
-            } catch (Exception ex) {
-                throw ex;
-                //No Realm file to remove.
-            }
-        }
+        mRealmConfig = new RealmConfiguration.Builder().build();
+
+        mRealm = Realm.getInstance(mRealmConfig);
+        // try catch 是个坑，一定要少用！！！一不小心把以前的数据全删了！
+//        try {
+//        } catch (RealmMigrationNeededException e) {
+//            Realm.deleteRealm(mRealmConfig);
+//            mRealm = Realm.getInstance(mRealmConfig);
+//        }
 
     }
 

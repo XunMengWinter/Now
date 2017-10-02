@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -57,13 +57,13 @@ public class ZhihuAdapter extends BaseListAdapter<Zhihu> {
     @Override
     protected void bindCellViewHolder(RecyclerView.ViewHolder cellViewHolder, int position) {
         Zhihu news = mList.get(position);
-        Logger.d(position + "");
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
         // 图像地址（官方 API 使用数组形式，目前暂未有使用多张图片的情形出现，曾见无 images 属性的情况，请在使用中注意 ）
 //        Uri imgUri = Uri.parse(news.images.get(0));
 //        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
-        if (news.images != null && news.images.size() > 0)
-            Picasso.with(context).load(news.images.get(0)).into(cardViewHolder.mSimpleDraweeView);
+        if (news.images != null && news.images.size() > 0) {
+            Glide.with(context).load(news.images.get(0)).into(cardViewHolder.mSimpleDraweeView);
+        }
         cardViewHolder.mTitle.setText(news.title);
     }
 

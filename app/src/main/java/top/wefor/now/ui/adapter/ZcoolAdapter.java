@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Zcool;
 import top.wefor.now.ui.activity.BigImageActivity;
 import top.wefor.now.ui.activity.WebActivity;
-import top.wefor.now.utils.NowAppUtils;
+import top.wefor.now.utils.NowAppUtil;
 
 /**
  * Created by ice on 15/10/26.
@@ -38,7 +37,7 @@ public class ZcoolAdapter extends BaseListAdapter<Zcool> {
      */
     public void setImageWidthAndHeight(int columns) {
         int d3 = context.getResources().getDimensionPixelSize(R.dimen.d3);
-        IMAGE_WIDTH = (NowAppUtils.getWidth() - d3 * 2) / columns - d3 * 2;
+        IMAGE_WIDTH = (NowAppUtil.getWidth() - d3 * 2) / columns - d3 * 2;
         IMAGE_HEIGHT = IMAGE_WIDTH * 3 / 4;
     }
 
@@ -87,12 +86,12 @@ public class ZcoolAdapter extends BaseListAdapter<Zcool> {
     @Override
     protected void bindCellViewHolder(RecyclerView.ViewHolder cellViewHolder, int position) {
         Zcool news = mList.get(position);
-        Logger.d(position + "");
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
 //        Uri imgUri = Uri.parse(news.imgUrl);
 //        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
-        if (!TextUtils.isEmpty(news.imgUrl))
-            Picasso.with(context).load(news.imgUrl).into(cardViewHolder.mSimpleDraweeView);
+        if (!TextUtils.isEmpty(news.imgUrl)) {
+            Glide.with(context).load(news.imgUrl).into(cardViewHolder.mSimpleDraweeView);
+        }
         cardViewHolder.mTitleTv.setText(news.title);
         cardViewHolder.mNameTv.setText("by " + news.name);
         cardViewHolder.mReadTv.setText(news.readCount + " 看过");
@@ -118,14 +117,14 @@ public class ZcoolAdapter extends BaseListAdapter<Zcool> {
             ButterKnife.bind(this, v);
 
             // because us Picasso loadView,so this is not work.
-            if (NowAppUtils.isBelowLollipop()) {
+            if (NowAppUtil.isBelowLollipop()) {
                 //set round corner
                 RoundingParams roundingParams = new RoundingParams();
                 int d2 = context.getResources().getDimensionPixelSize(R.dimen.d2);
                 roundingParams.setCornersRadii(d2, d2, 0, 0);
                 mSimpleDraweeView.getHierarchy().setRoundingParams(roundingParams);
             }
-            mSimpleDraweeView.setAspectRatio(4/3f);
+            mSimpleDraweeView.setAspectRatio(4 / 3f);
         }
 
         public CardViewHolder(View v, int viewType) {

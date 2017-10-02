@@ -1,20 +1,14 @@
 package top.wefor.now.ui.fragment;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONArray;
-import com.facebook.drawee.drawable.ScalingUtils;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
-import com.orhanobut.logger.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,26 +16,32 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.Date;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.schedulers.Schedulers;
 import top.wefor.now.App;
+import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.data.database.NGDbHelper;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.NG;
 import top.wefor.now.ui.adapter.NGAdapter;
+import top.wefor.now.utils.PrefUtil;
 
 /**
  * Created by ice on 15/10/28.
  */
-public class NGListFragment extends BaseListFragment<NG> implements NGAdapter.OnImageClickListener {
+public class NGListFragment extends BaseListFragment<NG> {
     private static final int SIZE = 10;
 
     private NGAdapter mAdapter;
-    protected SimpleDraweeView mBigSdv;
 
     public static NGListFragment newInstance() {
         return new NGListFragment();
@@ -68,10 +68,9 @@ public class NGListFragment extends BaseListFragment<NG> implements NGAdapter.On
         mRecyclerView.setHasFixedSize(true);
 
         mAdapter = new NGAdapter(getActivity(), mList);
-        mAdapter.mOnImageClickListener = this;
         mRecyclerView.setAdapter(mAdapter);
 
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView, null);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         if (mList.size() < 1) {
             getData();
@@ -83,26 +82,25 @@ public class NGListFragment extends BaseListFragment<NG> implements NGAdapter.On
     public void getData() {
 //        String nGUrl = "http://photography.nationalgeographic.com/photography/";
         Observable
-                .create(new Observable.OnSubscribe<Document>() {
-                    @Override
-                    public void call(Subscriber<? super Document> subscriber) {
-                        try {
-                            Document document = Jsoup.connect(Urls.NG_BASE_URL).get();
-                            subscriber.onNext(document);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            subscriber.onNext(null);
-                        }
+                .create((ObservableOnSubscribe<Document>) observableEmitter -> {
+                    if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_NG)) {
+                        observableEmitter.onComplete();
+                        return;
+                    }
+                    try {
+                        Document document = Jsoup.connect(Urls.NG_BASE_URL).get();
+                        observableEmitter.onNext(document);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        observableEmitter.onComplete();
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(document -> {
                     mList.clear();
-                    if (document == null) {
-                        return;
-                    }
-                    Logger.i(document.ownText());
+//                    Logger.i(document.ownText());
+                    PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_NG, new Date().getTime());
                     Element contents = document.getElementById("ajaxBox");
                     Elements list = contents.getElementsByClass("ajax_list");
                     for (int i = 0; i < SIZE && i < list.size(); i++) {
@@ -130,7 +128,8 @@ public class NGListFragment extends BaseListFragment<NG> implements NGAdapter.On
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(document1 -> {
+                .doOnComplete(this::showList)
+                .subscribe(document -> {
                     NGDbHelper zcoolDbHelper = new NGDbHelper(mList, mRealm);
                     zcoolDbHelper.saveToDatabase();
                     showList();
@@ -144,20 +143,4 @@ public class NGListFragment extends BaseListFragment<NG> implements NGAdapter.On
         mAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onImageClick(String imageUrl) {
-        if (mBigSdv == null) {
-            mBigSdv = new SimpleDraweeView(getActivity());
-            GenericDraweeHierarchy hierarchy = mBigSdv.getHierarchy();
-            hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
-            mBigSdv.setBackgroundColor(0xCC000000);
-            mBigSdv.setOnClickListener(v -> mBigSdv.setVisibility(View.GONE));
-            if (getActivity().getWindow().getDecorView().getRootView() != null)
-                ((ViewGroup) getActivity().getWindow().getDecorView().getRootView()).addView(mBigSdv);
-        }
-
-        mBigSdv.setVisibility(View.VISIBLE);
-        mBigSdv.setImageURI(Uri.parse(imageUrl));
-
-    }
 }

@@ -52,10 +52,14 @@
         http://jakewharton.github.io/butterknife/ \n\n
         Retrofit\n
         https://github.com/square/retrofit \n\n
+        PhotoView\n
+        https://github.com/chrisbanes/PhotoView \n\n
         左侧边右滑返回\n
         https://github.com/SkillCollege/SimplifyReader \n\n
         知乎列表\n
         https://github.com/tangqi92/BuildingBlocks \n\n
+        ViewPager共享元素动画\n
+        https://github.com/mingdroid/SETransitionDemo \n\n
 
         ......
     </string>
@@ -65,13 +69,14 @@
     <string name="pic_url_4">https://raw.githubusercontent.com/XunMengWinter/source/master/images/now-moon.jpg</string>
     <string name="fist_time_notice">
         Hello, welcome to Now ~ \n\n
-        Now union beautiful images and nice text, we need load upper images to make perfect experience, so,press Enter to continue.\n
-        (Just load images one time)
+        Now union beautiful images and nice text, we need load header images to make perfect experience, so,press Enter to continue.\n
+        (Just load images once)
     </string>
     <string name="enter">Enter</string>
+    <string name="ok">OK</string>
     <string name="exit">Exit</string>
     <string name="my_zcool">http://icewinter.zcool.com.cn</string>
-    <string name="my_website">http://wefor.top/android/now/</string>
+    <string name="my_website">http://wefor.top/now/</string>
     <string name="my_jianshu">http://www.jianshu.com/users/e36e60b5af17/latest_articles</string>
     <string name="my_github">https://github.com/XunMengWinter</string>
 
@@ -103,14 +108,16 @@
         <item>@string/source_mac</item>
         <item>@string/source_color</item>
     </string-array>
-    <string name="title_activity_big_image">BigImageActivity</string>
 
+
+    <string name="share_subject">From Now, view more.</string>
     <string name="share_summary_zcool">From Zcool</string>
     <string name="share_summary_ng">From National Geographic</string>
     <string name="share_summary_zhihu">From Zhihu</string>
     <string name="share_summary_moment">From Douban Moment</string>
 
-    <string name="activity_gank_daily">Gank Daily</string>
+    <string name="title_activity_big_image">BigImageActivity</string>
+    <string name="title_activity_big_image_list">BigImageListActivity</string>
 
     <string-array name="ganks">
         <item>Android</item>
@@ -123,4 +130,11 @@
     </string-array>
 
     <string name="empty">Empty content ~ T_T </string>
+    <string name="activity_gank_daily">Gank Daily</string>
+    <string name="wiki_daily">Wikipedia Today</string>
+    <string name="suggest_subtitle">As you wish</string>
+    <string name="save_image">Save image</string>
+    <string name="save_image_failed_permission">Image not saved, please allow NowView \"Write and Read\" in \"Settings-Apps-NowView-Permissions\" .</string>
+    <string name="save_image_success">Image has saved to \"%s\" folder</string>
+    <string name="save_image_failed">图片未保存</string>
 </resources>

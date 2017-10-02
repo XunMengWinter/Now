@@ -10,7 +10,7 @@ import top.wefor.now.App;
 /**
  * Created by ice on 16/4/13 01:14.
  */
-public class NowAppUtils {
+public class NowAppUtil {
 
     public static Integer getWidth() {
         DisplayMetrics metrics = App.getInstance().getResources().getDisplayMetrics();
