@@ -1,7 +1,6 @@
 package top.wefor.now.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import top.wefor.now.R;
-import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.NG;
 import top.wefor.now.ui.activity.BigImageActivity;
-import top.wefor.now.ui.activity.WebActivity;
 
 /**
  * Created by ice on 15/10/26.
@@ -81,18 +78,6 @@ public class NGAdapter extends BaseListAdapter<NG> {
             super(v);
             if (viewType == TYPE_CELL)
                 ButterKnife.bind(this, v);
-        }
-
-        @OnClick(R.id.rootView)
-        void onClick(View v) {
-            // TODO do what you want :) you can use WebActivity to load detail content
-            NG news = mList.get(getLayoutPosition());
-            Intent intent = new Intent(v.getContext(), WebActivity.class);
-            intent.putExtra(WebActivity.EXTRA_TITLE, news.title);
-            intent.putExtra(WebActivity.EXTRA_URL, Urls.NG_BASE_URL + news.url);
-            intent.putExtra(WebActivity.EXTRA_PIC_URL, news.imgUrl);
-            intent.putExtra(WebActivity.EXTRA_SUMMARY, context.getString(R.string.share_summary_ng));
-            v.getContext().startActivity(intent);
         }
 
         @OnClick(R.id.simpleDraweeView)

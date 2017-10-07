@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 
@@ -28,6 +27,7 @@ import top.wefor.now.R;
 import top.wefor.now.data.database.ZcoolDbHelper;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.Zcool;
+import top.wefor.now.ui.activity.WebActivity;
 import top.wefor.now.ui.adapter.ZcoolAdapter;
 import top.wefor.now.utils.PrefUtil;
 
@@ -80,6 +80,13 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
         mRecyclerView.setAdapter(scaleAdapter);
 
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
+
+        mAdapter.setOnItemClickListener(model -> {
+            WebActivity.startThis(getActivity(), model.url, model.title, model.imgUrl,
+                    getString(R.string.share_summary_zcool));
+        });
+
+        mAdapter.setOnItemLongClickListener(model -> saveToNote(model.toNow()));
 
         if (mList.size() < 1) {
             getData();

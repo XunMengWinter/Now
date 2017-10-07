@@ -56,5 +56,6 @@ public class GankFragment extends Fragment {
         mList.addAll(getArguments().getParcelableArrayList(GANK_LIST));
         mGankAdapter = new GankAdapter(getActivity(),mList,mRecyclerView);
         mRecyclerView.setAdapter(mGankAdapter);
+
     }
 }

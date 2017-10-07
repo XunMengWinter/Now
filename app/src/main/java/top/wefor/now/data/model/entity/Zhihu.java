@@ -25,7 +25,7 @@ public class Zhihu implements Serializable {
     @SerializedName("multipic")
     public boolean multipic;
 
-    public NowItem ToNow() {
+    public NowItem toNow() {
         NowItem nowItem = new NowItem();
         nowItem.url = NowApi.getNewsContent(this.id);
         nowItem.collectedDate = new Date().getTime();

@@ -42,4 +42,10 @@
     <string name="save_image_success">图片已保存至 \"%s\" 目录</string>
     <string name="save_image_failed">图片未保存</string>
 
+    <string name="dialog_save_to_note">要将该条目（%s）标记至 "My Table" 吗?</string>
+    <string name="pin_success">在 "My Table" 中标记成功</string>
+    <string name="pin_urls">图片链接: \n %1$s \n条目链接: \n %2$s </string>
+    <string name="yes">好的</string>
+    <string name="no">不用了，谢谢</string>
+
 </resources>

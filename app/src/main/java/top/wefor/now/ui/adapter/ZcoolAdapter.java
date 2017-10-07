@@ -22,7 +22,6 @@ import butterknife.OnClick;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Zcool;
 import top.wefor.now.ui.activity.BigImageActivity;
-import top.wefor.now.ui.activity.WebActivity;
 import top.wefor.now.utils.NowAppUtil;
 
 /**
@@ -131,14 +130,6 @@ public class ZcoolAdapter extends BaseListAdapter<Zcool> {
             super(v);
             if (viewType == TYPE_CELL)
                 ButterKnife.bind(this, v);
-        }
-
-        @OnClick(R.id.rootView)
-        void onClick(View v) {
-            // TODO do what you want :) you can use WebActivity to load detail content
-            Zcool news = mList.get(getLayoutPosition());
-            WebActivity.startThis(context, news.url, news.title, news.imgUrl,
-                    context.getString(R.string.share_summary_zcool));
         }
 
         @OnClick(R.id.simpleDraweeView)

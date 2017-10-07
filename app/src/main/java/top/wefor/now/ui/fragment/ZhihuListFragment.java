@@ -17,11 +17,14 @@ import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import top.wefor.now.Constants;
+import top.wefor.now.R;
 import top.wefor.now.data.database.ZhihuDbHelper;
 import top.wefor.now.data.http.BaseObserver;
 import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.ZhihuDailyResult;
 import top.wefor.now.data.model.entity.Zhihu;
+import top.wefor.now.ui.activity.WebActivity;
+import top.wefor.now.ui.adapter.BaseListAdapter;
 import top.wefor.now.ui.adapter.ZhihuAdapter;
 import top.wefor.now.utils.PrefUtil;
 
@@ -74,6 +77,18 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
         mRecyclerView.setAdapter(scaleAdapter);
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
+        mAdapter.setOnItemClickListener(news -> {
+            String news_url = NowApi.getNewsContent(news.id);
+            String imageUrl = null;
+            if (news.images != null && news.images.size() > 0)
+                imageUrl = news.images.get(0);
+
+            WebActivity.startThis(getActivity(), news_url, news.title, imageUrl,
+                    getString(R.string.share_summary_zhihu));
+        });
+
+        mAdapter.setOnItemLongClickListener(model -> saveToNote(model.toNow()));
+
         if (mList.size() < 1) {
             getData();
         }
@@ -87,14 +102,6 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
             showList();
             return;
         }
-
-//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                //do
-//            }
-//        },new IntentFilter("sfds"));
-//        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent("sfds"));
 
         mNowApi.getZhihuDaily(date)
                 .subscribeOn(Schedulers.computation())

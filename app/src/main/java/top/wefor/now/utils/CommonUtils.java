@@ -1,6 +1,8 @@
 package top.wefor.now.utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 
 import top.wefor.now.R;
@@ -18,6 +20,26 @@ public class CommonUtils {
 
     public static int getTabsHeight(Context context) {
         return (int) context.getResources().getDimension(R.dimen.tabsHeight);
+    }
+
+    /*
+    * check the app is installed
+    */
+    public static boolean isAppInstalled(Context context, String packageName) {
+        PackageInfo packageInfo;
+        try {
+            packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            packageInfo = null;
+            e.printStackTrace();
+        }
+        if (packageInfo == null) {
+            //System.out.println("没有安装");
+            return false;
+        } else {
+            //System.out.println("已经安装");
+            return true;
+        }
     }
 
 }

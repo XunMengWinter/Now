@@ -7,7 +7,6 @@ import java.util.Locale;
 public final class Constants {
 
     public static final String PREFS_NAME = "now";
-    public static final String MY_EMAIL_QQ = "315721484@qq.com";
     public static final String MY_EMAIL_GOOGLE = "XunMengWinter@gmail.com";
     public static final String JAVA_SCRIPT_ENABLED = "isJavaScriptEnabled";
     public static final String IS_FIRST = "isFirst";
@@ -52,4 +51,27 @@ public final class Constants {
 
     public static final long VALUE_REFRESH_INTERVAL = 1000 * 60 * 10;
     public static final long VALUE_FINISH_DELAYED_TIME = 1000 * 60;
+
+
+    /*将NowItem保存至另一个应用My Table 时需要用到的字段*/
+    public static final class MyTableNote {
+        //        public static final String UUID = "uuid";
+        public static final String TITLE = "title";
+        public static final String CONTENT = "content";
+        //        public static final String ADD_DATE = "add_date";
+        //        public static final String LAST_EDIT_DATE = "last_edit_date";
+        public static final String FROM = "from";
+        //        public static final String DONE = "done";
+        public static final String TYPE = "type";
+
+        public static final String RESULT_TYPE = "result_type";
+        public static final String RESULT_MESSAGE = "result_message";
+        public static final int RESULT_TYPE_SUCCESS = 1;
+
+        public static final int TYPE_NOW = 7;
+
+        public static final String ACTION_NAME = "top.wefor.out_source_add";
+        public static final String PACKAGE_NAME = "top.wefor.mytable";
+    }
+
 }

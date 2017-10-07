@@ -20,7 +20,7 @@ public class Moment implements Serializable {
     @SerializedName("content")
     public String content;
 
-    public NowItem ToNow() {
+    public NowItem toNow() {
         NowItem nowItem = new NowItem();
         nowItem.url = this.url;
         nowItem.collectedDate = new Date().getTime();
@@ -33,7 +33,7 @@ public class Moment implements Serializable {
             nowItem.subTitle = this.content;
 
         nowItem.title = this.title;
-        nowItem.from = "YiKe";
+        nowItem.from = "Moment";
         return nowItem;
     }
 

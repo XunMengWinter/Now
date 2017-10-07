@@ -1,6 +1,10 @@
 package top.wefor.now.ui.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +14,12 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
+import top.wefor.now.data.model.entity.NowItem;
 import top.wefor.now.ui.widget.LoadMoreRecyclerView;
+import top.wefor.now.utils.CommonUtils;
 
 /**
  * Created by ice on 15/10/28.
@@ -21,6 +28,7 @@ public abstract class BaseListFragment<T> extends BaseFragment implements LoadMo
     protected LoadMoreRecyclerView mRecyclerView;
     protected int mPage = Constants.LIST_FIRST_PAGE;
     protected final int PAGE_SIZE = Constants.LIST_PAGE_SIZE;
+    public static final int REQUEST_SAVE_NOTE = 77;
 
 
     protected RealmConfiguration mRealmConfig;
@@ -76,4 +84,44 @@ public abstract class BaseListFragment<T> extends BaseFragment implements LoadMo
         showList();
     }
 
+
+    public void saveToNote(NowItem nowItem) {
+        if (CommonUtils.isAppInstalled(App.getInstance(), Constants.MyTableNote.PACKAGE_NAME)) {
+            new AlertDialog.Builder(getActivity())
+                    .setMessage(getString(R.string.dialog_save_to_note, nowItem.title))
+                    .setPositiveButton(R.string.yes, (dialog, which) -> saveNowToNote(nowItem))
+                    .setNegativeButton(R.string.no, null)
+                    .create()
+                    .show();
+        }
+    }
+
+    private void saveNowToNote(NowItem nowItem) {
+        String content = "";
+        if (TextUtils.isEmpty(nowItem.subTitle)) {
+            content = content + nowItem.title;
+        } else {
+            content = content + nowItem.subTitle;
+        }
+        content = content + " \n " + getString(R.string.pin_urls, nowItem.imageUrl, nowItem.url);
+        Intent intent = new Intent(Constants.MyTableNote.ACTION_NAME);
+        intent.putExtra(Constants.MyTableNote.TITLE, nowItem.title);
+        intent.putExtra(Constants.MyTableNote.CONTENT, content);
+        intent.putExtra(Constants.MyTableNote.FROM, "Now " + nowItem.from);
+        intent.putExtra(Constants.MyTableNote.TYPE, Constants.MyTableNote.TYPE_NOW);
+        startActivityForResult(intent, REQUEST_SAVE_NOTE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SAVE_NOTE && resultCode == Activity.RESULT_OK) {
+            if (data != null
+                    && data.getIntExtra(Constants.MyTableNote.RESULT_TYPE, 0)
+                    == Constants.MyTableNote.RESULT_TYPE_SUCCESS) {
+                App.showToast(R.string.pin_success);
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

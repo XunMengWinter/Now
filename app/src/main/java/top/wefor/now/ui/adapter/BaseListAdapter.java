@@ -11,6 +11,8 @@ import java.util.List;
 import top.wefor.now.R;
 
 /**
+ * last edited by ice on 2017/10/7.
+ * <p>
  * Created by florentchampigny on 24/04/15.
  */
 public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -19,6 +21,9 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<RecyclerVi
 
     protected Context context;
     private Integer bigViewResId, smallViewResId;
+
+    protected OnItemLongClickListener<T> mOnItemLongClickListener;
+    protected OnItemClickListener<T> mOnItemClickListener;
 
     protected static final int TYPE_HEADER = 0;
     protected static final int TYPE_CELL = 1;
@@ -96,7 +101,37 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<RecyclerVi
                 break;
             case TYPE_CELL:
                 bindCellViewHolder(holder, position);
+                if (mOnItemLongClickListener != null) {
+                    holder.itemView.setOnLongClickListener(v -> {
+                        mOnItemLongClickListener.onItemLongClick(mList.get(position));
+                        return true;
+                    });
+                }
+
+                if (mOnItemClickListener != null) {
+                    holder.itemView.setOnClickListener(v -> {
+                        mOnItemClickListener.onItemClick(mList.get(position));
+                    });
+                }
                 break;
         }
     }
+
+
+    public interface OnItemClickListener<T> {
+        void onItemClick(T model);
+    }
+
+    public interface OnItemLongClickListener<T> {
+        void onItemLongClick(T model);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener<T> onItemLongClickListener) {
+        mOnItemLongClickListener = onItemLongClickListener;
+    }
+
 }

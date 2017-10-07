@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 
@@ -19,16 +20,14 @@ import java.util.Date;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import top.wefor.now.Constants;
+import top.wefor.now.R;
 import top.wefor.now.data.database.MomentDbHelper;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.Moment;
+import top.wefor.now.ui.activity.WebActivity;
 import top.wefor.now.ui.adapter.MomentAdapter;
 import top.wefor.now.utils.PrefUtil;
 
@@ -72,6 +71,20 @@ public class MomentListFragment extends BaseListFragment<Moment> {
         mRecyclerView.setAdapter(mAdapter);
 
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
+
+        mAdapter.setOnItemClickListener(news -> {
+            String summary = getString(R.string.share_summary_moment);
+            String imageUrl = null;
+            if (news.imgUrls != null) {
+                JSONArray jsonArray = JSON.parseArray(news.imgUrls);
+                if (jsonArray.size() > 0)
+                    imageUrl = jsonArray.getString(0);
+            } else if (news.content != null)
+                summary = news.content;
+            WebActivity.startThis(getActivity(), news.url, news.title, imageUrl, summary);
+        });
+
+        mAdapter.setOnItemLongClickListener(model -> saveToNote(model.toNow()));
 
         if (mList.size() < 1) {
             getData();
@@ -125,9 +138,9 @@ public class MomentListFragment extends BaseListFragment<Moment> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(this::showList)
                 .subscribe(document -> {
-                        MomentDbHelper zcoolDbHelper = new MomentDbHelper(mList, mRealm);
-                        zcoolDbHelper.saveToDatabase();
-                        showList();
+                    MomentDbHelper zcoolDbHelper = new MomentDbHelper(mList, mRealm);
+                    zcoolDbHelper.saveToDatabase();
+                    showList();
                 });
     }
 

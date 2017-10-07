@@ -1,5 +1,6 @@
 package top.wefor.now.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,18 +21,16 @@ import java.util.Date;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
+import top.wefor.now.R;
 import top.wefor.now.data.database.NGDbHelper;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.NG;
+import top.wefor.now.ui.activity.WebActivity;
 import top.wefor.now.ui.adapter.NGAdapter;
 import top.wefor.now.utils.PrefUtil;
 
@@ -71,6 +70,17 @@ public class NGListFragment extends BaseListFragment<NG> {
         mRecyclerView.setAdapter(mAdapter);
 
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
+
+        mAdapter.setOnItemClickListener(news -> {
+            Intent intent = new Intent(getActivity(), WebActivity.class);
+            intent.putExtra(WebActivity.EXTRA_TITLE, news.title);
+            intent.putExtra(WebActivity.EXTRA_URL, Urls.NG_BASE_URL + news.url);
+            intent.putExtra(WebActivity.EXTRA_PIC_URL, news.imgUrl);
+            intent.putExtra(WebActivity.EXTRA_SUMMARY, getString(R.string.share_summary_ng));
+            startActivity(intent);
+        });
+
+        mAdapter.setOnItemLongClickListener(model -> saveToNote(model.toNow()));
 
         if (mList.size() < 1) {
             getData();

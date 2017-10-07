@@ -136,5 +136,11 @@
     <string name="save_image">Save image</string>
     <string name="save_image_failed_permission">Image not saved, please allow NowView \"Write and Read\" in \"Settings-Apps-NowView-Permissions\" .</string>
     <string name="save_image_success">Image has saved to \"%s\" folder</string>
-    <string name="save_image_failed">图片未保存</string>
+    <string name="save_image_failed">Image not saved</string>
+
+    <string name="dialog_save_to_note">Are you want to pin this item (%s) to "My Table"?</string>
+    <string name="pin_success">Pin success in "My Table"</string>
+    <string name="pin_urls">Image Url: \n %1$s \nItem Url: \n %2$s </string>
+    <string name="yes">Yes</string>
+    <string name="no">No, thanks</string>
 </resources>

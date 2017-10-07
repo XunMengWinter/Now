@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Date;
 
+import top.wefor.now.data.http.Urls;
+
 /**
  * Created by ice on 15/10/27.
  */
@@ -18,9 +20,9 @@ public class NG implements Serializable {
     @SerializedName("content")
     public String content;
 
-    public NowItem ToNow() {
+    public NowItem toNow() {
         NowItem nowItem = new NowItem();
-        nowItem.url = this.url;
+        nowItem.url = Urls.NG_BASE_URL + this.url;
         nowItem.collectedDate = new Date().getTime();
         nowItem.imageUrl = this.imgUrl;
         nowItem.title = this.title;

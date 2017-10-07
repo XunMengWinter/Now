@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -17,10 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import top.wefor.now.R;
-import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.entity.Zhihu;
 import top.wefor.now.ui.activity.BigImageActivity;
-import top.wefor.now.ui.activity.WebActivity;
 
 /**
  * Created by ice on 15/10/26.
@@ -82,19 +79,6 @@ public class ZhihuAdapter extends BaseListAdapter<Zhihu> {
             super(v);
             if (viewType == TYPE_CELL)
                 ButterKnife.bind(this, v);
-        }
-
-        @OnClick(R.id.ll_card_parent)
-        void onClick(View v) {
-            // TODO do what you want :) you can use WebActivity to load detail content
-            Zhihu news = mList.get(getLayoutPosition());
-            String news_url = NowApi.getNewsContent(news.id);
-            String imageUrl = null;
-            if (news.images != null && news.images.size() > 0)
-                imageUrl = news.images.get(0);
-
-            WebActivity.startThis(context, news_url, news.title, imageUrl,
-                    context.getString(R.string.share_summary_zhihu));
         }
 
         @OnClick(R.id.simpleDraweeView)

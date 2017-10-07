@@ -22,7 +22,7 @@ public class Zcool implements Serializable {
     @SerializedName("likeCount")
     public String likeCount;
 
-    public NowItem ToNow() {
+    public NowItem toNow() {
         NowItem nowItem = new NowItem();
         nowItem.url = this.url;
         nowItem.collectedDate = new Date().getTime();

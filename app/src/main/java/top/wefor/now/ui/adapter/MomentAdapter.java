@@ -25,7 +25,6 @@ import top.wefor.now.App;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Moment;
 import top.wefor.now.ui.activity.BigImagePagerActivity;
-import top.wefor.now.ui.activity.WebActivity;
 import top.wefor.now.utils.NowAppUtil;
 
 /**
@@ -101,7 +100,7 @@ public class MomentAdapter extends BaseListAdapter<Moment> {
 
     }
 
-    public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class CardViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView[] mImageViews;
 
         @BindView(R.id.image_title_textView) TextView mImageTitleTextView;
@@ -136,30 +135,13 @@ public class MomentAdapter extends BaseListAdapter<Moment> {
                 mSimpleDraweeView3.getHierarchy().setRoundingParams(roundingParams);
             }
 
-            v.setOnClickListener(this);
         }
 
         public CardViewHolder(View v, int viewType) {
             super(v);
             if (viewType == TYPE_CELL) {
                 ButterKnife.bind(this, v);
-                v.setOnClickListener(this);
             }
-        }
-
-        @Override
-        public void onClick(View v) {
-            // TODO do what you want :) you can use WebActivity to load detail content
-            Moment news = mList.get(getLayoutPosition());
-            String summary = context.getString(R.string.share_summary_moment);
-            String imageUrl = null;
-            if (news.imgUrls != null) {
-                JSONArray jsonArray = JSON.parseArray(news.imgUrls);
-                if (jsonArray.size() > 0)
-                    imageUrl = jsonArray.getString(0);
-            } else if (news.content != null)
-                summary = news.content;
-            WebActivity.startThis(context, news.url, news.title, imageUrl, summary);
         }
     }
 
