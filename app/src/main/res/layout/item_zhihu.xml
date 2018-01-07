@@ -29,7 +29,8 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/simpleDraweeView"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_height="100dp"
                 />
 

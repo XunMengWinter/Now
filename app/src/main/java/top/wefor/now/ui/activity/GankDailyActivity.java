@@ -1,6 +1,5 @@
 package top.wefor.now.ui.activity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -8,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class GankDailyActivity extends BaseToolbarActivity {
                     @Override
                     protected void onSucceed(GankDailyResult result) {
                         if (result.error || result.results == null || result.results.妹纸List == null) {
-                            if (mRequestTimes>=10){
+                            if (mRequestTimes >= 10) {
                                 return;
                             }
                             mDate = DateUtil.getLastdayDate(mDate);
@@ -105,7 +105,9 @@ public class GankDailyActivity extends BaseToolbarActivity {
                         addGankList(result.results.妹纸List);
 
                         if (result.results.妹纸List != null && result.results.妹纸List.size() > 0) {
-                            mBannerSdv.setImageURI(Uri.parse(result.results.妹纸List.get(0).url));
+                            Glide.with(GankDailyActivity.this)
+                                    .load(result.results.妹纸List.get(0).url)
+                                    .into(mBannerSdv);
 //                            RxView.clicks(mBannerSdv).subscribe(aVoid -> go(null));
                         }
 

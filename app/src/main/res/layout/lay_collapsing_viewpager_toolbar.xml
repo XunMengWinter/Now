@@ -5,13 +5,13 @@
  使用方法，将该视图置于CoordinatorLayout中的第一个位置(include),
  确保其所在Activity主题是@style/AppTheme.NoActionBar-->
 <android.support.design.widget.AppBarLayout
-    android:id="@+id/app_bar_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/app_bar_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/AppTheme.AppBarOverlay"
     android:fitsSystemWindows="true"
+    android:theme="@style/AppTheme.AppBarOverlay"
     >
 
     <android.support.design.widget.CollapsingToolbarLayout
@@ -19,20 +19,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        app:contentScrim="@color/purple_normal"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:layout_scrollFlags="scroll|enterAlways"
         >
+        <!--app:contentScrim="@color/purple_normal"-->
 
         <!--ImageView可替换成任意视图控件-->
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/banner_sdv"
             android:layout_width="match_parent"
-            app:viewAspectRatio="1.5"
-            android:fitsSystemWindows="true"
             android:layout_height="wrap_content"
-            app:actualImageScaleType="centerCrop"/>
+            android:adjustViewBounds="true"
+            android:fitsSystemWindows="true"
+            app:actualImageScaleType="fitCenter"
+            />
 
         <android.support.v7.widget.Toolbar
+            android:fitsSystemWindows="true"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -46,8 +48,9 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/gank_tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:background="@color/green_nomal"
+        app:tabMode="scrollable"
         />
 
 </android.support.design.widget.AppBarLayout>

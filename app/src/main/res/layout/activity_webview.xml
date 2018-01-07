@@ -90,8 +90,8 @@
             android:layout_height="@dimen/d6"
             android:layout_gravity="center"
             android:visibility="visible"
-            app:indicator="BallTrianglePath"
-            app:indicator_color="@color/green"
+            app:indicatorName="BallTrianglePath"
+            app:indicatorColor="@color/green"
             />
 
     </FrameLayout>
