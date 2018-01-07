@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        app:layout_scrollFlags="scroll|enterAlways"
+        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
         >
         <!--app:contentScrim="@color/purple_normal"-->
 
@@ -34,7 +34,6 @@
             />
 
         <android.support.v7.widget.Toolbar
-            android:fitsSystemWindows="true"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
