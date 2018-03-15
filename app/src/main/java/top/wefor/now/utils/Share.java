@@ -4,16 +4,17 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.widget.Toast;
 
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import top.wefor.now.Constants;
 
 /**
- * Created by ice on 15/10/30.
+ * Created on 15/10/30.
+ * @author ice
  */
 public class Share {
 
@@ -58,8 +59,7 @@ public class Share {
             return;
         }
         WXWebpageObject webpage = new WXWebpageObject();
-        if (webpage != null)
-            webpage.webpageUrl = url;
+        webpage.webpageUrl = url;
 
         WXMediaMessage msg = new WXMediaMessage(webpage);
         if (title != null)

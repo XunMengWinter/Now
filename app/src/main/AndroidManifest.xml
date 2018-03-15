@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="top.wefor.now"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="top.wefor.now">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
 
     <application
         android:name=".App"
@@ -40,7 +40,12 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/style_no_show_activity"/>
-//         android:theme="@android:style/Theme.Translucent.NoTitleBar"
+
+        <activity
+            android:name=".ui.activity.WXEntryActivity"
+            android:exported="true"
+            android:theme="@style/style_no_show_activity"/>
+        // android:theme="@android:style/Theme.Translucent.NoTitleBar"
 
 
         <activity
@@ -69,16 +74,16 @@
         <activity
             android:name=".ui.activity.BigImageActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppBigImageThem"
             android:label="@string/title_activity_big_image"
+            android:theme="@style/AppBigImageThem"
             >
         </activity>
 
         <activity
             android:name=".ui.activity.BigImagePagerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppBigImageThem"
             android:label="@string/title_activity_big_image"
+            android:theme="@style/AppBigImageThem"
             >
         </activity>
 
