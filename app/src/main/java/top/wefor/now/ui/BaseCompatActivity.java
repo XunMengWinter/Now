@@ -4,7 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 
 
 /**
- * Created by ice on 15/10/25.
+ * Created on 15/10/25.
+ * @author ice
  */
 public abstract class BaseCompatActivity extends AppCompatActivity {
 

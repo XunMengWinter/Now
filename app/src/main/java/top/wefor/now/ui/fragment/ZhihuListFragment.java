@@ -24,7 +24,6 @@ import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.ZhihuDailyResult;
 import top.wefor.now.data.model.entity.Zhihu;
 import top.wefor.now.ui.activity.WebActivity;
-import top.wefor.now.ui.adapter.BaseListAdapter;
 import top.wefor.now.ui.adapter.ZhihuAdapter;
 import top.wefor.now.utils.PrefUtil;
 
@@ -36,14 +35,11 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
 
     public static ZhihuListFragment newInstance() {
         ZhihuListFragment fragment = new ZhihuListFragment();
-        // TODO you can use bundle to transfer data
-
-        int i = 0;
         Calendar dateToGetUrl = Calendar.getInstance();
-        dateToGetUrl.add(Calendar.DAY_OF_YEAR, 1 - i);
+        dateToGetUrl.add(Calendar.DAY_OF_YEAR, 1);
         String date = Constants.simpleDateFormat.format(dateToGetUrl.getTime());
         Bundle bundle = new Bundle();
-        bundle.putBoolean("first_page?", i == 0);
+        bundle.putBoolean("first_page?", true);
         bundle.putBoolean("single?", false);
         bundle.putString("date", date);
         fragment.setArguments(bundle);
@@ -55,12 +51,13 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
+        assert bundle != null;
         date = bundle.getString("date");
         setRetainInstance(true);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@android.support.annotation.NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // use this setting to improve performance if you know that changes
@@ -116,9 +113,7 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
                         if (result.stories != null) {
                             PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_ZHIHU, new Date().getTime());
                             mList.clear();
-                            for (Zhihu item : result.stories) {
-                                mList.add(item);
-                            }
+                            mList.addAll(result.stories);
                             ZhihuDbHelper zcoolDbHelper = new ZhihuDbHelper(mList, mRealm);
                             zcoolDbHelper.saveToDatabase();
                         }

@@ -2,6 +2,7 @@ package top.wefor.now.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +36,8 @@ import top.wefor.now.ui.adapter.NGAdapter;
 import top.wefor.now.utils.PrefUtil;
 
 /**
- * Created by ice on 15/10/28.
+ * Created on 15/10/28.
+ * @author ice
  */
 public class NGListFragment extends BaseListFragment<NG> {
     private static final int SIZE = 10;
@@ -54,7 +56,7 @@ public class NGListFragment extends BaseListFragment<NG> {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // use this setting to improve performance if you know that changes

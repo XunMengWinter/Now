@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -15,6 +16,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -25,7 +27,6 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +53,7 @@ public class BigImagePagerActivity extends BaseCompatActivity {
 
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
-    private Map<Integer, PhotoView> mPhotoViewMap;
+    private SparseArray<PhotoView> mPhotoViewMap;
 
     public static void startThis(final AppCompatActivity activity, List<View> imageViews, List<String> imageUrls, int enterIndex) {
         Intent intent = new Intent(activity, BigImagePagerActivity.class);
@@ -121,7 +122,7 @@ public class BigImagePagerActivity extends BaseCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mViewPager.setOffscreenPageLimit(4);
 
-        mPhotoViewMap = new HashMap<>();
+        mPhotoViewMap = new SparseArray<>();
         mPagerAdapter = new PagerAdapter() {
             @Override
             public int getCount() {
@@ -129,19 +130,20 @@ public class BigImagePagerActivity extends BaseCompatActivity {
             }
 
             @Override
-            public boolean isViewFromObject(View view, Object object) {
+            public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
                 return view == object;
             }
 
+            @NonNull
             @Override
-            public Object instantiateItem(ViewGroup container, int position) {
+            public Object instantiateItem(@NonNull ViewGroup container, int position) {
                 PhotoView photoView = new PhotoView(container.getContext());
 //                imageView.setLayoutParams(new ViewGroup.LayoutParams(
 //                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 String imageUrl = mImageUrls.get(position);
                 Glide.with(BigImagePagerActivity.this).load(imageUrl).into(photoView);
 
-                if (mPhotoViewMap.containsKey(position)) {
+                if (mPhotoViewMap.get(position) != null) {
                     mPhotoViewMap.remove(position);
                 }
                 mPhotoViewMap.put(position, photoView);
@@ -184,8 +186,8 @@ public class BigImagePagerActivity extends BaseCompatActivity {
             }
 
             @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-                if (mPhotoViewMap.containsKey(position)) {
+            public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+                if (mPhotoViewMap.get(position) != null) {
                     mPhotoViewMap.remove(position);
                 }
                 container.removeView((View) object);

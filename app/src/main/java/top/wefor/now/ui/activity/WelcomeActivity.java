@@ -2,7 +2,6 @@ package top.wefor.now.ui.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +20,7 @@ import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import top.wefor.now.App;
+import top.wefor.now.BuildConfig;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
@@ -32,7 +32,8 @@ import top.wefor.now.ui.BaseCompatActivity;
 import top.wefor.now.utils.NowAppUtil;
 
 /**
- * Created by ice on 15/11/22.
+ * Created on 15/11/22.
+ * @author ice
  */
 public class WelcomeActivity extends BaseCompatActivity {
 
@@ -60,13 +61,8 @@ public class WelcomeActivity extends BaseCompatActivity {
             hierarchy.setPlaceholderImage(R.mipmap.img_first_welcome);
         }
 
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
-            String version = String.format(getResources().getString(R.string.app_version), packageInfo.versionName);
-            mTextView.setText(pass(version));
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        String version = String.format(getResources().getString(R.string.app_version), BuildConfig.VERSION_NAME);
+        mTextView.setText(pass(version));
 
         int type = mPreferencesHelper.getHeadImageType();
         switch (type) {

@@ -17,6 +17,7 @@
 package top.wefor.now.ui;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.view.View;
 
 import top.wefor.now.ui.widget.swipeback.SwipeBackActivityBase;
@@ -53,7 +54,7 @@ public abstract class BaseSwipeBackCompatActivity extends BaseCompatActivity imp
     }
 
     @Override
-    public View findViewById(int id) {
+    public View findViewById(@IdRes int id) {
         View v = super.findViewById(id);
         if (v == null && mHelper != null)
             return mHelper.findViewById(id);

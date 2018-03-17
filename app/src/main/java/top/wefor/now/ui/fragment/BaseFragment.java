@@ -3,7 +3,8 @@ package top.wefor.now.ui.fragment;
 import android.support.v4.app.Fragment;
 
 /**
- * Created by ice on 16/4/14 23:48.
+ * Created on 16/4/14 23:48.
+ * @author ice
  */
 public class BaseFragment extends Fragment {
 

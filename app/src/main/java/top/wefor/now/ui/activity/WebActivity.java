@@ -205,19 +205,19 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mWebView != null) mWebView.destroy();
+        mWebView.destroy();
     }
 
     @Override
     protected void onPause() {
-        if (mWebView != null) mWebView.onPause();
+        mWebView.onPause();
         super.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mWebView != null) mWebView.onResume();
+        mWebView.onResume();
     }
 
     private class ChromeClient extends WebChromeClient {

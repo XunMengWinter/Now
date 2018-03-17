@@ -78,7 +78,7 @@ public class MainActivity extends BaseCompatActivity {
     private JSONArray mImgList;
     public ArrayList<MyTabItem> mMyTabItems;
     //用于 finish 当前 Activity 的 Runnable.
-    private Runnable mFinishRunnable = this::finish;
+    private Runnable mFinishRunnable = this::finishAffinity;
     private boolean isFinishNow = false;
 
     @Override
@@ -112,7 +112,7 @@ public class MainActivity extends BaseCompatActivity {
         }
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, 0, 0);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         checkIsFirst();
 
@@ -235,10 +235,10 @@ public class MainActivity extends BaseCompatActivity {
             return;
         }
         if (isFinishNow) {
-            finish();
+            mFinishRunnable.run();
             return;
         }
-        mMaterialViewPager.postDelayed(mFinishRunnable, Constants.VALUE_FINISH_DELAYED_TIME);
+        getWindow().getDecorView().postDelayed(mFinishRunnable, Constants.VALUE_FINISH_DELAYED_TIME);
         moveTaskToBack(true);
     }
 
@@ -248,7 +248,7 @@ public class MainActivity extends BaseCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mMaterialViewPager.removeCallbacks(mFinishRunnable);
+        getWindow().getDecorView().removeCallbacks(mFinishRunnable);
     }
 
     private void initDrawer() {

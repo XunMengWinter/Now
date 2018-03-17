@@ -22,7 +22,8 @@ import top.wefor.now.ui.widget.LoadMoreRecyclerView;
 import top.wefor.now.utils.CommonUtils;
 
 /**
- * Created by ice on 15/10/28.
+ * Created on 15/10/28.
+ * @author ice
  */
 public abstract class BaseListFragment<T> extends BaseFragment implements LoadMoreRecyclerView.OnLoadMoreListener {
     protected LoadMoreRecyclerView mRecyclerView;

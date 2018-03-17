@@ -2,6 +2,7 @@ package top.wefor.now.ui.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
@@ -32,7 +33,8 @@ import top.wefor.now.ui.adapter.ZcoolAdapter;
 import top.wefor.now.utils.PrefUtil;
 
 /**
- * Created by ice on 15/10/28.
+ * Created on 15/10/28.
+ * @author ice
  */
 public class ZcoolListFragment extends BaseListFragment<Zcool> {
 
@@ -50,7 +52,7 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // use this setting to improve performance if you know that changes
