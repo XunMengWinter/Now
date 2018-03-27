@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import io.realm.RealmObject;
+import io.realm.RealmModel;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 import top.wefor.now.data.model.entity.NG;
@@ -12,7 +12,7 @@ import top.wefor.now.data.model.entity.NG;
 /**
  * Created by ice on 16/4/13 15:49.
  */
-public class RealmNG extends RealmObject implements Serializable {
+public class RealmNG extends AbsNowRealmObject<NG> implements Serializable, RealmModel {
     @PrimaryKey
     @Required
     public String pk;
@@ -25,7 +25,7 @@ public class RealmNG extends RealmObject implements Serializable {
     @SerializedName("content")
     public String content;
 
-
+    @Override
     public NG toEntity() {
         NG ng = new NG();
         ng.url = url;
@@ -35,6 +35,7 @@ public class RealmNG extends RealmObject implements Serializable {
         return ng;
     }
 
+    @Override
     public void setFromEntity(NG ng) {
         url = ng.url;
         imgUrl = ng.imgUrl;

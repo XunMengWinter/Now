@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import io.realm.RealmObject;
+import io.realm.RealmModel;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 import top.wefor.now.data.model.entity.Moment;
@@ -12,7 +12,7 @@ import top.wefor.now.data.model.entity.Moment;
 /**
  * Created by ice on 16/4/13 10:56.
  */
-public class RealmMoment extends RealmObject implements Serializable {
+public class RealmMoment extends AbsNowRealmObject<Moment> implements Serializable, RealmModel {
     @PrimaryKey
     @Required
     public String pk;
@@ -25,6 +25,7 @@ public class RealmMoment extends RealmObject implements Serializable {
     @SerializedName("content")
     public String content;
 
+    @Override
     public Moment toEntity() {
         Moment moment = new Moment();
         moment.url = url;
@@ -34,6 +35,7 @@ public class RealmMoment extends RealmObject implements Serializable {
         return moment;
     }
 
+    @Override
     public void setFromEntity(Moment moment) {
         url = moment.url;
         title = moment.title;

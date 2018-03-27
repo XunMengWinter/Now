@@ -42,6 +42,7 @@ public class MomentAdapter extends BaseListAdapter<Moment> {
 
     public MomentAdapter(Context context, List<Moment> contents) {
         super(context, contents);
+        setImageWidthAndHeight();
         setBigViewResId(R.layout.item_empty_head);
         setSmallViewResId(R.layout.item_moment);
     }

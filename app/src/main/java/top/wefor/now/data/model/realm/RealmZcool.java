@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import io.realm.RealmObject;
+import io.realm.RealmModel;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 import top.wefor.now.data.model.entity.Zcool;
@@ -12,7 +12,7 @@ import top.wefor.now.data.model.entity.Zcool;
 /**
  * Created by ice on 16/4/13 10:56.
  */
-public class RealmZcool extends RealmObject implements Serializable {
+public class RealmZcool extends AbsNowRealmObject<Zcool> implements Serializable, RealmModel {
 
     @PrimaryKey
     @Required
@@ -37,6 +37,7 @@ public class RealmZcool extends RealmObject implements Serializable {
     @SerializedName("likeCount")
     public String likeCount;
 
+    @Override
     public Zcool toEntity() {
         Zcool zcool = new Zcool();
         zcool.url = url;
@@ -48,6 +49,7 @@ public class RealmZcool extends RealmObject implements Serializable {
         return zcool;
     }
 
+    @Override
     public void setFromEntity(Zcool zcool) {
         url = zcool.url;
         imgUrl = zcool.imgUrl;

@@ -1,14 +1,12 @@
 package top.wefor.now.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -18,16 +16,17 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
-import top.wefor.now.data.database.ZhihuDbHelper;
 import top.wefor.now.data.http.BaseObserver;
 import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.ZhihuDailyResult;
 import top.wefor.now.data.model.entity.Zhihu;
+import top.wefor.now.data.model.realm.RealmZhihu;
 import top.wefor.now.ui.activity.WebActivity;
+import top.wefor.now.ui.adapter.BaseListAdapter;
 import top.wefor.now.ui.adapter.ZhihuAdapter;
 import top.wefor.now.utils.PrefUtil;
 
-public class ZhihuListFragment extends BaseListFragment<Zhihu> {
+public class ZhihuListFragment extends BaseListFragment<Zhihu, RealmZhihu> {
 
     private NowApi mNowApi = new NowApi();
     private ZhihuAdapter mAdapter;
@@ -57,17 +56,9 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
     }
 
     @Override
-    public void onViewCreated(@android.support.annotation.NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void initRecyclerView() {
+        super.initRecyclerView();
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        // set LayoutManager for your RecyclerView
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
-
-        mAdapter = new ZhihuAdapter(getActivity(), mList);
         mRecyclerView.setItemAnimator(new FadeInAnimator());
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
@@ -114,8 +105,7 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
                             PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_ZHIHU, new Date().getTime());
                             mList.clear();
                             mList.addAll(result.stories);
-                            ZhihuDbHelper zcoolDbHelper = new ZhihuDbHelper(mList, mRealm);
-                            zcoolDbHelper.saveToDatabase();
+                            saveData();
                         }
                         showList();
                     }
@@ -128,25 +118,15 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu> {
                 });
     }
 
+    @android.support.annotation.NonNull
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
-//            @Override
-//            public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-//                //
-//            }
-//        };
+    public Class<RealmZhihu> getNowRealmClass() {
+        return RealmZhihu.class;
     }
 
-
     @Override
-    public void showList() {
-        //如果页数*分页数目大于列表长度，那么只能是列表正在加载或数据库数据见底，两种情况都不需要继续加载。
-        if ((mPage - 1) * Constants.LIST_PAGE_SIZE > mList.size()) return;
-        ZhihuDbHelper zcoolDbHelper = new ZhihuDbHelper(mList, mRealm);
-        zcoolDbHelper.getFromDatabase(PAGE_SIZE, mPage++);
-        mAdapter.notifyDataSetChanged();
+    public BaseListAdapter<Zhihu> getNowAdapter(List<Zhihu> list) {
+        return new ZhihuAdapter(getActivity(), list);
     }
 
 }

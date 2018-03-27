@@ -3,43 +3,59 @@ package top.wefor.now.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.disposables.Disposable;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
+import top.wefor.now.data.database.RealmDbHelper;
 import top.wefor.now.data.model.entity.NowItem;
+import top.wefor.now.data.model.realm.AbsNowRealmObject;
+import top.wefor.now.ui.adapter.BaseListAdapter;
 import top.wefor.now.ui.widget.LoadMoreRecyclerView;
 import top.wefor.now.utils.CommonUtils;
 
 /**
  * Created on 15/10/28.
+ *
  * @author ice
+ * @GitHub https://github.com/XunMengWinter
  */
-public abstract class BaseListFragment<T> extends BaseFragment implements LoadMoreRecyclerView.OnLoadMoreListener {
+public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extends BaseFragment implements LoadMoreRecyclerView.OnLoadMoreListener {
     protected LoadMoreRecyclerView mRecyclerView;
+    protected BaseListAdapter<M> mAdapter;
     protected int mPage = Constants.LIST_FIRST_PAGE;
     protected final int PAGE_SIZE = Constants.LIST_PAGE_SIZE;
     public static final int REQUEST_SAVE_NOTE = 77;
 
+    protected List<M> mList = new ArrayList<>();
+    protected Disposable mDisposable;
 
-    protected RealmConfiguration mRealmConfig;
     protected Realm mRealm;
-    protected List<T> mList = new ArrayList<>();
-
+    protected RealmDbHelper<M, T> mRealmDbHelper;
 
     public abstract void getData();
 
-    public abstract void showList();
+    public abstract @NonNull
+    Class<T> getNowRealmClass();
+
+    public abstract BaseListAdapter<M> getNowAdapter(List<M> list);
 
     protected int getLayoutId() {
         return R.layout.fragment_recyclerview;
@@ -48,22 +64,11 @@ public abstract class BaseListFragment<T> extends BaseFragment implements LoadMo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mRealmConfig = new RealmConfiguration.Builder(App.getInstance().getApplicationContext()).build();
-
-        mRealmConfig = new RealmConfiguration.Builder().build();
-
-        mRealm = Realm.getInstance(mRealmConfig);
-        // try catch 是个坑，一定要少用！！！一不小心把以前的数据全删了！
-//        try {
-//        } catch (RealmMigrationNeededException e) {
-//            Realm.deleteRealm(mRealmConfig);
-//            mRealm = Realm.getInstance(mRealmConfig);
-//        }
-
+        initRealm();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
         mRecyclerView = (LoadMoreRecyclerView) view.findViewById(R.id.recyclerView);
         mRecyclerView.mOnLoadMoreListener = this;
@@ -71,10 +76,45 @@ public abstract class BaseListFragment<T> extends BaseFragment implements LoadMo
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initRecyclerView();
+    }
+
+
+    protected void initRealm() {
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        mRealm = Realm.getInstance(realmConfiguration);
+        mRealmDbHelper = new RealmDbHelper<>(mList, mRealm, getNowRealmClass());
+    }
+
+    protected void initRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter = getNowAdapter(mList);
+        mRecyclerView.setAdapter(mAdapter);
+        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unSubscribe();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (mRealm != null)
             mRealm.close();
+    }
+
+    protected void unSubscribe() {
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
     }
 
     @Override
@@ -85,6 +125,14 @@ public abstract class BaseListFragment<T> extends BaseFragment implements LoadMo
         showList();
     }
 
+    protected void showList() {
+        mRealmDbHelper.getFromDatabase(PAGE_SIZE, mPage++);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    protected void saveData() {
+        mRealmDbHelper.saveToDatabase();
+    }
 
     public void saveToNote(NowItem nowItem) {
         if (CommonUtils.isAppInstalled(App.getInstance(), Constants.MyTableNote.PACKAGE_NAME)) {

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
-import android.view.View;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 
@@ -16,6 +15,7 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,20 +25,20 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
-import top.wefor.now.data.database.ZcoolDbHelper;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.Zcool;
+import top.wefor.now.data.model.realm.RealmZcool;
 import top.wefor.now.ui.activity.WebActivity;
+import top.wefor.now.ui.adapter.BaseListAdapter;
 import top.wefor.now.ui.adapter.ZcoolAdapter;
 import top.wefor.now.utils.PrefUtil;
 
 /**
  * Created on 15/10/28.
+ *
  * @author ice
  */
-public class ZcoolListFragment extends BaseListFragment<Zcool> {
-
-    private ZcoolAdapter mAdapter;
+public class ZcoolListFragment extends BaseListFragment<Zcool, RealmZcool> {
 
     public static ZcoolListFragment newInstance() {
         return new ZcoolListFragment();
@@ -52,35 +52,25 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void initRecyclerView() {
+//        super.initRecyclerView();
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-
-        mAdapter = new ZcoolAdapter(getActivity(), mList);
-
-        // set LayoutManager for your RecyclerView
+        mAdapter = getNowAdapter(mList);
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-            mAdapter.setImageWidthAndHeight(2);
+            ((ZcoolAdapter) mAdapter).setImageWidthAndHeight(2);
         } else {
             mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-            mAdapter.setImageWidthAndHeight(3);
+            ((ZcoolAdapter) mAdapter).setImageWidthAndHeight(3);
         }
 
-        mRecyclerView.setHasFixedSize(true);
         int dp8 = getResources().getDimensionPixelSize(R.dimen.d3);
         mRecyclerView.setPadding(dp8, 0, dp8, 0);
 
         mRecyclerView.setItemAnimator(new FadeInAnimator());
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
-
-//        scaleAdapter.setFirstOnly(false);
-//        scaleAdapter.setInterpolator(new OvershootInterpolator());
         mRecyclerView.setAdapter(scaleAdapter);
-
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         mAdapter.setOnItemClickListener(model -> {
@@ -137,17 +127,20 @@ public class ZcoolListFragment extends BaseListFragment<Zcool> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(this::showList)
                 .subscribe(document -> {
-                    ZcoolDbHelper zcoolDbHelper = new ZcoolDbHelper(mList, mRealm);
-                    zcoolDbHelper.saveToDatabase();
+                    saveData();
                     showList();
                 });
     }
 
+    @NonNull
     @Override
-    public void showList() {
-        ZcoolDbHelper zcoolDbHelper = new ZcoolDbHelper(mList, mRealm);
-        zcoolDbHelper.getFromDatabase(PAGE_SIZE, mPage++);
-        mAdapter.notifyDataSetChanged();
+    public Class<RealmZcool> getNowRealmClass() {
+        return RealmZcool.class;
+    }
+
+    @Override
+    public BaseListAdapter<Zcool> getNowAdapter(List<Zcool> list) {
+        return new ZcoolAdapter(getActivity(), list);
     }
 
 }

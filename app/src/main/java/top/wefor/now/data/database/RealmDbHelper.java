@@ -1,35 +1,47 @@
 package top.wefor.now.data.database;
 
+import android.support.annotation.NonNull;
+
+import java.io.Serializable;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
-import top.wefor.now.data.model.entity.Zhihu;
-import top.wefor.now.data.model.realm.RealmZhihu;
+import top.wefor.now.data.model.realm.AbsNowRealmObject;
 
 /**
  * 用与Realm数据库的的
- * Created by ice on 16/4/13 16:12.
+ * Created on 2018/3/28.
+ *
+ * @author ice
+ * @GitHub https://github.com/XunMengWinter
  */
-public class ZhihuDbHelper {
+public class RealmDbHelper<M, T extends AbsNowRealmObject<M>> {
 
-    private List<Zhihu> mEntityList;
+    private List<M> mEntityList;
     private Realm mRealm;
 
-    public ZhihuDbHelper(List<Zhihu> entityList, Realm realm) {
+    private Class<T> mNowRealmClass;
+
+    public RealmDbHelper(@NonNull List<M> entityList, @NonNull Realm realm, @NonNull Class<T> nowRealmClass) {
         mEntityList = entityList;
         mRealm = realm;
+        mNowRealmClass = nowRealmClass;
     }
-
 
     public void saveToDatabase() {
         if (mEntityList.size() > 0)
             for (int i = mEntityList.size() - 1; i >= 0; i--) {
                 mRealm.beginTransaction();
-                RealmZhihu realmZhihu = new RealmZhihu();
-                realmZhihu.setFromEntity(mEntityList.get(i));
-                mRealm.copyToRealmOrUpdate(realmZhihu);
-                mRealm.commitTransaction();
+                try {
+                    T realmMoment = mNowRealmClass.newInstance();
+                    realmMoment.setFromEntity(mEntityList.get(i));
+                    mRealm.copyToRealmOrUpdate(realmMoment);
+                    mRealm.commitTransaction();
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
 
     }
@@ -37,7 +49,7 @@ public class ZhihuDbHelper {
     public void getFromDatabase() {
         mEntityList.clear();
 
-        RealmResults<RealmZhihu> zcoolRealmResults = mRealm.where(RealmZhihu.class).findAll();
+        RealmResults<T> zcoolRealmResults = mRealm.where(mNowRealmClass).findAll();
         for (int i = zcoolRealmResults.size() - 1; i >= 0; i--) {
             mEntityList.add(zcoolRealmResults.get(i).toEntity());
         }
@@ -49,7 +61,7 @@ public class ZhihuDbHelper {
      */
     public void getFromDatabase(int pageSize, int page) {
         if (page == 1) mEntityList.clear();
-        RealmResults<RealmZhihu> zcoolRealmResults = mRealm.where(RealmZhihu.class).findAll();
+        RealmResults<T> zcoolRealmResults = mRealm.where(mNowRealmClass).findAll();
         //反序取数据,即 startPos > endPos.
         int startPos = Math.max(zcoolRealmResults.size() - 1 - (page - 1) * pageSize, 0);
         int endPos = Math.max(startPos - pageSize, 0);

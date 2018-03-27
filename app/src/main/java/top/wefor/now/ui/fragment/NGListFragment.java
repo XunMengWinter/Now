@@ -4,13 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 
 import com.alibaba.fastjson.JSONArray;
-import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,6 +15,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
@@ -28,21 +25,21 @@ import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
-import top.wefor.now.data.database.NGDbHelper;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.NG;
+import top.wefor.now.data.model.realm.RealmNG;
 import top.wefor.now.ui.activity.WebActivity;
+import top.wefor.now.ui.adapter.BaseListAdapter;
 import top.wefor.now.ui.adapter.NGAdapter;
 import top.wefor.now.utils.PrefUtil;
 
 /**
  * Created on 15/10/28.
+ *
  * @author ice
  */
-public class NGListFragment extends BaseListFragment<NG> {
+public class NGListFragment extends BaseListFragment<NG, RealmNG> {
     private static final int SIZE = 10;
-
-    private NGAdapter mAdapter;
 
     public static NGListFragment newInstance() {
         return new NGListFragment();
@@ -56,23 +53,8 @@ public class NGListFragment extends BaseListFragment<NG> {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-
-        // set LayoutManager for your RecyclerView
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
-
-        mAdapter = new NGAdapter(getActivity(), mList);
-        mRecyclerView.setAdapter(mAdapter);
-
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
-
+    protected void initRecyclerView() {
+        super.initRecyclerView();
         mAdapter.setOnItemClickListener(news -> {
             Intent intent = new Intent(getActivity(), WebActivity.class);
             intent.putExtra(WebActivity.EXTRA_TITLE, news.title);
@@ -87,7 +69,6 @@ public class NGListFragment extends BaseListFragment<NG> {
         if (mList.size() < 1) {
             getData();
         }
-
     }
 
     @Override
@@ -142,17 +123,20 @@ public class NGListFragment extends BaseListFragment<NG> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(this::showList)
                 .subscribe(document -> {
-                    NGDbHelper zcoolDbHelper = new NGDbHelper(mList, mRealm);
-                    zcoolDbHelper.saveToDatabase();
+                    saveData();
                     showList();
                 });
     }
 
+    @NonNull
     @Override
-    public void showList() {
-        NGDbHelper momentDbHelper = new NGDbHelper(mList, mRealm);
-        momentDbHelper.getFromDatabase(PAGE_SIZE, mPage++);
-        mAdapter.notifyDataSetChanged();
+    public Class<RealmNG> getNowRealmClass() {
+        return RealmNG.class;
+    }
+
+    @Override
+    public BaseListAdapter<NG> getNowAdapter(List<NG> list) {
+        return new NGAdapter(getActivity(), list);
     }
 
 }
