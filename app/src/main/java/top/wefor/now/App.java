@@ -15,9 +15,6 @@ public class App extends Application {
     private static Toaster sToaster;
 
     public static App getInstance() {
-        if (sApp == null) {
-            sApp = new App();
-        }
         return sApp;
     }
 
