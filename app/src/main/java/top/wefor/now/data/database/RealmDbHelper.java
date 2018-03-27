@@ -2,7 +2,6 @@ package top.wefor.now.data.database;
 
 import android.support.annotation.NonNull;
 
-import java.io.Serializable;
 import java.util.List;
 
 import io.realm.Realm;
@@ -17,7 +16,7 @@ import top.wefor.now.data.model.realm.AbsNowRealmObject;
  * @author ice
  * @GitHub https://github.com/XunMengWinter
  */
-public class RealmDbHelper<M, T extends AbsNowRealmObject<M>> {
+public class RealmDbHelper<M, T extends RealmObject> {
 
     private List<M> mEntityList;
     private Realm mRealm;
@@ -36,7 +35,7 @@ public class RealmDbHelper<M, T extends AbsNowRealmObject<M>> {
                 mRealm.beginTransaction();
                 try {
                     T realmMoment = mNowRealmClass.newInstance();
-                    realmMoment.setFromEntity(mEntityList.get(i));
+                    ((AbsNowRealmObject) realmMoment).setFromEntity(mEntityList.get(i));
                     mRealm.copyToRealmOrUpdate(realmMoment);
                     mRealm.commitTransaction();
                 } catch (InstantiationException | IllegalAccessException e) {
@@ -51,7 +50,7 @@ public class RealmDbHelper<M, T extends AbsNowRealmObject<M>> {
 
         RealmResults<T> zcoolRealmResults = mRealm.where(mNowRealmClass).findAll();
         for (int i = zcoolRealmResults.size() - 1; i >= 0; i--) {
-            mEntityList.add(zcoolRealmResults.get(i).toEntity());
+            mEntityList.add(((AbsNowRealmObject<M>) (zcoolRealmResults.get(i))).toEntity());
         }
     }
 
@@ -67,7 +66,7 @@ public class RealmDbHelper<M, T extends AbsNowRealmObject<M>> {
         int endPos = Math.max(startPos - pageSize, 0);
 
         for (int i = startPos; i > endPos; i--) {
-            mEntityList.add(zcoolRealmResults.get(i).toEntity());
+            mEntityList.add(((AbsNowRealmObject<M>) (zcoolRealmResults.get(i))).toEntity());
         }
     }
 

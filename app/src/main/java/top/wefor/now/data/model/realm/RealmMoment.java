@@ -2,9 +2,7 @@ package top.wefor.now.data.model.realm;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-import io.realm.RealmModel;
+import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 import top.wefor.now.data.model.entity.Moment;
@@ -12,7 +10,7 @@ import top.wefor.now.data.model.entity.Moment;
 /**
  * Created by ice on 16/4/13 10:56.
  */
-public class RealmMoment extends AbsNowRealmObject<Moment> implements Serializable, RealmModel {
+public class RealmMoment extends RealmObject implements AbsNowRealmObject<Moment> {
     @PrimaryKey
     @Required
     public String pk;

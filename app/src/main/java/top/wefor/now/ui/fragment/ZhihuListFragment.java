@@ -29,7 +29,6 @@ import top.wefor.now.utils.PrefUtil;
 public class ZhihuListFragment extends BaseListFragment<Zhihu, RealmZhihu> {
 
     private NowApi mNowApi = new NowApi();
-    private ZhihuAdapter mAdapter;
     private String date;
 
     public static ZhihuListFragment newInstance() {

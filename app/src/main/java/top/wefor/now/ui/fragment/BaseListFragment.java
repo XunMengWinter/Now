@@ -21,6 +21,7 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmObject;
 import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
@@ -48,7 +49,7 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
     protected Disposable mDisposable;
 
     protected Realm mRealm;
-    protected RealmDbHelper<M, T> mRealmDbHelper;
+    protected RealmDbHelper<M, RealmObject> mRealmDbHelper;
 
     public abstract void getData();
 
@@ -85,7 +86,7 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
     protected void initRealm() {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
         mRealm = Realm.getInstance(realmConfiguration);
-        mRealmDbHelper = new RealmDbHelper<>(mList, mRealm, getNowRealmClass());
+        mRealmDbHelper = new RealmDbHelper(mList, mRealm, getNowRealmClass());
     }
 
     protected void initRecyclerView() {

@@ -97,6 +97,12 @@ public class WelcomeActivity extends BaseCompatActivity {
                         mPreferencesHelper.setHeadImages(jsonArray.toJSONString());
                         toMainPage();
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        toMainPage();
+                    }
                 });
     }
 
