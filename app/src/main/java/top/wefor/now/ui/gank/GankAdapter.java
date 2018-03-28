@@ -1,4 +1,4 @@
-package top.wefor.now.ui.adapter;
+package top.wefor.now.ui.gank;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Gank;
+import top.wefor.now.ui.adapter.BaseRecyclerViewAdapter;
 
 /**
  * Created on 16/7/7.
@@ -40,7 +41,7 @@ public class GankAdapter extends BaseRecyclerViewAdapter<Gank> {
         myViewHolder.mUrlTv.setText(gank.url);
     }
 
-    static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.name_tv) TextView mNameTv;
         @BindView(R.id.url_tv) TextView mUrlTv;
 

@@ -48,6 +48,7 @@ import top.wefor.now.ui.fragment.MomentListFragment;
 import top.wefor.now.ui.fragment.NGListFragment;
 import top.wefor.now.ui.fragment.ZcoolListFragment;
 import top.wefor.now.ui.fragment.ZhihuListFragment;
+import top.wefor.now.ui.gank.GankDailyActivity;
 import top.wefor.now.utils.UIHelper;
 
 public class MainActivity extends BaseCompatActivity {

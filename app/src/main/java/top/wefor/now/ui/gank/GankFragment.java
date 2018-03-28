@@ -1,4 +1,4 @@
-package top.wefor.now.ui.fragment;
+package top.wefor.now.ui.gank;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Gank;
-import top.wefor.now.ui.adapter.GankAdapter;
 
 /**
  * Created on 16/8/4.

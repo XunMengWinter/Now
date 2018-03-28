@@ -1,4 +1,4 @@
-package top.wefor.now.ui.activity;
+package top.wefor.now.ui.gank;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -23,7 +23,6 @@ import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.GankDailyResult;
 import top.wefor.now.data.model.entity.Gank;
 import top.wefor.now.ui.BaseToolbarActivity;
-import top.wefor.now.ui.fragment.GankFragment;
 import top.wefor.now.utils.DateUtil;
 
 /**

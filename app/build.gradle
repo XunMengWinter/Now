@@ -80,14 +80,14 @@ dependencies {
 
 
     // jsoup HTML parser library @ http://jsoup.org/
-    compile 'org.jsoup:jsoup:1.10.3'
+    compile 'org.jsoup:jsoup:1.11.1'
 
     // MaterialViewpager
     compile 'com.github.florent37:materialviewpager:1.2.3'
     compile 'com.flaviofaria:kenburnsview:1.0.7'
     compile 'com.jpardogo.materialtabstrip:library:1.1.0'
     compile 'com.github.bumptech.glide:glide:4.0.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
     compile "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
     annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
 
@@ -102,7 +102,7 @@ dependencies {
     //    compile "com.google.dagger:dagger:$DAGGER_VERSION"
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.9'
-    compile 'com.alibaba:fastjson:1.2.11'
+    compile 'com.alibaba:fastjson:1.2.44'
     compile "com.squareup.okhttp3:okhttp:$OK_HTTP_VERSION"
     compile "com.squareup.okhttp3:logging-interceptor:$OK_HTTP_VERSION"
     compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
