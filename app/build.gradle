@@ -16,11 +16,17 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles file('./proguard').listFiles()
             lintOptions {
                 disable 'MissingTranslation'
             }
+        }
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles file('./proguard').listFiles()
         }
     }
     //为了解决部分第三方库重复打包了META-INF的问题
@@ -77,7 +83,6 @@ dependencies {
     implementation files('libs/open_sdk_r5990_lite.jar')
     //    compile files('libs/libammsdk.jar')
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
-
 
     // jsoup HTML parser library @ http://jsoup.org/
     compile 'org.jsoup:jsoup:1.11.1'

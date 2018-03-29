@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -20,6 +21,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
         // 从阿里云下载maven上的第三方库
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
     }
