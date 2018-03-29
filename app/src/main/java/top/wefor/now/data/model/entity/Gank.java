@@ -3,6 +3,8 @@ package top.wefor.now.data.model.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created on 16/7/4.
  *
@@ -26,6 +28,11 @@ public class Gank implements Parcelable{
 
     public String who;
 
+    public List<String> images;
+
+
+    public Gank() {
+    }
 
     @Override
     public int describeContents() {
@@ -42,9 +49,7 @@ public class Gank implements Parcelable{
         dest.writeString(this.url);
         dest.writeByte(this.used ? (byte) 1 : (byte) 0);
         dest.writeString(this.who);
-    }
-
-    public Gank() {
+        dest.writeStringList(this.images);
     }
 
     protected Gank(Parcel in) {
@@ -56,6 +61,7 @@ public class Gank implements Parcelable{
         this.url = in.readString();
         this.used = in.readByte() != 0;
         this.who = in.readString();
+        this.images = in.createStringArrayList();
     }
 
     public static final Creator<Gank> CREATOR = new Creator<Gank>() {

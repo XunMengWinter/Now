@@ -5,6 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.DrawableImageViewTarget;
+import com.facebook.drawee.view.SimpleDraweeView;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,11 +43,25 @@ public class GankAdapter extends BaseRecyclerViewAdapter<Gank> {
         Gank gank = mList.get(position);
         myViewHolder.mNameTv.setText(gank.desc);
         myViewHolder.mUrlTv.setText(gank.url);
+        if (gank.images != null && !gank.images.isEmpty()) {
+            myViewHolder.mImageIv.setVisibility(View.VISIBLE);
+            final String imageUrl = gank.images.get(0);
+            Glide.with(context).load(imageUrl).into(new DrawableImageViewTarget(myViewHolder.mImageIv));
+//                        Logger.e("gank item load image failed:" + imageUrl);
+//            DraweeController controller = Fresco.newDraweeControllerBuilder()
+//                    .setUri(imageUrl)
+//                    .setAutoPlayAnimations(true)
+//                    .build();
+//            myViewHolder.mImageIv.setController(controller);
+        } else {
+            myViewHolder.mImageIv.setVisibility(View.GONE);
+        }
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.name_tv) TextView mNameTv;
         @BindView(R.id.url_tv) TextView mUrlTv;
+        @BindView(R.id.image_iv) SimpleDraweeView mImageIv;
 
         MyViewHolder(View view) {
             super(view);

@@ -11,12 +11,12 @@ android {
         applicationId "top.wefor.nowview"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 16
-        versionName "3.2"
+        versionCode 17
+        versionName "4.0"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             lintOptions {
                 disable 'MissingTranslation'
@@ -119,4 +119,7 @@ dependencies {
 
     // RxPermissions
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+
+    //gif show
+//    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
 }
