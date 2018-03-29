@@ -6,9 +6,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,7 +34,7 @@ import top.wefor.now.utils.DateUtil;
  * @author ice
  */
 public class GankDailyActivity extends BaseToolbarActivity {
-    @BindView(R.id.banner_sdv) SimpleDraweeView mBannerSdv;
+    @BindView(R.id.banner_sdv) PhotoView mBannerSdv;
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbar;
     @BindView(R.id.gank_tabLayout) TabLayout mGankTabLayout;
     @BindView(R.id.viewPager) ViewPager mViewPager;
@@ -85,8 +88,11 @@ public class GankDailyActivity extends BaseToolbarActivity {
 
                     @Override
                     protected void onSucceed(GankDailyResult result) {
-                        if (result.error || result.results == null || result.results.妹纸List == null) {
-                            if (mRequestTimes >= 10) {
+                        if (result.error || result.results == null) {
+                            return;
+                        }
+                        if (result.results.妹纸List == null) {
+                            if (mRequestTimes >= 30) {
                                 return;
                             }
                             mDate = DateUtil.getLastdayDate(mDate);
@@ -106,6 +112,7 @@ public class GankDailyActivity extends BaseToolbarActivity {
                         if (result.results.妹纸List != null && result.results.妹纸List.size() > 0) {
                             Glide.with(GankDailyActivity.this)
                                     .load(result.results.妹纸List.get(0).url)
+                                    .apply(new RequestOptions().centerCrop())
                                     .into(mBannerSdv);
 //                            RxView.clicks(mBannerSdv).subscribe(aVoid -> go(null));
                         }
@@ -118,8 +125,8 @@ public class GankDailyActivity extends BaseToolbarActivity {
 
     private void addGankList(ArrayList<Gank> gankList) {
         if (gankList == null)
-            mFragments.add(GankFragment.get(new ArrayList<>()));
+            mFragments.add(GankListFragment.get(new ArrayList<>()));
         else
-            mFragments.add(GankFragment.get(gankList));
+            mFragments.add(GankListFragment.get(gankList));
     }
 }

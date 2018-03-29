@@ -17,21 +17,23 @@
     <android.support.design.widget.CollapsingToolbarLayout
         android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_gank_banner"
         android:fitsSystemWindows="true"
         app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
         >
         <!--app:contentScrim="@color/purple_normal"-->
 
         <!--ImageView可替换成任意视图控件-->
-        <com.facebook.drawee.view.SimpleDraweeView
+        <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/banner_sdv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:actualImageScaleType="fitCenter"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/img_first_welcome"
             />
+        <!--android:adjustViewBounds="true"-->
+        <!--app:actualImageScaleType="fitCenter"-->
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -49,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/green_nomal"
+        app:tabIndicatorColor="@color/gank_indicator"
         app:tabMode="scrollable"
         />
 

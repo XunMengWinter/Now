@@ -91,7 +91,7 @@
             android:name=".ui.gank.GankDailyActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/activity_gank_daily"
-            android:theme="@style/AppThemeImmerse"/>
+            android:theme="@style/AppThemeGank"/>
 
 
     </application>

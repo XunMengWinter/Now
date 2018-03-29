@@ -22,7 +22,7 @@ import top.wefor.now.data.model.entity.Gank;
  *
  * @author ice
  */
-public class GankFragment extends Fragment {
+public class GankListFragment extends Fragment {
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 
@@ -31,8 +31,8 @@ public class GankFragment extends Fragment {
 
     public static final String GANK_LIST = "gank_list";
 
-    public static GankFragment get(ArrayList<Gank> gankList) {
-        GankFragment recyclerViewFragment = new GankFragment();
+    public static GankListFragment get(ArrayList<Gank> gankList) {
+        GankListFragment recyclerViewFragment = new GankListFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(GANK_LIST, gankList);
         recyclerViewFragment.setArguments(bundle);
@@ -42,7 +42,7 @@ public class GankFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_gank, null);
+        View view = inflater.inflate(R.layout.fragment_list_gank, null);
         ButterKnife.bind(this, view);
         return view;
     }
