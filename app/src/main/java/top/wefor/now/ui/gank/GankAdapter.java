@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -46,7 +47,13 @@ public class GankAdapter extends BaseRecyclerViewAdapter<Gank> {
         if (gank.images != null && !gank.images.isEmpty()) {
             myViewHolder.mImageIv.setVisibility(View.VISIBLE);
             final String imageUrl = gank.images.get(0);
-            Glide.with(context).load(imageUrl).into(new DrawableImageViewTarget(myViewHolder.mImageIv));
+            RequestOptions requestOptions = new RequestOptions();
+            int imageWidth = context.getResources().getDimensionPixelSize(R.dimen.width_gank_image);
+            requestOptions.override(imageWidth);
+            Glide.with(context)
+                    .load(imageUrl)
+                    .apply(requestOptions)
+                    .into(myViewHolder.mImageIv);
 //                        Logger.e("gank item load image failed:" + imageUrl);
 //            DraweeController controller = Fresco.newDraweeControllerBuilder()
 //                    .setUri(imageUrl)

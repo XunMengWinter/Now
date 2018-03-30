@@ -23,6 +23,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import top.wefor.now.data.model.entity.Gank;
 
@@ -35,18 +36,18 @@ public class GankDailyResult extends BaseResult {
     public boolean error;
 
     @SerializedName("results")
-    public Result results;
+    public Map<String, ArrayList<Gank>> results;
 
     @SerializedName("category")
     public ArrayList<String> category;
 
-    public class Result {
-        @SerializedName("Android") public ArrayList<Gank> androidList;
-        @SerializedName("iOS") public ArrayList<Gank> iOSList;
-        @SerializedName("App") public ArrayList<Gank> appList;
-        @SerializedName("瞎推荐") public ArrayList<Gank> 瞎推荐List;
-        @SerializedName("休息视频") public ArrayList<Gank> 休息视频List;
-        @SerializedName("拓展资源") public ArrayList<Gank> 拓展资源List;
-        @SerializedName("福利") public ArrayList<Gank> 妹纸List;
-    }
+//    public class Result {
+//        @SerializedName("Android") public ArrayList<Gank> androidList;
+//        @SerializedName("iOS") public ArrayList<Gank> iOSList;
+//        @SerializedName("App") public ArrayList<Gank> appList;
+//        @SerializedName("瞎推荐") public ArrayList<Gank> 瞎推荐List;
+//        @SerializedName("休息视频") public ArrayList<Gank> 休息视频List;
+//        @SerializedName("拓展资源") public ArrayList<Gank> 拓展资源List;
+//        @SerializedName("福利") public ArrayList<Gank> 妹纸List;
+//    }
 }

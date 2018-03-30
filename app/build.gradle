@@ -24,7 +24,7 @@ android {
             }
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles file('./proguard').listFiles()
         }
@@ -39,7 +39,8 @@ android {
         abortOnError false
     }
     dexOptions {
-        incremental true
+        ///Warning:The `android.dexOptions.incremental` property is deprecated and it has no effect on the build process.
+//        incremental true
         javaMaxHeapSize "4g"
         //关闭预编译
 //        preDexLibraries = false

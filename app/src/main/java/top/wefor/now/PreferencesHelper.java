@@ -72,4 +72,12 @@ public class PreferencesHelper {
         return mPreferences.getString(Constants.NG_IMAGES, "");
     }
 
+    public void setLastGankBanner(String imageUrl){
+        mPreferences.edit().putString(Constants.LAST_GANK_BANNER, imageUrl).apply();
+    }
+
+    public String getLastGankBanner(){
+        return mPreferences.getString(Constants.LAST_GANK_BANNER,"");
+    }
+
 }

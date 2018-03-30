@@ -19,6 +19,7 @@ public final class Constants {
     public static final String COVER_IMAGE_PATH = IMAGE_DIR + File.separator + "cover.jpg";
     public static final String WEB_CACHE_DIR = "webDetail";
     public static final String REALM_PRIMARY_KEY = "pk";
+    public static final String LAST_GANK_BANNER = "last_gank_banner";
 
 
     public static final String COVER_SOURCE = "cover_source";
