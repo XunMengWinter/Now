@@ -129,6 +129,7 @@ public class MainActivity extends BaseCompatActivity {
                         mPreferencesHelper.setFirst(false);
                         showAll();
                     })
+                    .setCancelable(false)
                     .setNegativeButton(getString(R.string.exit), (dialog, which) -> MainActivity.this.finish())
                     .create().show();
         } else
