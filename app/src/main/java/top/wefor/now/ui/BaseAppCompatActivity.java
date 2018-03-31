@@ -8,13 +8,17 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created on 3/18/16 09:06.
+ *
  * @author ice
- * Github https://github.com/XunMengWinter
+ *         Github https://github.com/XunMengWinter
  */
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
+
+    protected Disposable mDisposable;
 
     protected abstract int getLayoutId();
 
@@ -45,6 +49,18 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             return true;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unSubscribe();
+    }
+
+    protected void unSubscribe() {
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
         }
     }
 

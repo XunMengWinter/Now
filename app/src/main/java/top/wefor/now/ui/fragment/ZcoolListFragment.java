@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -87,7 +88,7 @@ public class ZcoolListFragment extends BaseListFragment<Zcool, RealmZcool> {
 
     @Override
     public void getData() {
-        io.reactivex.Observable
+        mDisposable = Observable
                 .create((ObservableOnSubscribe<Document>) observableEmitter -> {
                     if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_ZCOOL)) {
                         observableEmitter.onComplete();

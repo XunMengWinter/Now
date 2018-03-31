@@ -189,7 +189,7 @@ public class MainActivity extends BaseCompatActivity {
 
         setViewPagerListener();
 
-        mMaterialViewPager.getViewPager().setOffscreenPageLimit(mMaterialViewPager.getViewPager().getAdapter().getCount());
+        mMaterialViewPager.getViewPager().setOffscreenPageLimit(mSize);
         mMaterialViewPager.getPagerTitleStrip().setViewPager(mMaterialViewPager.getViewPager());
 
     }

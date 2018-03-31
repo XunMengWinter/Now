@@ -95,7 +95,7 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu, RealmZhihu> {
                 .subscribe(new BaseObserver<ZhihuDailyResult>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-
+                        mDisposable = d;
                     }
 
                     @Override

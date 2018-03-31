@@ -71,7 +71,7 @@ public class MomentListFragment extends BaseListFragment<Moment, RealmMoment> {
 
     @Override
     public void getData() {
-        Observable
+        mDisposable = Observable
                 .create((ObservableOnSubscribe<Document>) observableEmitter -> {
                     if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_MOMENT)) {
                         observableEmitter.onComplete();

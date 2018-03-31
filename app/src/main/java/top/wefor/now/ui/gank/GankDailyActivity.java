@@ -1,6 +1,7 @@
 package top.wefor.now.ui.gank;
 
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,10 +17,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import butterknife.BindArray;
 import butterknife.BindView;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
 import top.wefor.now.data.http.BaseObserver;
@@ -40,14 +44,14 @@ public class GankDailyActivity extends BaseToolbarActivity {
     @BindView(R.id.gank_tabLayout) TabLayout mGankTabLayout;
     @BindView(R.id.viewPager) ViewPager mViewPager;
 
-    private Date mDate = new Date();
+    private final Date mDate = new Date();
     private int mRequestTimes;
     private NowApi mNowApi = new NowApi();
     private FragmentPagerAdapter mFragmentPagerAdapter;
     private PreferencesHelper mPreferencesHelper;
 
 
-    //    @BindArray(R.array.ganks) String[] mTitles;
+    @BindArray(R.array.ganks) String[] GANK_TAB_TITLES;
     private List<String> mTitles = new ArrayList<>();
     private List<Fragment> mFragments = new ArrayList<>();
 
@@ -81,22 +85,21 @@ public class GankDailyActivity extends BaseToolbarActivity {
 
         mPreferencesHelper = new PreferencesHelper(this);
         showLastGankImage();
-        getTheLatestGanks();
+        mViewPager.postDelayed(this::getTheLatestGanks, 1000);
     }
 
     private void getTheLatestGanks() {
-        final String dateStr = DateUtil.toGankDate(mDate);
-        Observable<GankDailyResult> observable = mNowApi.getGankDaily(dateStr, false);
-
+        Observable<GankDailyResult> observable = mNowApi.getGankDaily(DateUtil.toGankDate(mDate),true).observeOn(Schedulers.io());
         for (int i = 0; i < 30; i++) {
             observable = observable
                     .zipWith(getHistoryGank(DateUtil.toGankDate(mDate, -i - 1)), this::zipGankResult);
         }
         observable
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<GankDailyResult>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-
+                        mDisposable = d;
                     }
 
                     @Override
@@ -127,13 +130,15 @@ public class GankDailyActivity extends BaseToolbarActivity {
         if (gankDailyResult2 == null || gankDailyResult2.results == null || gankDailyResult2.results.isEmpty()) {
             return gankDailyResult;
         }
-
-        Set<String> tabTitles = gankDailyResult.results.keySet();
-        mTitles.clear();
-        mFragments.clear();
-        for (String tabTitle : tabTitles) {
-            List<Gank> ganks2 = gankDailyResult2.results.get(tabTitle);
-            if (ganks2 != null)
+//        Set<String> allTabTitles = new HashSet<>();
+//        allTabTitles.addAll(gankDailyResult.results.keySet());
+//        allTabTitles.addAll(gankDailyResult2.results.keySet());
+        for (String tabTitle : GANK_TAB_TITLES) {
+            ArrayList<Gank> ganks = gankDailyResult.results.get(tabTitle);
+            ArrayList<Gank> ganks2 = gankDailyResult2.results.get(tabTitle);
+            if (ganks == null)
+                gankDailyResult.results.put(tabTitle, ganks2);
+            else if (ganks2 != null)
                 gankDailyResult.results.get(tabTitle).addAll(ganks2);
         }
         return gankDailyResult;

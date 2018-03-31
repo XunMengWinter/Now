@@ -74,7 +74,7 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
     @Override
     public void getData() {
 //        String nGUrl = "http://photography.nationalgeographic.com/photography/";
-        Observable
+        mDisposable = Observable
                 .create((ObservableOnSubscribe<Document>) observableEmitter -> {
                     if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_NG)) {
                         observableEmitter.onComplete();

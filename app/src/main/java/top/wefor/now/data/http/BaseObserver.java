@@ -27,7 +27,8 @@ public abstract class BaseObserver<T extends BaseResult> implements Observer<T> 
 
     @Override
     public void onError(Throwable e) {
-        Log.i("xyz", "onError");
+        e.printStackTrace();
+        Log.i("xyz", "onError " + e.getMessage());
         onFailed(null);
     }
 
