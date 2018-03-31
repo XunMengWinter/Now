@@ -2,6 +2,7 @@ package top.wefor.now.utils;
 
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -13,8 +14,13 @@ import top.wefor.now.data.http.ApiService;
  */
 public class RetrofitUtil {
     public static Retrofit.Builder get(String baseUrl) {
+        return get(baseUrl, null);
+    }
+
+    public static Retrofit.Builder get(String baseUrl, Cache cache) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(5, TimeUnit.SECONDS)
+                .cache(cache)
                 .build();
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.client(okHttpClient)
@@ -26,6 +32,10 @@ public class RetrofitUtil {
     }
 
     public static ApiService getApi(String baseUrl) {
-        return get(baseUrl).build().create(ApiService.class);
+        return getApi(baseUrl, null);
+    }
+
+    public static ApiService getApi(String baseUrl, Cache cache) {
+        return get(baseUrl, cache).build().create(ApiService.class);
     }
 }

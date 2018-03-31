@@ -1,10 +1,13 @@
 package top.wefor.now.data.http;
 
+import android.os.Environment;
+
 import com.orhanobut.logger.Logger;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Cache;
 import retrofit2.http.Path;
 import top.wefor.now.data.model.GankDailyResult;
 import top.wefor.now.data.model.GankMeizhiResult;
@@ -43,7 +46,14 @@ public final class NowApi implements ApiService {
 
     @Override
     public Observable<GankDailyResult> getGankDaily(@Path("date") String date) {
-        return RetrofitUtil.getApi(Urls.GANK).getGankDaily(date)
+        return getGankDaily(date, false);
+    }
+
+    public Observable<GankDailyResult> getGankDaily(@Path("date") String date, boolean isCache) {
+        Cache cache = null;
+        if (isCache)
+            cache = new Cache(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), 100);
+        return RetrofitUtil.getApi(Urls.GANK, cache).getGankDaily(date)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 

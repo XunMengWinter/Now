@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import top.wefor.now.PreferencesHelper;
@@ -80,11 +81,18 @@ public class GankDailyActivity extends BaseToolbarActivity {
 
         mPreferencesHelper = new PreferencesHelper(this);
         showLastGankImage();
-        getTheLatestGank();
+        getTheLatestGanks();
     }
 
-    private void getTheLatestGank() {
-        mNowApi.getGankDaily(DateUtil.toDate(mDate))
+    private void getTheLatestGanks() {
+        final String dateStr = DateUtil.toGankDate(mDate);
+        Observable<GankDailyResult> observable = mNowApi.getGankDaily(dateStr, false);
+
+        for (int i = 0; i < 30; i++) {
+            observable = observable
+                    .zipWith(getHistoryGank(DateUtil.toGankDate(mDate, -i - 1)), this::zipGankResult);
+        }
+        observable
                 .subscribe(new BaseObserver<GankDailyResult>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
@@ -93,19 +101,6 @@ public class GankDailyActivity extends BaseToolbarActivity {
 
                     @Override
                     protected void onSucceed(GankDailyResult result) {
-                        if (result.error || result.results == null) {
-                            return;
-                        }
-                        if (result.results.isEmpty()) {
-                            if (mRequestTimes >= 30) {
-                                return;
-                            }
-                            mDate = DateUtil.getLastdayDate(mDate);
-                            getTheLatestGank();
-                            mRequestTimes++;
-                            return;
-                        }
-
                         Set<String> tabTitles = result.results.keySet();
                         mTitles.clear();
                         mFragments.clear();
@@ -126,6 +121,26 @@ public class GankDailyActivity extends BaseToolbarActivity {
                         mFragmentPagerAdapter.notifyDataSetChanged();
                     }
                 });
+    }
+
+    private GankDailyResult zipGankResult(@NonNull GankDailyResult gankDailyResult, GankDailyResult gankDailyResult2) {
+        if (gankDailyResult2 == null || gankDailyResult2.results == null || gankDailyResult2.results.isEmpty()) {
+            return gankDailyResult;
+        }
+
+        Set<String> tabTitles = gankDailyResult.results.keySet();
+        mTitles.clear();
+        mFragments.clear();
+        for (String tabTitle : tabTitles) {
+            List<Gank> ganks2 = gankDailyResult2.results.get(tabTitle);
+            if (ganks2 != null)
+                gankDailyResult.results.get(tabTitle).addAll(ganks2);
+        }
+        return gankDailyResult;
+    }
+
+    private Observable<GankDailyResult> getHistoryGank(String date) {
+        return mNowApi.getGankDaily(date, true);
     }
 
     private void addGankList(String title, ArrayList<Gank> gankList) {
