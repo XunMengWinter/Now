@@ -18,7 +18,6 @@ import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
@@ -46,7 +45,6 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
     public static final int REQUEST_SAVE_NOTE = 77;
 
     protected List<M> mList = new ArrayList<>();
-    protected Disposable mDisposable;
 
     protected Realm mRealm;
     protected RealmDbHelper<M, RealmObject> mRealmDbHelper;
@@ -102,7 +100,6 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unSubscribe();
     }
 
     @Override
@@ -110,12 +107,6 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
         super.onDestroy();
         if (mRealm != null)
             mRealm.close();
-    }
-
-    protected void unSubscribe() {
-        if (mDisposable != null && !mDisposable.isDisposed()) {
-            mDisposable.dispose();
-        }
     }
 
     @Override
@@ -174,4 +165,5 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 }

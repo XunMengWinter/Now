@@ -24,7 +24,7 @@ import top.wefor.now.BuildConfig;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
-import top.wefor.now.data.http.BaseObserver;
+import top.wefor.now.data.http.BaseHttpObserver;
 import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.GankMeizhiResult;
 import top.wefor.now.data.model.entity.Gank;
@@ -81,7 +81,7 @@ public class WelcomeActivity extends BaseCompatActivity {
 
     private void getCoverImgsThenToMainPage() {
         new NowApi().getGankMeizhi()
-                .subscribe(new BaseObserver<GankMeizhiResult>() {
+                .subscribe(new BaseHttpObserver<GankMeizhiResult>(getLifecycle()) {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 

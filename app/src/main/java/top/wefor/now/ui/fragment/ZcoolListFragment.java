@@ -26,6 +26,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
+import top.wefor.now.data.http.BaseObserver;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.Zcool;
 import top.wefor.now.data.model.realm.RealmZcool;
@@ -88,7 +89,7 @@ public class ZcoolListFragment extends BaseListFragment<Zcool, RealmZcool> {
 
     @Override
     public void getData() {
-        mDisposable = Observable
+        Observable
                 .create((ObservableOnSubscribe<Document>) observableEmitter -> {
                     if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_ZCOOL)) {
                         observableEmitter.onComplete();
@@ -127,9 +128,12 @@ public class ZcoolListFragment extends BaseListFragment<Zcool, RealmZcool> {
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(this::showList)
-                .subscribe(document -> {
-                    saveData();
-                    showList();
+                .subscribe(new BaseObserver<Document>(getLifecycle()) {
+                    @Override
+                    protected void onSucceed(Document result) {
+                        saveData();
+                        showList();
+                    }
                 });
     }
 

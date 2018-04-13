@@ -16,13 +16,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Gank;
+import top.wefor.now.ui.fragment.BaseFragment;
 
 /**
  * Created on 16/8/4.
  *
  * @author ice
  */
-public class GankListFragment extends Fragment {
+public class GankListFragment extends BaseFragment {
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
 

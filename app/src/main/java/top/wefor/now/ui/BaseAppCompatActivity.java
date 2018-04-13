@@ -1,7 +1,10 @@
 package top.wefor.now.ui;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleRegistry;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -18,7 +21,7 @@ import io.reactivex.disposables.Disposable;
  */
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
-    protected Disposable mDisposable;
+    protected LifecycleRegistry mLifecycleRegistry = (LifecycleRegistry) getLifecycle();
 
     protected abstract int getLayoutId();
 
@@ -36,6 +39,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         this.initToolbar(savedInstanceState);
         initActionBar();//在initToolbar()完成后设置ActionBar
         this.initViews(savedInstanceState);
+        handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
     }
 
     @Override
@@ -53,15 +57,33 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unSubscribe();
+    protected void onStart() {
+        super.onStart();
+        handleLifecycleEvent(Lifecycle.Event.ON_START);
     }
 
-    protected void unSubscribe() {
-        if (mDisposable != null && !mDisposable.isDisposed()) {
-            mDisposable.dispose();
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+    }
+
+    @Override
+    protected void onPause() {
+        handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        handleLifecycleEvent(Lifecycle.Event.ON_STOP);
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+        super.onDestroy();
     }
 
     /**
@@ -107,6 +129,10 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     protected void go(Class<?> clazz) {
         Intent intent = new Intent(this, clazz);
         startActivity(intent);
+    }
+
+    public void handleLifecycleEvent(@NonNull Lifecycle.Event event) {
+        mLifecycleRegistry.handleLifecycleEvent(event);
     }
 
 }

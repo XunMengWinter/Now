@@ -21,6 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
+import top.wefor.now.data.http.BaseObserver;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.Moment;
 import top.wefor.now.data.model.realm.RealmMoment;
@@ -71,7 +72,7 @@ public class MomentListFragment extends BaseListFragment<Moment, RealmMoment> {
 
     @Override
     public void getData() {
-        mDisposable = Observable
+        Observable
                 .create((ObservableOnSubscribe<Document>) observableEmitter -> {
                     if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_MOMENT)) {
                         observableEmitter.onComplete();
@@ -114,9 +115,12 @@ public class MomentListFragment extends BaseListFragment<Moment, RealmMoment> {
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(this::showList)
-                .subscribe(document -> {
-                    saveData();
-                    showList();
+                .subscribe(new BaseObserver<Document>(getLifecycle()) {
+                    @Override
+                    protected void onSucceed(Document result) {
+                        saveData();
+                        showList();
+                    }
                 });
     }
 

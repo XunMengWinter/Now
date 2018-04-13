@@ -25,6 +25,7 @@ import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
+import top.wefor.now.data.http.BaseObserver;
 import top.wefor.now.data.http.Urls;
 import top.wefor.now.data.model.entity.NG;
 import top.wefor.now.data.model.realm.RealmNG;
@@ -74,7 +75,7 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
     @Override
     public void getData() {
 //        String nGUrl = "http://photography.nationalgeographic.com/photography/";
-        mDisposable = Observable
+        Observable
                 .create((ObservableOnSubscribe<Document>) observableEmitter -> {
                     if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_NG)) {
                         observableEmitter.onComplete();
@@ -122,9 +123,12 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(this::showList)
-                .subscribe(document -> {
-                    saveData();
-                    showList();
+                .subscribe(new BaseObserver<Document>(getLifecycle()) {
+                    @Override
+                    protected void onSucceed(Document result) {
+                        saveData();
+                        showList();
+                    }
                 });
     }
 

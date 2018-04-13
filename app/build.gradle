@@ -126,6 +126,7 @@ dependencies {
     // RxPermissions
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 
-    //gif show
-//    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
+    // Java8 support for Lifecycles
+    implementation "android.arch.lifecycle:common-java8:1.1.1"
+
 }

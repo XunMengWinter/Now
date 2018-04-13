@@ -1,35 +1,66 @@
 package top.wefor.now.data.http;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.text.TextUtils;
-import android.util.Log;
+
+import com.orhanobut.logger.Logger;
 
 import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import top.wefor.now.App;
-import top.wefor.now.data.model.BaseResult;
 
 /**
- * 网络请求返回需要的模型
- * Created by ice on 3/3/16.
+ * Created on 2018/4/13.
+ *
+ * @author ice
  */
-public abstract class BaseObserver<T extends BaseResult> implements Observer<T> {
+public abstract class BaseObserver<T> implements Observer<T>, LifecycleObserver {
+
+    public static final String TAG = "BaseObserver";
 
     protected abstract void onSucceed(T result);
 
-    protected void onFailed(String msg) {
-        if (!TextUtils.isEmpty(msg))
-            App.showToast(msg);
+    private Lifecycle mLifecycle;
+    private Disposable mDisposable;
+
+    public BaseObserver() {
+
+    }
+
+    public BaseObserver(Lifecycle lifecycle) {
+        mLifecycle = lifecycle;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void onDisPose() {
+        Logger.i(TAG, "dispose");
+        if (mLifecycle != null)
+            mLifecycle.removeObserver(this);
+        if (mDisposable != null && !mDisposable.isDisposed())
+            mDisposable.dispose();
     }
 
     @Override
     public void onComplete() {
-        Log.i("xyz", "onComplete");
+        Logger.i(TAG, "onComplete");
+        onEnd();
     }
 
     @Override
     public void onError(Throwable e) {
         e.printStackTrace();
-        Log.i("xyz", "onError " + e.getMessage());
-        onFailed(null);
+        Logger.i(TAG, "onError " + e.getMessage());
+        onFailed(e.getMessage());
+        onEnd();
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+        mDisposable = d;
+        if (mLifecycle != null)
+            mLifecycle.addObserver(this);
     }
 
     @Override
@@ -38,6 +69,14 @@ public abstract class BaseObserver<T extends BaseResult> implements Observer<T> 
             onSucceed(result);
         else
             onFailed(null);
+    }
 
+    protected void onFailed(String msg) {
+        if (!TextUtils.isEmpty(msg))
+            App.showToast(msg);
+    }
+
+    protected void onEnd() {
+        onDisPose();
     }
 }

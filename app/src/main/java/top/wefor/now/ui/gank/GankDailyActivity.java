@@ -21,18 +21,15 @@ import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import top.wefor.now.App;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
-import top.wefor.now.data.http.BaseObserver;
+import top.wefor.now.data.http.BaseHttpObserver;
 import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.GankDailyResult;
 import top.wefor.now.data.model.entity.Gank;
 import top.wefor.now.ui.BaseToolbarActivity;
 import top.wefor.now.utils.DateUtil;
-import top.wefor.now.utils.NowAppUtil;
 
 /**
  * Created on 16/7/7.
@@ -90,20 +87,15 @@ public class GankDailyActivity extends BaseToolbarActivity {
     }
 
     private void getTheLatestGanks() {
-        boolean todayReadCache = !NowAppUtil.isNetworkConnected(App.getInstance());
-        Observable<GankDailyResult> observable = mNowApi.getGankDaily(DateUtil.toGankDate(mDate), todayReadCache).observeOn(Schedulers.io());
+//        boolean todayReadCache = !NowAppUtil.isNetworkConnected(App.getInstance());
+        Observable<GankDailyResult> observable = mNowApi.getGankDaily(DateUtil.toGankDate(mDate), false).observeOn(Schedulers.io());
         for (int i = 0; i < 30; i++) {
             observable = observable
                     .zipWith(getHistoryGank(DateUtil.toGankDate(mDate, -i - 1)), this::zipGankResult);
         }
         observable
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<GankDailyResult>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        mDisposable = d;
-                    }
-
+                .subscribe(new BaseHttpObserver<GankDailyResult>(getLifecycle()) {
                     @Override
                     protected void onSucceed(GankDailyResult result) {
                         Set<String> tabTitles = result.results.keySet();

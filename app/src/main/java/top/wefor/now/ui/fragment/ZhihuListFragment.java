@@ -8,15 +8,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
-import top.wefor.now.data.http.BaseObserver;
+import top.wefor.now.data.http.BaseHttpObserver;
 import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.ZhihuDailyResult;
 import top.wefor.now.data.model.entity.Zhihu;
@@ -92,12 +90,7 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu, RealmZhihu> {
 
         mNowApi.getZhihuDaily(date)
                 .subscribeOn(Schedulers.computation())
-                .subscribe(new BaseObserver<ZhihuDailyResult>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        mDisposable = d;
-                    }
-
+                .subscribe(new BaseHttpObserver<ZhihuDailyResult>(getLifecycle()) {
                     @Override
                     protected void onSucceed(ZhihuDailyResult result) {
                         if (result.stories != null) {
