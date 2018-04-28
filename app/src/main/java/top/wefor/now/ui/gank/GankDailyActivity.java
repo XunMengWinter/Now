@@ -44,7 +44,6 @@ public class GankDailyActivity extends BaseToolbarActivity {
 
     private final Date mDate = new Date();
     private int mRequestTimes;
-    private NowApi mNowApi = new NowApi();
     private FragmentPagerAdapter mFragmentPagerAdapter;
     private PreferencesHelper mPreferencesHelper;
 
@@ -88,7 +87,7 @@ public class GankDailyActivity extends BaseToolbarActivity {
 
     private void getTheLatestGanks() {
 //        boolean todayReadCache = !NowAppUtil.isNetworkConnected(App.getInstance());
-        Observable<GankDailyResult> observable = mNowApi.getGankDaily(DateUtil.toGankDate(mDate), false).observeOn(Schedulers.io());
+        Observable<GankDailyResult> observable = NowApi.getGankApi().getGankDaily(DateUtil.toGankDate(mDate)).observeOn(Schedulers.io());
         for (int i = 0; i < 30; i++) {
             observable = observable
                     .zipWith(getHistoryGank(DateUtil.toGankDate(mDate, -i - 1)), this::zipGankResult);
@@ -102,10 +101,10 @@ public class GankDailyActivity extends BaseToolbarActivity {
                         mTitles.clear();
                         mFragments.clear();
                         for (String tabTitle : tabTitles) {
-                            addGankList(tabTitle, result.results.get(tabTitle));
+                            addGankList(tabTitle, (ArrayList<Gank>) result.results.get(tabTitle));
                         }
 
-                        ArrayList<Gank> meiZhiList = result.results.get(getString(R.string.gank_meizhi_list));
+                        ArrayList<Gank> meiZhiList = (ArrayList<Gank>) result.results.get(getString(R.string.gank_meizhi_list));
                         if (meiZhiList != null && meiZhiList.size() > 0) {
                             String bannerImageUrl = meiZhiList.get(0).url;
                             Glide.with(GankDailyActivity.this)
@@ -128,18 +127,18 @@ public class GankDailyActivity extends BaseToolbarActivity {
 //        allTabTitles.addAll(gankDailyResult.results.keySet());
 //        allTabTitles.addAll(gankDailyResult2.results.keySet());
         for (String tabTitle : GANK_TAB_TITLES) {
-            ArrayList<Gank> ganks = gankDailyResult.results.get(tabTitle);
-            ArrayList<Gank> ganks2 = gankDailyResult2.results.get(tabTitle);
+            ArrayList<Gank> ganks = (ArrayList<Gank>) gankDailyResult.results.get(tabTitle);
+            ArrayList<Gank> ganks2 = (ArrayList<Gank>) gankDailyResult2.results.get(tabTitle);
             if (ganks == null)
                 gankDailyResult.results.put(tabTitle, ganks2);
             else if (ganks2 != null)
-                gankDailyResult.results.get(tabTitle).addAll(ganks2);
+                ((ArrayList<Gank>)gankDailyResult.results.get(tabTitle)).addAll(ganks2);
         }
         return gankDailyResult;
     }
 
     private Observable<GankDailyResult> getHistoryGank(String date) {
-        return mNowApi.getGankDaily(date, true);
+        return NowApi.getGankApi(true).getGankDaily(date);
     }
 
     private void addGankList(String title, ArrayList<Gank> gankList) {

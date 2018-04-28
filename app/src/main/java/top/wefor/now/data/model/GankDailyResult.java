@@ -22,6 +22,7 @@ package top.wefor.now.data.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,10 @@ import top.wefor.now.data.model.entity.Gank;
 /**
  * Created by drakeet on 8/11/15.
  */
-public class GankDailyResult extends BaseResult {
+public class GankDailyResult<T> extends BaseResult {
+
+    @SerializedName("data")
+    public T data;
 
     @SerializedName("error")
     public boolean error;

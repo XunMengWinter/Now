@@ -17,8 +17,6 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import top.wefor.now.App;
 import top.wefor.now.BuildConfig;
 import top.wefor.now.Constants;
@@ -80,13 +78,8 @@ public class WelcomeActivity extends BaseCompatActivity {
     }
 
     private void getCoverImgsThenToMainPage() {
-        new NowApi().getGankMeizhi()
+        NowApi.getGankApi().getGankMeizhi()
                 .subscribe(new BaseHttpObserver<GankMeizhiResult>(getLifecycle()) {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
-                    }
-
                     @Override
                     protected void onSucceed(GankMeizhiResult result) {
                         JSONArray jsonArray = new JSONArray();

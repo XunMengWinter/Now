@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.plugins.RxJavaPlugins;
 import io.realm.Realm;
 import top.wefor.now.utils.Toaster;
 

@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
@@ -26,7 +27,6 @@ import top.wefor.now.utils.PrefUtil;
 
 public class ZhihuListFragment extends BaseListFragment<Zhihu, RealmZhihu> {
 
-    private NowApi mNowApi = new NowApi();
     private String date;
 
     public static ZhihuListFragment newInstance() {
@@ -88,8 +88,9 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu, RealmZhihu> {
             return;
         }
 
-        mNowApi.getZhihuDaily(date)
+        NowApi.getZhihuApi().getZhihuDaily(date)
                 .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseHttpObserver<ZhihuDailyResult>(getLifecycle()) {
                     @Override
                     protected void onSucceed(ZhihuDailyResult result) {
