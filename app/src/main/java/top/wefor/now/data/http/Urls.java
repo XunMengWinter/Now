@@ -16,4 +16,7 @@ public class Urls {
 
     public static final String GANK = "http://gank.io/";
 
+    public static final String AUTH_ENDPOINT = "https://api.dribbble.com/v2/";
+
+
 }

@@ -29,8 +29,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
-import com.jakewharton.rxbinding2.view.RxView;
-import com.jakewharton.rxbinding2.widget.RxCompoundButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -132,23 +130,21 @@ public class MainActivity extends BaseCompatActivity {
                     .setCancelable(false)
                     .setNegativeButton(getString(R.string.exit), (dialog, which) -> MainActivity.this.finish())
                     .create().show();
-        } else
+        } else {
             showAll();
+        }
     }
 
     public class MyTabItem {
         public String title;
         public BaseFragment fragment;
-        public
-        @ColorRes int colorRes;
+        @ColorRes public int colorRes;
 
         public MyTabItem(String title, BaseFragment fragment, int colorRes) {
             this.title = title;
             this.fragment = fragment;
             this.colorRes = colorRes;
         }
-
-
     }
 
     private void showAll() {
@@ -263,14 +259,14 @@ public class MainActivity extends BaseCompatActivity {
         mHeadPictureTv.setText(getResources().getStringArray(
                 R.array.head_picture_source)[mPreferencesHelper.getHeadImageType()]);
 
-        RxView.clicks(mWikiImageButton).subscribe(aVoid -> {
+        mWikiImageButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, WebActivity.class);
             intent.putExtra(WebActivity.EXTRA_TITLE, getString(R.string.wiki_title));
             intent.putExtra(WebActivity.EXTRA_URL, getString(R.string.wiki_url));
             startActivity(intent);
         });
 
-        RxCompoundButton.checkedChanges(mJsCB).subscribe(isChecked -> {
+        mJsCB.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked)
                 mJsTv.setText(R.string.js_close_description);
             else
@@ -278,15 +274,15 @@ public class MainActivity extends BaseCompatActivity {
             mPreferencesHelper.setJSEnabled(mJsCB.isEnabled());
         });
 
-        RxView.clicks(mColumnSelectTextView).subscribe(aVoid -> {
+        mColumnSelectTextView.setOnClickListener(v -> {
             if (mColumnSelectView == null) {
                 mColumnSelectView = getLayoutInflater().inflate(R.layout.dialog_column_select, null);
-                LinearLayout linearLayout = (LinearLayout) mColumnSelectView.findViewById(R.id.linearLayout);
-                linearLayout.addView(checkBox(getString(R.string.zcool)));
-                linearLayout.addView(checkBox(getString(R.string.ng)));
-                linearLayout.addView(checkBox(getString(R.string.zhihu)));
-                linearLayout.addView(checkBox(getString(R.string.moment)));
-            } else {
+                LinearLayout linearLayout = mColumnSelectView.findViewById(R.id.linearLayout);
+                linearLayout.addView(getCheckBox(getString(R.string.zcool)));
+                linearLayout.addView(getCheckBox(getString(R.string.ng)));
+                linearLayout.addView(getCheckBox(getString(R.string.zhihu)));
+                linearLayout.addView(getCheckBox(getString(R.string.moment)));
+            } else if (mColumnSelectTextView.getParent() instanceof ViewGroup) {
                 ViewGroup parent = (ViewGroup) mColumnSelectView.getParent();
                 parent.removeView(mColumnSelectView);
             }
@@ -297,7 +293,7 @@ public class MainActivity extends BaseCompatActivity {
                     .create().show();
         });
 
-        RxView.clicks(mHeadPictureLinearLayout).subscribe(aVoid -> {
+        mHeadPictureLinearLayout.setOnClickListener(v -> {
             if (mHeadPictureView == null) {
                 mHeadPictureView = getLayoutInflater().inflate(R.layout.dialog_head_picture, null);
                 RadioGroup radioGroup = (RadioGroup) mHeadPictureView.findViewById(R.id.radioGroup);
@@ -328,7 +324,7 @@ public class MainActivity extends BaseCompatActivity {
                             break;
                     }
                 });
-            } else {
+            } else if (mHeadPictureView.getParent() instanceof ViewGroup) {
                 ((ViewGroup) mHeadPictureView.getParent()).removeView(mHeadPictureView);
             }
 
@@ -338,10 +334,10 @@ public class MainActivity extends BaseCompatActivity {
                     .create().show();
         });
 
-        RxView.clicks(mAboutTextView).subscribe(aVoid -> {
+        mAboutTextView.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.about))
-                    .setView(getLayoutInflater().inflate(R.layout.dialog_about, null))
+                    .setView(R.layout.dialog_about)
                     .setPositiveButton("wefor.top", (dialogInterface, i) -> {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setData(Uri.parse(getString(R.string.my_website)));
@@ -350,10 +346,10 @@ public class MainActivity extends BaseCompatActivity {
                     .create().show();
         });
 
-        RxView.clicks(mThanksTextView).subscribe(aVoid -> {
+        mThanksTextView.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.thanks))
-                    .setView(getLayoutInflater().inflate(R.layout.dialog_thanks, null))
+                    .setView(R.layout.dialog_thanks)
                     .setPositiveButton("GitHub", (dialogInterface, i) -> {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setData(Uri.parse(getString(R.string.my_github)));
@@ -362,7 +358,7 @@ public class MainActivity extends BaseCompatActivity {
                     .create().show();
         });
 
-        RxView.clicks(mSuggestLinearLayout).subscribe(aVoid -> {
+        mSuggestLinearLayout.setOnClickListener(v -> {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("message/rfc822");
             i.putExtra(Intent.EXTRA_EMAIL, new String[]{Constants.MY_EMAIL_GOOGLE});
@@ -375,16 +371,16 @@ public class MainActivity extends BaseCompatActivity {
             }
         });
 
-        RxView.clicks(mGankTextView).subscribe(aVoid -> startActivity(new Intent(MainActivity.this, GankDailyActivity.class)));
+        mGankTextView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, GankDailyActivity.class)));
     }
 
-    private View checkBox(final String name) {
+    private View getCheckBox(final String name) {
         View view = getLayoutInflater().inflate(R.layout.item_column_select, null);
-        CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkbox);
+        CheckBox checkBox = view.findViewById(R.id.checkbox);
         checkBox.setText(name);
         checkBox.setChecked(mPreferencesHelper.isModuleSelected(name));
 
-        RxCompoundButton.checkedChanges(checkBox).subscribe(isChecked -> {
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mPreferencesHelper.setModuleSelected(name, isChecked);
             setFinishNow();
         });

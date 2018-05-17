@@ -7,10 +7,10 @@
     >
 
     <android.support.v7.widget.CardView
-        android:id="@+id/news_list_card_view"
-        style="@style/card_view_margin"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/news_list_card_view"
+        style="@style/card_view_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/card_view_margin"
@@ -42,33 +42,39 @@
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/simpleDraweeView1"
-                    android:layout_width="@dimen/moment_image_height"
-                    android:layout_height="@dimen/moment_image_height"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
                     fresco:placeholderImage="@color/red_light"
                     />
 
                 <Space
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/d3"
                     android:layout_height="@dimen/d3"
-                    android:layout_weight="1"/>
+                    />
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/simpleDraweeView2"
-                    android:layout_width="@dimen/moment_image_height"
-                    android:layout_height="@dimen/moment_image_height"
-                    fresco:placeholderImage="@color/green_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    fresco:placeholderImage="@color/red_light"
                     />
 
                 <Space
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/d3"
                     android:layout_height="@dimen/d3"
-                    android:layout_weight="1"/>
+                    />
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/simpleDraweeView3"
-                    android:layout_width="@dimen/moment_image_height"
-                    android:layout_height="@dimen/moment_image_height"
-                    fresco:placeholderImage="@color/purple_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    fresco:placeholderImage="@color/red_light"
                     />
                 <!--app:riv_corner_radius="@dimen/d2"-->
 

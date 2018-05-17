@@ -120,12 +120,12 @@ public class MomentAdapter extends BaseListAdapter<Moment> {
 
             mImageViews = new SimpleDraweeView[]{mSimpleDraweeView1, mSimpleDraweeView2, mSimpleDraweeView3};
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(IMAGE_WIDTH, IMAGE_HEIGHT);
-            mSimpleDraweeView1.setLayoutParams(params);
-            mSimpleDraweeView2.setLayoutParams(params);
-            mSimpleDraweeView3.setLayoutParams(params);
-
-            // because us Picasso loadView,so this is not work.
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(IMAGE_WIDTH, IMAGE_HEIGHT);
+//            mSimpleDraweeView1.setLayoutParams(params);
+//            mSimpleDraweeView2.setLayoutParams(params);
+//            mSimpleDraweeView3.setLayoutParams(params);
+//
+//            // because us Picasso loadView,so this is not work.
             if (NowAppUtil.isBelowLollipop()) {
                 //set round corner
                 RoundingParams roundingParams = new RoundingParams();

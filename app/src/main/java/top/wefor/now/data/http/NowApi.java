@@ -4,10 +4,12 @@ import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -30,6 +32,11 @@ public final class NowApi {
         return get(Urls.ZHIHU_NEWS).build().create(ZhihuApi.class);
     }
 
+    // getDailyNewsContent GET
+    public static String getNewsContent(int id) {
+        return Urls.ZHIHU_DAILY_NEWS_CONTENT + id;
+    }
+
     public static GankApi getGankApi() {
         return get(Urls.GANK).build().create(GankApi.class);
     }
@@ -41,10 +48,10 @@ public final class NowApi {
         return get(Urls.GANK, cache).build().create(GankApi.class);
     }
 
-    // getDailyNewsContent GET
-    public static String getNewsContent(int id) {
-        return Urls.ZHIHU_DAILY_NEWS_CONTENT + id;
+    public static DribbbleApi getDribbbleApi(){
+        return get(Urls.AUTH_ENDPOINT).build().create(DribbbleApi.class);
     }
+
 
 
     private static Retrofit.Builder get(String baseUrl) {
@@ -73,6 +80,17 @@ public final class NowApi {
                 return response.newBuilder()
                         .header("Cache-Control", cacheControl)
                         .build();
+            });
+        }else {
+            httpClientBuilder.addNetworkInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request request = chain.request();
+                    Logger.i(request.toString());
+                    Response response = chain.proceed(request);
+                    Logger.i(response.toString());
+                    return response;
+                }
             });
         }
         Retrofit.Builder builder = new Retrofit.Builder();

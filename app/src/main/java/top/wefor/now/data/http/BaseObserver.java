@@ -35,7 +35,7 @@ public abstract class BaseObserver<T> implements Observer<T>, LifecycleObserver 
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDisPose() {
-        Logger.i(TAG, "dispose");
+//        Logger.i(TAG, "dispose");
         if (mLifecycle != null)
             mLifecycle.removeObserver(this);
         if (mDisposable != null && !mDisposable.isDisposed())
@@ -44,14 +44,14 @@ public abstract class BaseObserver<T> implements Observer<T>, LifecycleObserver 
 
     @Override
     public void onComplete() {
-        Logger.i(TAG, "onComplete");
+//        Logger.i(TAG, "onComplete");
         onEnd();
     }
 
     @Override
     public void onError(Throwable e) {
         e.printStackTrace();
-        Logger.i(TAG, "onError " + e.getMessage());
+//        Logger.i(TAG, "onError " + e.getMessage());
         onFailed(e.getMessage());
         onEnd();
     }

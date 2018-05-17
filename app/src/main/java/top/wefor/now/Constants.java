@@ -36,6 +36,10 @@ public final class Constants {
     public static final String WECHAT_APP_ID = "wx8a7d12758ddd5649";
     public static final String WECHAT_APP_SECRET = "d4624c36b6795d1d99dcf0547af5443d";
 
+    public static final String DRIBBBLE_CLIENT_ID = "78d32486880ef7f09a8779fc2c982fa180a27719f6ae5d5f3666b255a5d0c68f";
+    public static final String DRIBBBLE_CLIENT_SECRET = "9ea833b72a9a2d6a5d15cb2ce8d5789c1933e22d7242226ecc3740db6e1a7e22";
+
+
     public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.US);
 
 

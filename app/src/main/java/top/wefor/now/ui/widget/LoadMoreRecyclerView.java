@@ -2,6 +2,7 @@ package top.wefor.now.ui.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -41,24 +42,22 @@ public class LoadMoreRecyclerView extends RecyclerView {
         switch (state) {
             case RecyclerView.SCROLL_STATE_DRAGGING:
                 //正在滑动，手未放开
-//                        Logger.i("SCROLL_STATE_DRAGGING");
+//                Logger.i("SCROLL_STATE_DRAGGING");
                 break;
             case RecyclerView.SCROLL_STATE_IDLE:
                 //手放开
-//                        Logger.i("SCROLL_STATE_IDLE");
+                Logger.i("SCROLL_STATE_IDLE");
                 break;
             case RecyclerView.SCROLL_STATE_SETTLING:
                 //检验发现SCROLL_STATE_SETTLING为见底往上拉或顶部往上拉状态
                 Logger.i("SCROLL_STATE_SETTLING");
-                /**
-                 * 注意，请保证第一页填满视图，否则无法滑动导致mDy一直为0.
-                 * 若将条件设为 mDy >= 0,会导致下拉刷新触发loadMore().
-                 */
-                if (mDy > 0 && getLayoutManager() instanceof LinearLayoutManager) {
+                /* 注意，请保证第一页填满视图，否则无法滑动导致mDy一直为0.
+                  若将条件设为 mDy >= 0,会导致下拉刷新触发loadMore(). */
+                if (mDy > 0 && mSpanCount > 0) {
                     LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getLayoutManager();
                     int lastPos = linearLayoutManager.findLastVisibleItemPosition();
                     int itemCount = getAdapter().getItemCount();
-                    if (lastPos == itemCount - 1)
+                    if (lastPos >= itemCount - mSpanCount)
                         loadMore();
                 }
                 break;
@@ -66,7 +65,19 @@ public class LoadMoreRecyclerView extends RecyclerView {
 
     }
 
+    @Override
+    public void setLayoutManager(LayoutManager layout) {
+        super.setLayoutManager(layout);
+        if (layout instanceof LinearLayoutManager) {
+            mSpanCount = 1;
+            if (layout instanceof GridLayoutManager) {
+                mSpanCount = ((GridLayoutManager) layout).getSpanCount();
+            }
+        }
+    }
+
     private int mDy;
+    private int mSpanCount = 0;
     public OnLoadMoreListener mOnLoadMoreListener;
 
     public interface OnLoadMoreListener {
