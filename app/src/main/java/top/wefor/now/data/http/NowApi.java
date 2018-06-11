@@ -48,10 +48,13 @@ public final class NowApi {
         return get(Urls.GANK, cache).build().create(GankApi.class);
     }
 
-    public static DribbbleApi getDribbbleApi(){
+    public static DribbbleApi getDribbbleApi() {
         return get(Urls.AUTH_ENDPOINT).build().create(DribbbleApi.class);
     }
 
+    public static MonoApi getMonoApi() {
+        return get(Urls.MONO).build().create(MonoApi.class);
+    }
 
 
     private static Retrofit.Builder get(String baseUrl) {
@@ -81,7 +84,7 @@ public final class NowApi {
                         .header("Cache-Control", cacheControl)
                         .build();
             });
-        }else {
+        } else {
             httpClientBuilder.addNetworkInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {

@@ -18,5 +18,7 @@ public class Urls {
 
     public static final String AUTH_ENDPOINT = "https://api.dribbble.com/v2/";
 
+    public static final String MONO = "http://mmmono.com/";
+
 
 }
