@@ -84,6 +84,7 @@
     <string name="ng">NG</string>
     <string name="zhihu">知乎</string>
     <string name="moment">Moment</string>
+    <string name="mono">Mono</string>
     <string name="fragment_other">Other</string>
 
     <string-array name="fragments">

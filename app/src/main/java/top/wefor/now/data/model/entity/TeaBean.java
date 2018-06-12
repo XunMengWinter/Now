@@ -28,27 +28,29 @@ public class TeaBean {
     }
 
     public static class MeowBean {
-        public int bang_count;
-        public boolean is_folded;
-        public int kind;
-        public String share_text;
-        public GroupBean group;
+//        public int bang_count;
+//        public boolean is_folded;
+//        public int kind;
+//        public String share_text;
+//        public GroupBean group;
         public AvatarBean thumb;
-        public String banner_img_url;
-        public boolean is_external_link;
-        public String share_img;
-        public String exposure_url;
-        public String meow_status;
-        public int object_type;
-        public int id;
-        public int comment_count;
-        public int create_time;
+//        public String banner_img_url;
+//        public boolean is_external_link;
+//        public String share_img;
+//        public String exposure_url;
+//        public String meow_status;
+//        public int object_type;
+        public String id;
+//        public int comment_count;
+//        public int create_time;
+        public String title;
+        public String description;
+        public String rec_url;
         public UserBean user;
-        public int is_filtered;
-        public int meow_type;
-        public CategoryBean category;
-        public int is_post_by_master;
-
+//        public int is_filtered;
+//        public int meow_type;
+//        public CategoryBean category;
+//        public int is_post_by_master;
     }
 
     public static class GroupBean {

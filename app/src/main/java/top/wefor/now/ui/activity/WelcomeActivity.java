@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.bumptech.glide.Glide;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.Date;
 
@@ -31,11 +30,12 @@ import top.wefor.now.utils.NowAppUtil;
 
 /**
  * Created on 15/11/22.
+ *
  * @author ice
  */
 public class WelcomeActivity extends BaseCompatActivity {
 
-    @BindView(R.id.simpleDraweeView) SimpleDraweeView mSimpleDraweeView;
+    @BindView(R.id.imageView) AppCompatImageView mImageView;
     @BindView(R.id.textView) TextView mTextView;
 
     private Date mStartDate;
@@ -52,11 +52,9 @@ public class WelcomeActivity extends BaseCompatActivity {
         mStartDate = new Date();
         String coverImgUrl = mPreferencesHelper.getCoverImage();
         if (!TextUtils.isEmpty(coverImgUrl)) {
-//            mSimpleDraweeView.setImageURI(Uri.parse(coverImgUrl));
-            Glide.with(this).load(coverImgUrl).into(mSimpleDraweeView);
+            Glide.with(this).load(coverImgUrl).into(mImageView);
         } else {
-            GenericDraweeHierarchy hierarchy = mSimpleDraweeView.getHierarchy();
-            hierarchy.setPlaceholderImage(R.mipmap.img_first_welcome);
+            mImageView.setImageResource(R.mipmap.img_first_welcome);
         }
 
         String version = String.format(getResources().getString(R.string.app_version), BuildConfig.VERSION_NAME);

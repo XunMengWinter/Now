@@ -43,6 +43,7 @@ import top.wefor.now.R;
 import top.wefor.now.ui.BaseCompatActivity;
 import top.wefor.now.ui.fragment.BaseFragment;
 import top.wefor.now.ui.fragment.MomentListFragment;
+import top.wefor.now.ui.fragment.MonoListFragment;
 import top.wefor.now.ui.fragment.NGListFragment;
 import top.wefor.now.ui.fragment.ZcoolListFragment;
 import top.wefor.now.ui.fragment.ZhihuListFragment;
@@ -161,6 +162,8 @@ public class MainActivity extends BaseCompatActivity {
         if (mPreferencesHelper.isModuleSelected(getString(R.string.moment))) {
             mMyTabItems.add(new MyTabItem(getString(R.string.moment), MomentListFragment.newInstance(), R.color.moment));
         }
+
+        mMyTabItems.add(new MyTabItem(getString(R.string.mono), MonoListFragment.newInstance(), R.color.mono));
 
         mSize = mMyTabItems.size();
         mLuckyNum = new Random().nextInt(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
