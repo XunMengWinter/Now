@@ -22,8 +22,6 @@ public class RealmMono extends RealmObject implements AbsNowRealmObject<TeaBean.
     public String imgUrls;
     @SerializedName("content")
     public String content;
-    @SerializedName("author")
-    public String author;
 
     @Override
     public TeaBean.MeowBean toEntity() {
@@ -36,9 +34,6 @@ public class RealmMono extends RealmObject implements AbsNowRealmObject<TeaBean.
         avatarBean.raw = imgUrls;
         moment.thumb = avatarBean;
 
-        TeaBean.UserBean userBean = new TeaBean.UserBean();
-        userBean.name = author;
-        moment.user = userBean;
         return moment;
     }
 
@@ -49,8 +44,6 @@ public class RealmMono extends RealmObject implements AbsNowRealmObject<TeaBean.
         url = moment.rec_url;
         if (moment.thumb != null)
             imgUrls = moment.thumb.raw;
-        if (moment.user != null)
-            author = moment.user.name;
         pk = moment.id;
     }
 

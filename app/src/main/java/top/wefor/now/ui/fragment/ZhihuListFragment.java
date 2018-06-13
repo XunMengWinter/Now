@@ -81,7 +81,6 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu, RealmZhihu> {
 
     @Override
     public void getData() {
-        // Debug url
 //        String url = "http://news.at.zhihu.com/api/4/news/before/20150822";
         if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_ZHIHU)) {
             showList();

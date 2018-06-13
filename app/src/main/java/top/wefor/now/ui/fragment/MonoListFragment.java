@@ -3,7 +3,6 @@ package top.wefor.now.ui.fragment;
 import android.support.annotation.NonNull;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
-import com.orhanobut.logger.Logger;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,8 +13,6 @@ import java.util.Locale;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
-import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
@@ -48,9 +45,7 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
         super.initRecyclerView();
 
         mRecyclerView.setItemAnimator(new FadeInAnimator());
-        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
-        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
-        mRecyclerView.setAdapter(scaleAdapter);
+        mRecyclerView.setAdapter(mAdapter);
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         mAdapter.setOnItemClickListener(news -> {
@@ -66,18 +61,18 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
     @Override
     public void getData() {
         if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_MONO)) {
+            addHeard();
             showList();
             return;
         }
-
         NowApi.getMonoApi().getToken(new Mono())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap((Function<MonoToken, ObservableSource<MonoTea>>) monoToken -> NowApi.getMonoApi().getTea(monoToken.access_token, getDate()))
                 .subscribe(new BaseObserver<MonoTea>() {
                     @Override
                     protected void onSucceed(MonoTea result) {
-                        Logger.i("xyz mono", result.afternoon_tea.title);
                         mList.clear();
+                        addHeard();
                         addTea(result.afternoon_tea);
                         addTea(result.morning_tea);
                         if (mList.size() > 0)
@@ -92,6 +87,11 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
                         showList();
                     }
                 });
+    }
+
+    private void addHeard() {
+        if (mList.isEmpty())
+            mList.add(new TeaBean.MeowBean());
     }
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);

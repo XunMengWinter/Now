@@ -34,7 +34,7 @@
     <color name="g_green">#FF34A350</color>
 
     <color name="moment">#21bba6</color>
-    <color name="mono">#7c918e</color>
+    <color name="mono">#000</color>
     <color name="duoban">#42bd56</color>
     <color name="zcool">#ffd100</color>
     <color name="ng">#000</color>
@@ -45,6 +45,7 @@
     <!--ripple color-->
     <color name="alpha_zcool">#55ffd100</color>
     <color name="alpha_ng">#5000</color>
+    <color name="alpha_mono">#5000</color>
     <color name="alpha_moment">#5521bba6</color>
     <color name="alpha_zhihu">#550077d9</color>
     <color name="alpha_purple">#55673AB7</color>

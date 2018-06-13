@@ -34,6 +34,11 @@ public class MonoAdapter extends BaseListAdapter<TeaBean.MeowBean> {
     }
 
     @Override
+    public int getItemCount() {
+        return super.getItemCount();
+    }
+
+    @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
 
@@ -60,12 +65,14 @@ public class MonoAdapter extends BaseListAdapter<TeaBean.MeowBean> {
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
         if (news.thumb != null && !TextUtils.isEmpty(news.thumb.raw)) {
             Glide.with(context).load(news.thumb.raw).into(cardViewHolder.mImageView);
+            cardViewHolder.mImageView.setVisibility(View.VISIBLE);
+        } else {
+            cardViewHolder.mImageView.setVisibility(View.GONE);
         }
         cardViewHolder.mTitleTextView.setText(news.title);
+        cardViewHolder.mTitleTextView.setVisibility(news.title == null ? View.GONE : View.VISIBLE);
         cardViewHolder.mContentTextView.setText(news.description);
-        if (news.user != null) {
-            cardViewHolder.mNameTextView.setText("by " + news.user.name);
-        }
+        cardViewHolder.mContentTextView.setVisibility(news.description == null ? View.GONE : View.VISIBLE);
     }
 
     public class CardViewHolder extends RecyclerView.ViewHolder {

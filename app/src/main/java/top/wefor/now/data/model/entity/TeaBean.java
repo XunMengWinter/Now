@@ -1,5 +1,6 @@
 package top.wefor.now.data.model.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,18 +9,18 @@ import java.util.List;
  * @author ice
  */
 
-public class TeaBean {
-    public String release_date;
+public class TeaBean implements Serializable {
+    //    public String release_date;
     public int kind;
-    public String share_text;
-    public String push_msg;
+    //    public String share_text;
+//    public String push_msg;
     public String title;
-    public String sub_title;
-    public String bg_img_url;
-    public AvatarBean bg_img_url_thumb;
-    public String read_time;
-    public String intro;
-    public String share_image;
+    //    public String sub_title;
+//    public String bg_img_url;
+//    public AvatarBean bg_img_url_thumb;
+//    public String read_time;
+//    public String intro;
+//    public String share_image;
     public int id;
     public List<EntityListBean> entity_list;
 
@@ -28,25 +29,25 @@ public class TeaBean {
     }
 
     public static class MeowBean {
-//        public int bang_count;
+        //        public int bang_count;
 //        public boolean is_folded;
 //        public int kind;
 //        public String share_text;
 //        public GroupBean group;
         public AvatarBean thumb;
-//        public String banner_img_url;
+        //        public String banner_img_url;
 //        public boolean is_external_link;
 //        public String share_img;
 //        public String exposure_url;
 //        public String meow_status;
 //        public int object_type;
         public String id;
-//        public int comment_count;
+        //        public int comment_count;
 //        public int create_time;
         public String title;
         public String description;
         public String rec_url;
-        public UserBean user;
+//        public UserBean user;
 //        public int is_filtered;
 //        public int meow_type;
 //        public CategoryBean category;
@@ -97,15 +98,15 @@ public class TeaBean {
     }
 
     public static class UserBean {
-        public String user_id;
+        //        public String user_id;
         public String name;
-        public boolean is_anonymous;
-        public int horoscope;
-        public int gender;
-        public String self_description;
-        public String avatar_url;
-        public AvatarBean avatar_url_thumb;
-        public CoordinateBean coordinate;
+//        public boolean is_anonymous;
+//        public int horoscope;
+//        public int gender;
+//        public String self_description;
+//        public String avatar_url;
+//        public AvatarBean avatar_url_thumb;
+//        public CoordinateBean coordinate;
 
         public static class CoordinateBean {
             public int latitude;
@@ -116,8 +117,8 @@ public class TeaBean {
 
     public static class AvatarBean {
         public String raw;
-        public int height;
-        public int width;
-        public String format;
+//        public int height;
+//        public int width;
+//        public String format;
     }
 }

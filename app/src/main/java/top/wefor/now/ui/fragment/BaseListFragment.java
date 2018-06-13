@@ -18,9 +18,13 @@ import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.DynamicRealm;
+import io.realm.FieldAttribute;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmMigration;
 import io.realm.RealmObject;
+import io.realm.RealmSchema;
 import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
@@ -84,6 +88,25 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
     protected void initRealm() {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .schemaVersion(1)
+//                .migration(new RealmMigration() {
+//
+//                    @Override
+//                    public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
+//                        RealmSchema schema = realm.getSchema();
+//                        if (oldVersion == 0) {
+//                            schema.create("RealmMono")
+//                                    .addField("pk", String.class, FieldAttribute.PRIMARY_KEY)
+//                                    .setRequired("pk", true)
+//                                    .addField("url", String.class)
+//                                    .addField("title", String.class)
+//                                    .addField("imgUrls", String.class)
+//                                    .addField("content", String.class)
+//                                    .addField("author", String.class)
+//                            ;
+//                        }
+//                    }
+//                })
+                .deleteRealmIfMigrationNeeded()
                 .build();
         mRealm = Realm.getInstance(realmConfiguration);
         mRealmDbHelper = new RealmDbHelper(mList, mRealm, getNowRealmClass());
@@ -92,7 +115,7 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
     protected void initRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mAdapter = getNowAdapter(mList);
         mRecyclerView.setAdapter(mAdapter);
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);

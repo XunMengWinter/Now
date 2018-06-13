@@ -51,7 +51,7 @@ public abstract class BaseObserver<T> implements Observer<T>, LifecycleObserver 
     @Override
     public void onError(Throwable e) {
         e.printStackTrace();
-//        Logger.i(TAG, "onError " + e.getMessage());
+        Logger.i("onError " + e.getMessage());
         onFailed(e.getMessage());
         onEnd();
     }

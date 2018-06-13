@@ -150,6 +150,9 @@ public class MainActivity extends BaseCompatActivity {
 
     private void showAll() {
         mMyTabItems = new ArrayList<>();
+        if (mPreferencesHelper.isModuleSelected(getString(R.string.mono))) {
+            mMyTabItems.add(new MyTabItem(getString(R.string.mono), MonoListFragment.newInstance(), R.color.mono));
+        }
         if (mPreferencesHelper.isModuleSelected(getString(R.string.zcool))) {
             mMyTabItems.add(new MyTabItem(getString(R.string.zcool), ZcoolListFragment.newInstance(), R.color.zcool));
         }
@@ -162,8 +165,6 @@ public class MainActivity extends BaseCompatActivity {
         if (mPreferencesHelper.isModuleSelected(getString(R.string.moment))) {
             mMyTabItems.add(new MyTabItem(getString(R.string.moment), MomentListFragment.newInstance(), R.color.moment));
         }
-
-        mMyTabItems.add(new MyTabItem(getString(R.string.mono), MonoListFragment.newInstance(), R.color.mono));
 
         mSize = mMyTabItems.size();
         mLuckyNum = new Random().nextInt(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -281,6 +282,7 @@ public class MainActivity extends BaseCompatActivity {
             if (mColumnSelectView == null) {
                 mColumnSelectView = getLayoutInflater().inflate(R.layout.dialog_column_select, null);
                 LinearLayout linearLayout = mColumnSelectView.findViewById(R.id.linearLayout);
+                linearLayout.addView(getCheckBox(getString(R.string.mono)));
                 linearLayout.addView(getCheckBox(getString(R.string.zcool)));
                 linearLayout.addView(getCheckBox(getString(R.string.ng)));
                 linearLayout.addView(getCheckBox(getString(R.string.zhihu)));

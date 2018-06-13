@@ -74,13 +74,13 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
 
     @Override
     public void getData() {
+        if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_NG)) {
+            showList();
+            return;
+        }
 //        String nGUrl = "http://photography.nationalgeographic.com/photography/";
         Observable
                 .create((ObservableOnSubscribe<Document>) observableEmitter -> {
-                    if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_NG)) {
-                        observableEmitter.onComplete();
-                        return;
-                    }
                     try {
                         Document document = Jsoup.connect(Urls.NG_BASE_URL).get();
                         observableEmitter.onNext(document);
@@ -122,7 +122,6 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(this::showList)
                 .subscribe(new BaseObserver<Document>(getLifecycle()) {
                     @Override
                     protected void onSucceed(Document result) {

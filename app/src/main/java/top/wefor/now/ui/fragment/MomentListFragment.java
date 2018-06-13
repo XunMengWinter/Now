@@ -72,13 +72,13 @@ public class MomentListFragment extends BaseListFragment<Moment, RealmMoment> {
 
     @Override
     public void getData() {
+        if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_MOMENT)) {
+            showList();
+            return;
+        }
+
         Observable
                 .create((ObservableOnSubscribe<Document>) observableEmitter -> {
-                    if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_MOMENT)) {
-                        observableEmitter.onComplete();
-                        return;
-                    }
-
                     try {
                         Document document = Jsoup.connect(Urls.MOMENT_URL).get();
                         observableEmitter.onNext(document);
@@ -114,7 +114,6 @@ public class MomentListFragment extends BaseListFragment<Moment, RealmMoment> {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(this::showList)
                 .subscribe(new BaseObserver<Document>(getLifecycle()) {
                     @Override
                     protected void onSucceed(Document result) {
