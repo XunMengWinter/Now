@@ -82,7 +82,9 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
 
 
     protected void initRealm() {
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .schemaVersion(1)
+                .build();
         mRealm = Realm.getInstance(realmConfiguration);
         mRealmDbHelper = new RealmDbHelper(mList, mRealm, getNowRealmClass());
     }
