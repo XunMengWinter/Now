@@ -254,9 +254,10 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        WebView.HitTestResult hr = ((WebView) v).getHitTestResult();
-
-        Log.i("xyz ", "getExtra = " + hr.getExtra() + "\t\t Type=" + hr.getType());
+        if (v instanceof WebView) {
+            WebView.HitTestResult hr = ((WebView) v).getHitTestResult();
+            Log.i("xyz ", "getExtra = " + hr.getExtra() + "\t\t Type=" + hr.getType());
+        }
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:

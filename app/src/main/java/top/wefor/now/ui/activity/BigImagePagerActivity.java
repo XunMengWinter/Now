@@ -85,7 +85,9 @@ public class BigImagePagerActivity extends BaseCompatActivity {
                 int exitIndex = sExitIndex;
                 sExitIndex = null;
 
-                if (exitIndex != enterIndex) {
+                if (exitIndex != enterIndex
+                        && imageViews.size() > exitIndex
+                        && imageUrls.size() > exitIndex) {
                     names.clear();
                     sharedElements.clear();
                     View view = imageViews.get(exitIndex);

@@ -35,6 +35,8 @@ public class TeaBean implements Serializable {
 //        public String share_text;
 //        public GroupBean group;
         public AvatarBean thumb;
+        public List<AvatarBean> pics;
+        public List<AvatarBean> images;
         //        public String banner_img_url;
 //        public boolean is_external_link;
 //        public String share_img;
@@ -52,6 +54,17 @@ public class TeaBean implements Serializable {
 //        public int meow_type;
 //        public CategoryBean category;
 //        public int is_post_by_master;
+
+        public String getCover() {
+            if (thumb != null) {
+                return thumb.raw;
+            } else if (images != null && images.size() > 0) {
+                return images.get(0).raw;
+            } else if (pics != null && pics.size() > 0) {
+                return pics.get(0).raw;
+            }
+            return null;
+        }
     }
 
     public static class GroupBean {

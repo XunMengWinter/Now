@@ -47,7 +47,7 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         mAdapter.setOnItemClickListener(news -> {
-            WebActivity.startThis(getActivity(), news.rec_url, news.title, news.thumb.raw,
+            WebActivity.startThis(getActivity(), news.rec_url, news.title, news.getCover(),
                     getString(R.string.share_summary_zhihu));
         });
 
