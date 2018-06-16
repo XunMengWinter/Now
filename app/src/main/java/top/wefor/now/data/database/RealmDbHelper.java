@@ -32,20 +32,21 @@ public class RealmDbHelper<M, T extends RealmObject> {
     }
 
     public void saveToDatabase() {
-        if (mEntityList.size() > 0)
-            for (int i = mEntityList.size() - 1; i >= 0; i--) {
+        if (mEntityList.size() > 0) {
+            try {
                 mRealm.beginTransaction();
-                try {
+                for (int i = mEntityList.size() - 1; i >= 0; i--) {
                     T realmMoment = mNowRealmClass.newInstance();
                     ((AbsNowRealmObject) realmMoment).setFromEntity(mEntityList.get(i));
                     mRealm.copyToRealmOrUpdate(realmMoment);
-                    mRealm.commitTransaction();
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                    Logger.i("data save err " + e.getMessage() + " " + mNowRealmClass.getSimpleName());
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Logger.i("data save err " + e.getMessage() + " " + mNowRealmClass.getSimpleName());
+            } finally {
+                mRealm.commitTransaction();
             }
-
+        }
     }
 
     public void getFromDatabase() {

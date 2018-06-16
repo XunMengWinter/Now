@@ -41,11 +41,7 @@ public class PreferencesHelper {
     }
 
     public boolean isModuleSelected(@NonNull String name) {
-        return isModuleSelected(name, true);
-    }
-
-    public boolean isModuleSelected(@NonNull String name, boolean defValue) {
-        return mPreferences.getBoolean(name, defValue);
+        return mPreferences.getBoolean(name, true);
     }
 
     public void setModuleSelected(@NonNull String name, boolean isSelected) {

@@ -150,7 +150,7 @@ public class MainActivity extends BaseCompatActivity {
 
     private void showAll() {
         mMyTabItems = new ArrayList<>();
-        if (mPreferencesHelper.isModuleSelected(getString(R.string.mono), false)) {
+        if (mPreferencesHelper.isModuleSelected(getString(R.string.mono))) {
             mMyTabItems.add(new MyTabItem(getString(R.string.mono), MonoListFragment.newInstance(), R.color.mono));
         }
         if (mPreferencesHelper.isModuleSelected(getString(R.string.zcool))) {

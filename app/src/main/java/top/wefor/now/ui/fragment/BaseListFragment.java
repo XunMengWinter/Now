@@ -82,10 +82,9 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
         initRecyclerView();
     }
 
-
     protected void initRealm() {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
-                .schemaVersion(1)
+                .schemaVersion(2)
                 .deleteRealmIfMigrationNeeded()
                 .build();
         mRealm = Realm.getInstance(realmConfiguration);
