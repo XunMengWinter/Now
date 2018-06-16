@@ -41,7 +41,11 @@ public class PreferencesHelper {
     }
 
     public boolean isModuleSelected(@NonNull String name) {
-        return mPreferences.getBoolean(name, true);
+        return isModuleSelected(name, true);
+    }
+
+    public boolean isModuleSelected(@NonNull String name, boolean defValue) {
+        return mPreferences.getBoolean(name, defValue);
     }
 
     public void setModuleSelected(@NonNull String name, boolean isSelected) {
@@ -52,32 +56,32 @@ public class PreferencesHelper {
         return mPreferences.getString(Constants.HEAD_IMAGES, null);
     }
 
-    public void setHeadImages(String headImages){
+    public void setHeadImages(String headImages) {
         mPreferences.edit().putString(Constants.HEAD_IMAGES, headImages).apply();
     }
 
-    public String getCoverImage(){
+    public String getCoverImage() {
         return mPreferences.getString(Constants.COVER_IMAGE, "");
     }
 
-    public void setCoverImage(String imageUrl){
+    public void setCoverImage(String imageUrl) {
         mPreferences.edit().putString(Constants.COVER_IMAGE, imageUrl).apply();
     }
 
-    public void setNgImages(String images){
+    public void setNgImages(String images) {
         mPreferences.edit().putString(Constants.NG_IMAGES, images).apply();
     }
 
-    public String getNgImages(){
+    public String getNgImages() {
         return mPreferences.getString(Constants.NG_IMAGES, "");
     }
 
-    public void setLastGankBanner(String imageUrl){
+    public void setLastGankBanner(String imageUrl) {
         mPreferences.edit().putString(Constants.LAST_GANK_BANNER, imageUrl).apply();
     }
 
-    public String getLastGankBanner(){
-        return mPreferences.getString(Constants.LAST_GANK_BANNER,"");
+    public String getLastGankBanner() {
+        return mPreferences.getString(Constants.LAST_GANK_BANNER, "");
     }
 
 }
