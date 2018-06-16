@@ -106,7 +106,7 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
                         nG.title = pass(imageA.select("img").first().attr("alt"));
                         nG.content = pass(element.getElementsByClass("ajax_dd_text").first().ownText());
 
-                        Log.i("xyz ", "ngfragment " + nG.content + nG.imgUrl + nG.url + nG.title);
+//                        Log.i("xyz ", "ngfragment " + nG.content + nG.imgUrl + nG.url + nG.title);
                         mList.add(nG);
                     }
                     if (mList.size() > 0) {

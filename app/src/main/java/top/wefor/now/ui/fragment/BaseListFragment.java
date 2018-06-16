@@ -14,17 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.DynamicRealm;
-import io.realm.FieldAttribute;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmMigration;
 import io.realm.RealmObject;
-import io.realm.RealmSchema;
+import io.realm.RealmObjectSchema;
 import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
@@ -91,8 +89,17 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
                 .deleteRealmIfMigrationNeeded()
                 .build();
         mRealm = Realm.getInstance(realmConfiguration);
+        if (!sPrinterOnce) {
+            sPrinterOnce = true;
+            for (RealmObjectSchema schema : mRealm.getSchema().getAll()) {
+                Logger.i("schema" + schema.getClassName());
+                Logger.i("schema" + schema.getFieldNames());
+            }
+        }
         mRealmDbHelper = new RealmDbHelper(mList, mRealm, getNowRealmClass());
     }
+
+    private volatile static boolean sPrinterOnce;
 
     protected void initRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());

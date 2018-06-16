@@ -25,26 +25,26 @@ public class RealmMono extends RealmObject implements AbsNowRealmObject<TeaBean.
 
     @Override
     public TeaBean.MeowBean toEntity() {
-        TeaBean.MeowBean moment = new TeaBean.MeowBean();
-        moment.title = title;
-        moment.description = content;
-        moment.rec_url = url;
+        TeaBean.MeowBean meowBean = new TeaBean.MeowBean();
+        meowBean.title = title;
+        meowBean.description = content;
+        meowBean.rec_url = url;
 
         TeaBean.AvatarBean avatarBean = new TeaBean.AvatarBean();
         avatarBean.raw = imgUrls;
-        moment.thumb = avatarBean;
+        meowBean.thumb = avatarBean;
 
-        return moment;
+        return meowBean;
     }
 
     @Override
-    public void setFromEntity(TeaBean.MeowBean moment) {
-        title = moment.title;
-        content = moment.description;
-        url = moment.rec_url;
-        if (moment.thumb != null)
-            imgUrls = moment.thumb.raw;
-        pk = moment.id;
+    public void setFromEntity(TeaBean.MeowBean meowBean) {
+        title = meowBean.title;
+        content = meowBean.description;
+        url = meowBean.rec_url;
+        if (meowBean.thumb != null)
+            imgUrls = meowBean.thumb.raw;
+        pk = meowBean.id;
     }
 
 }
