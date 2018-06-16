@@ -88,24 +88,6 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
     protected void initRealm() {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .schemaVersion(1)
-//                .migration(new RealmMigration() {
-//
-//                    @Override
-//                    public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
-//                        RealmSchema schema = realm.getSchema();
-//                        if (oldVersion == 0) {
-//                            schema.create("RealmMono")
-//                                    .addField("pk", String.class, FieldAttribute.PRIMARY_KEY)
-//                                    .setRequired("pk", true)
-//                                    .addField("url", String.class)
-//                                    .addField("title", String.class)
-//                                    .addField("imgUrls", String.class)
-//                                    .addField("content", String.class)
-//                                    .addField("author", String.class)
-//                            ;
-//                        }
-//                    }
-//                })
                 .deleteRealmIfMigrationNeeded()
                 .build();
         mRealm = Realm.getInstance(realmConfiguration);

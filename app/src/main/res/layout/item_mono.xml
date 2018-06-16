@@ -55,47 +55,5 @@
             tools:text="@string/text"
             />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/d3"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/name_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="寻梦Winter"
-                android:textColor="@color/secondary_text"
-                android:textSize="@dimen/h6"/>
-
-
-            <TextView
-                android:id="@+id/read_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.32"
-                android:paddingEnd="@dimen/d2"
-                android:text="168看过"
-                android:textColor="@color/text_gray"
-                android:textSize="@dimen/h6"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/like_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/d3"
-                android:alpha="0.32"
-                android:text="22赞"
-                android:textColor="@color/text_gray"
-                android:textSize="@dimen/h6"
-                android:visibility="gone"/>
-        </LinearLayout>
-
-
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -128,6 +128,12 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
                         saveData();
                         showList();
                     }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        showList();
+                    }
                 });
     }
 

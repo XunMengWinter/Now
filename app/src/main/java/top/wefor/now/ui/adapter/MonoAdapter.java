@@ -79,9 +79,6 @@ public class MonoAdapter extends BaseListAdapter<TeaBean.MeowBean> {
         @BindView(R.id.imageView) AppCompatImageView mImageView;
         @BindView(R.id.title_textView) TextView mTitleTextView;
         @BindView(R.id.content_textView) TextView mContentTextView;
-        @BindView(R.id.name_textView) TextView mNameTextView;
-        @BindView(R.id.read_textView) TextView mReadTextView;
-        @BindView(R.id.like_textView) TextView mLikeTextView;
         @BindView(R.id.rootView) LinearLayout mRootView;
         @BindView(R.id.news_list_card_view) CardView mNewsListCardView;
 

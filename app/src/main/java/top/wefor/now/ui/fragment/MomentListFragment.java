@@ -120,6 +120,12 @@ public class MomentListFragment extends BaseListFragment<Moment, RealmMoment> {
                         saveData();
                         showList();
                     }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        showList();
+                    }
                 });
     }
 

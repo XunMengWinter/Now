@@ -44,7 +44,6 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
     protected void initRecyclerView() {
         super.initRecyclerView();
 
-        mRecyclerView.setItemAnimator(new FadeInAnimator());
         mRecyclerView.setAdapter(mAdapter);
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
@@ -61,7 +60,6 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
     @Override
     public void getData() {
         if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_MONO)) {
-            addHeard();
             showList();
             return;
         }
@@ -72,7 +70,6 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
                     @Override
                     protected void onSucceed(MonoTea result) {
                         mList.clear();
-                        addHeard();
                         addTea(result.afternoon_tea);
                         addTea(result.morning_tea);
                         if (mList.size() > 0)
@@ -87,11 +84,6 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
                         showList();
                     }
                 });
-    }
-
-    private void addHeard() {
-        if (mList.isEmpty())
-            mList.add(new TeaBean.MeowBean());
     }
 
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
