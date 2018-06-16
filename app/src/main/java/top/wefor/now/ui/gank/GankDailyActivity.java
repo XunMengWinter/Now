@@ -88,7 +88,7 @@ public class GankDailyActivity extends BaseToolbarActivity {
     private void getTheLatestGanks() {
 //        boolean todayReadCache = !NowAppUtil.isNetworkConnected(App.getInstance());
         Observable<GankDailyResult> observable = NowApi.getGankApi().getGankDaily(DateUtil.toGankDate(mDate)).observeOn(Schedulers.io());
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 7; i++) {
             observable = observable
                     .zipWith(getHistoryGank(DateUtil.toGankDate(mDate, -i - 1)), this::zipGankResult);
         }
