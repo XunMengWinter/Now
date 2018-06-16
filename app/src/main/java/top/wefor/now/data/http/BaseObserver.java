@@ -69,6 +69,7 @@ public abstract class BaseObserver<T> implements Observer<T>, LifecycleObserver 
             onSucceed(result);
         else
             onFailed(null);
+        onEnd();
     }
 
     protected void onFailed(String msg) {
