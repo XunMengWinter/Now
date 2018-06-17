@@ -130,8 +130,8 @@ public class TeaBean implements Serializable {
 
     public static class AvatarBean {
         public String raw;
-//        public int height;
-//        public int width;
-//        public String format;
+        public int height;
+        public int width;
+        public String format;
     }
 }

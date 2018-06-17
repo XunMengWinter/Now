@@ -91,6 +91,10 @@
             android:label="@string/activity_gank_daily"
             android:theme="@style/AppThemeGank"/>
 
+        <activity
+            android:name=".ui.activity.MonoImageListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.Translucent"/>
 
     </application>
 

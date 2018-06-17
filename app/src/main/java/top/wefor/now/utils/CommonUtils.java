@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 
 import top.wefor.now.R;
+import top.wefor.now.data.model.entity.TeaBean;
 
 public class CommonUtils {
 
@@ -40,6 +42,10 @@ public class CommonUtils {
             //System.out.println("已经安装");
             return true;
         }
+    }
+
+    public static boolean isAvatarAvailable(TeaBean.AvatarBean avatarBean) {
+        return (avatarBean != null && !TextUtils.isEmpty(avatarBean.raw));
     }
 
 }

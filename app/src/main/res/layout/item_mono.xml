@@ -17,15 +17,15 @@
         android:background="@drawable/ripple_mono"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
             />
-        <!--android:src="@mipmap/img_first_welcome"-->
-        <!--fresco:viewAspectRatio="1.33"-->
+        <!--android:adjustViewBounds="true"-->
         <!--fresco:roundedCornerRadius="@dimen/d2"-->
+        <!--fresco:viewAspectRatio="1.33"-->
+        <!--android:src="@mipmap/img_first_welcome"-->
 
         <TextView
             android:id="@+id/title_textView"

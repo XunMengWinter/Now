@@ -1,6 +1,7 @@
 package top.wefor.now.ui.fragment;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 
@@ -13,6 +14,9 @@ import java.util.Locale;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
 import top.wefor.now.data.http.BaseObserver;
@@ -22,6 +26,7 @@ import top.wefor.now.data.model.MonoTea;
 import top.wefor.now.data.model.MonoToken;
 import top.wefor.now.data.model.entity.TeaBean;
 import top.wefor.now.data.model.realm.RealmMono;
+import top.wefor.now.ui.activity.MonoImageListActivity;
 import top.wefor.now.ui.activity.WebActivity;
 import top.wefor.now.ui.adapter.BaseListAdapter;
 import top.wefor.now.ui.adapter.MonoAdapter;
@@ -43,12 +48,21 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
     protected void initRecyclerView() {
         super.initRecyclerView();
 
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new FadeInAnimator());
+        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
+        ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
+        mRecyclerView.setAdapter(scaleAdapter);
         MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         mAdapter.setOnItemClickListener(news -> {
-            WebActivity.startThis(getActivity(), news.rec_url, news.title, news.getCover(),
-                    getString(R.string.share_summary_zhihu));
+            if (!TextUtils.isEmpty(news.rec_url)) {
+                WebActivity.startThis(getActivity(), news.rec_url, news.title, news.getCover(),
+                        getString(R.string.share_summary_zhihu));
+            } else if (news.images != null && news.images.size() > 0) {
+                startActivity(MonoImageListActivity.getIntent(getActivity(), news.images));
+            } else if (news.pics != null && news.pics.size() > 0) {
+                startActivity(MonoImageListActivity.getIntent(getActivity(), news.pics));
+            }
         });
 
         if (mList.size() < 1) {

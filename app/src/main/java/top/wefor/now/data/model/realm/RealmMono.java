@@ -1,11 +1,10 @@
 package top.wefor.now.data.model.realm;
 
-import android.text.TextUtils;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -15,7 +14,6 @@ import top.wefor.now.data.model.entity.TeaBean;
  * Created by ice on 16/4/13 10:56.
  */
 public class RealmMono extends RealmObject implements AbsNowRealmObject<TeaBean.MeowBean> {
-    private static final String separate = ",,,";
 
     @PrimaryKey
     @Required
@@ -25,12 +23,15 @@ public class RealmMono extends RealmObject implements AbsNowRealmObject<TeaBean.
     @SerializedName("title")
     public String title;
 
+
+    @SerializedName("thumb")
+    public RealmAvatar thumb;
     /* 显示全部 */
     @SerializedName("pics")
-    public String pics;
+    public RealmList<RealmAvatar> pics;
     /* 取第一张 */
     @SerializedName("images")
-    public String images;
+    public RealmList<RealmAvatar> images;
 
     @SerializedName("content")
     public String content;
@@ -38,35 +39,29 @@ public class RealmMono extends RealmObject implements AbsNowRealmObject<TeaBean.
     @Override
     public TeaBean.MeowBean toEntity() {
         TeaBean.MeowBean meowBean = new TeaBean.MeowBean();
+        meowBean.id = pk;
         meowBean.title = title;
         meowBean.description = content;
         meowBean.rec_url = url;
 
-        if (!TextUtils.isEmpty(images)) {
-            String[] imageList = images.split(separate);
-            if (imageList.length <= 1) {
-                meowBean.thumb = getAvatarBean(imageList[0]);
-            } else {
-                meowBean.images = new ArrayList<>();
-                for (String raw : imageList) {
-                    meowBean.images.add(getAvatarBean(raw));
-                }
-            }
-        } else if (!TextUtils.isEmpty(pics)) {
-            String[] picList = pics.split(separate);
-            meowBean.pics = new ArrayList<>();
-            for (String raw : picList) {
-                meowBean.pics.add(getAvatarBean(raw));
+        if (thumb != null) {
+            meowBean.thumb = thumb.toEntity();
+        }
+
+        if (images != null) {
+            meowBean.images = new ArrayList<>();
+            for (RealmAvatar realmAvatar : images) {
+                meowBean.images.add(realmAvatar.toEntity());
             }
         }
 
+        if (pics != null) {
+            meowBean.pics = new ArrayList<>();
+            for (RealmAvatar realmAvatar : pics) {
+                meowBean.pics.add(realmAvatar.toEntity());
+            }
+        }
         return meowBean;
-    }
-
-    private TeaBean.AvatarBean getAvatarBean(String raw) {
-        TeaBean.AvatarBean avatarBean = new TeaBean.AvatarBean();
-        avatarBean.raw = raw;
-        return avatarBean;
     }
 
     @Override
@@ -75,19 +70,19 @@ public class RealmMono extends RealmObject implements AbsNowRealmObject<TeaBean.
         content = meowBean.description;
         url = meowBean.rec_url;
         if (meowBean.thumb != null) {
-            images = meowBean.thumb.raw;
-        } else if (meowBean.images != null) {
-            StringBuilder stringBuilder = new StringBuilder();
+            thumb = RealmAvatar.getAvatar(meowBean.thumb);
+        }
+        if (meowBean.images != null) {
+            images = new RealmList<>();
             for (TeaBean.AvatarBean avatarBean : meowBean.images) {
-                stringBuilder.append(avatarBean.raw).append(separate);
+                images.add(RealmAvatar.getAvatar(avatarBean));
             }
-            images = stringBuilder.toString();
-        } else if (meowBean.pics != null) {
-            StringBuilder stringBuilder = new StringBuilder();
+        }
+        if (meowBean.pics != null) {
+            pics = new RealmList<>();
             for (TeaBean.AvatarBean avatarBean : meowBean.pics) {
-                stringBuilder.append(avatarBean.raw).append(separate);
+                pics.add(RealmAvatar.getAvatar(avatarBean));
             }
-            pics = stringBuilder.toString();
         }
         pk = meowBean.id;
     }

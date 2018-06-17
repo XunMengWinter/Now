@@ -55,6 +55,8 @@ public final class Constants {
     public static final String KEY_REFRESH_TIME_MOMENT = "refreshTimeMoment";
     public static final String KEY_REFRESH_TIME_MONO = "refreshTimeMono";
 
+    public static final String KEY_IMAGES_STR = "images_str";
+
     public static final long VALUE_REFRESH_INTERVAL = 1000 * 60 * 10;
     public static final long VALUE_FINISH_DELAYED_TIME = 1000 * 60;
 
