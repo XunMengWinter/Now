@@ -113,6 +113,7 @@
 
     <string name="share_subject">From Now, view more.</string>
     <string name="share_summary_zcool">From Zcool</string>
+    <string name="share_summary_mono">From MONO</string>
     <string name="share_summary_ng">From National Geographic</string>
     <string name="share_summary_zhihu">From Zhihu</string>
     <string name="share_summary_moment">From Douban Moment</string>

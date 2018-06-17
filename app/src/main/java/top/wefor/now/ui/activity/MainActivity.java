@@ -150,14 +150,14 @@ public class MainActivity extends BaseCompatActivity {
 
     private void showAll() {
         mMyTabItems = new ArrayList<>();
-        if (mPreferencesHelper.isModuleSelected(getString(R.string.mono))) {
-            mMyTabItems.add(new MyTabItem(getString(R.string.mono), MonoListFragment.newInstance(), R.color.mono));
-        }
         if (mPreferencesHelper.isModuleSelected(getString(R.string.zcool))) {
             mMyTabItems.add(new MyTabItem(getString(R.string.zcool), ZcoolListFragment.newInstance(), R.color.zcool));
         }
         if (mPreferencesHelper.isModuleSelected(getString(R.string.ng))) {
             mMyTabItems.add(new MyTabItem(getString(R.string.ng), NGListFragment.newInstance(), R.color.ng));
+        }
+        if (mPreferencesHelper.isModuleSelected(getString(R.string.mono))) {
+            mMyTabItems.add(new MyTabItem(getString(R.string.mono), MonoListFragment.newInstance(), R.color.mono));
         }
         if (mPreferencesHelper.isModuleSelected(getString(R.string.zhihu))) {
             mMyTabItems.add(new MyTabItem(getString(R.string.zhihu), ZhihuListFragment.newInstance(), R.color.zhihu));
@@ -282,9 +282,9 @@ public class MainActivity extends BaseCompatActivity {
             if (mColumnSelectView == null) {
                 mColumnSelectView = getLayoutInflater().inflate(R.layout.dialog_column_select, null);
                 LinearLayout linearLayout = mColumnSelectView.findViewById(R.id.linearLayout);
-                linearLayout.addView(getCheckBox(getString(R.string.mono)));
                 linearLayout.addView(getCheckBox(getString(R.string.zcool)));
                 linearLayout.addView(getCheckBox(getString(R.string.ng)));
+                linearLayout.addView(getCheckBox(getString(R.string.mono)));
                 linearLayout.addView(getCheckBox(getString(R.string.zhihu)));
                 linearLayout.addView(getCheckBox(getString(R.string.moment)));
             } else if (mColumnSelectTextView.getParent() instanceof ViewGroup) {

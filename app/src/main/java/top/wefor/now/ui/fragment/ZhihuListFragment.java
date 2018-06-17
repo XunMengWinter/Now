@@ -60,7 +60,6 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu, RealmZhihu> {
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
         mRecyclerView.setAdapter(scaleAdapter);
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         mAdapter.setOnItemClickListener(news -> {
             String news_url = NowApi.getNewsContent(news.id);

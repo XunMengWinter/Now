@@ -1,9 +1,8 @@
 package top.wefor.now.ui.fragment;
 
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
-import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,7 +25,6 @@ import top.wefor.now.data.model.MonoTea;
 import top.wefor.now.data.model.MonoToken;
 import top.wefor.now.data.model.entity.TeaBean;
 import top.wefor.now.data.model.realm.RealmMono;
-import top.wefor.now.ui.activity.MonoImageListActivity;
 import top.wefor.now.ui.activity.WebActivity;
 import top.wefor.now.ui.adapter.BaseListAdapter;
 import top.wefor.now.ui.adapter.MonoAdapter;
@@ -40,28 +38,37 @@ import top.wefor.now.utils.PrefUtil;
 public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMono> {
 
     public static MonoListFragment newInstance() {
-        MonoListFragment fragment = new MonoListFragment();
-        return fragment;
+        return new MonoListFragment();
     }
 
     @Override
     protected void initRecyclerView() {
         super.initRecyclerView();
 
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //TODO default item_layout
+        } else {
+            //TODO land item_layout
+        }
+
         mRecyclerView.setItemAnimator(new FadeInAnimator());
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(alphaAdapter);
         mRecyclerView.setAdapter(scaleAdapter);
-        MaterialViewPagerHelper.registerRecyclerView(getActivity(), mRecyclerView);
 
         mAdapter.setOnItemClickListener(news -> {
             if (!TextUtils.isEmpty(news.rec_url)) {
-                WebActivity.startThis(getActivity(), news.rec_url, news.title, news.getCover(),
-                        getString(R.string.share_summary_zhihu));
-            } else if (news.images != null && news.images.size() > 0) {
-                startActivity(MonoImageListActivity.getIntent(getActivity(), news.images));
-            } else if (news.pics != null && news.pics.size() > 0) {
-                startActivity(MonoImageListActivity.getIntent(getActivity(), news.pics));
+                WebActivity.startThis(getActivity(), news.rec_url, news.title, news.getCover()
+                        , getString(R.string.share_summary_mono));
+//            } else if (news.images != null && news.images.size() > 0) {
+//                startActivity(MonoImageListActivity.getIntent(getActivity(), news.images));
+//            } else if (news.pics != null && news.pics.size() > 0) {
+//                startActivity(MonoImageListActivity.getIntent(getActivity(), news.pics));
+            } else {
+                String webUrl = "http://mmmono.com/g/meow/{meow_id}/";
+                webUrl = webUrl.replace("{meow_id}", news.id);
+                WebActivity.startThis(getActivity(), webUrl, news.title, news.getCover()
+                        , getString(R.string.share_summary_mono));
             }
         });
 
