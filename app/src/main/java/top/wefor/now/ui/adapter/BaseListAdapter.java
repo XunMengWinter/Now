@@ -28,6 +28,8 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<RecyclerVi
     protected static final int TYPE_HEADER = 0;
     protected static final int TYPE_CELL = 1;
 
+    private int mHeadCount = 1;
+
     public BaseListAdapter(Context context, List<T> mList) {
         this.mList = mList;
         this.context = context;
@@ -100,17 +102,21 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<RecyclerVi
                 bindHeaderViewHolder(holder, position);
                 break;
             case TYPE_CELL:
-                bindCellViewHolder(holder, position);
+                if (position - mHeadCount >= 0) {
+                    position = position - mHeadCount;
+                }
+                final int finaPos = position;
+                bindCellViewHolder(holder, finaPos);
                 if (mOnItemLongClickListener != null) {
                     holder.itemView.setOnLongClickListener(v -> {
-                        mOnItemLongClickListener.onItemLongClick(mList.get(position));
+                        mOnItemLongClickListener.onItemLongClick(mList.get(finaPos));
                         return true;
                     });
                 }
 
                 if (mOnItemClickListener != null) {
                     holder.itemView.setOnClickListener(v -> {
-                        mOnItemClickListener.onItemClick(mList.get(position));
+                        mOnItemClickListener.onItemClick(mList.get(finaPos));
                     });
                 }
                 break;

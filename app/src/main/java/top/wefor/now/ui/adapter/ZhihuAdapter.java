@@ -14,7 +14,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Zhihu;
 import top.wefor.now.ui.activity.BigImageActivity;
@@ -59,7 +58,11 @@ public class ZhihuAdapter extends BaseListAdapter<Zhihu> {
 //        Uri imgUri = Uri.parse(news.images.get(0));
 //        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
         if (news.images != null && news.images.size() > 0) {
-            Glide.with(context).load(news.images.get(0)).into(cardViewHolder.mSimpleDraweeView);
+            String imageUrl = news.images.get(0);
+            Glide.with(context).load(imageUrl).into(cardViewHolder.mSimpleDraweeView);
+            cardViewHolder.mSimpleDraweeView.setOnClickListener(v -> {
+                BigImageActivity.startThis(context, v, imageUrl);
+            });
         }
         cardViewHolder.mTitle.setText(news.title);
     }
@@ -79,13 +82,6 @@ public class ZhihuAdapter extends BaseListAdapter<Zhihu> {
             super(v);
             if (viewType == TYPE_CELL)
                 ButterKnife.bind(this, v);
-        }
-
-        @OnClick(R.id.simpleDraweeView)
-        void showBigImage(View v) {
-            Zhihu news = mList.get(getLayoutPosition());
-            if (news.images != null && news.images.size() > 0)
-                BigImageActivity.startThis(context, v, news.images.get(0));
         }
     }
 

@@ -37,11 +37,6 @@ public class MonoAdapter extends BaseListAdapter<TeaBean.MeowBean> {
     }
 
     @Override
-    public int getItemCount() {
-        return super.getItemCount();
-    }
-
-    @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
 

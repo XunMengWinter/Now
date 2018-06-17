@@ -36,9 +36,11 @@ public class RealmDbHelper<M, T extends RealmObject> {
             try {
                 mRealm.beginTransaction();
                 for (int i = mEntityList.size() - 1; i >= 0; i--) {
-                    T realmMoment = mNowRealmClass.newInstance();
-                    ((AbsNowRealmObject) realmMoment).setFromEntity(mEntityList.get(i));
-                    mRealm.copyToRealmOrUpdate(realmMoment);
+                    if (mEntityList.get(i) != null) {
+                        T realmMoment = mNowRealmClass.newInstance();
+                        ((AbsNowRealmObject) realmMoment).setFromEntity(mEntityList.get(i));
+                        mRealm.copyToRealmOrUpdate(realmMoment);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -14,7 +14,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.NG;
 import top.wefor.now.ui.activity.BigImageActivity;
@@ -55,10 +54,13 @@ public class NGAdapter extends BaseListAdapter<NG> {
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
 //        Uri imgUri = Uri.parse(news.imgUrl);
 //        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
-        Glide.with(context).load(news.imgUrl).into(cardViewHolder.mSimpleDraweeView);
+        final String imageUrl = news.imgUrl;
+        Glide.with(context).load(imageUrl).into(cardViewHolder.mSimpleDraweeView);
         cardViewHolder.mTitleTv.setText(news.title);
         cardViewHolder.mContentTv.setText(news.content);
-
+        cardViewHolder.mSimpleDraweeView.setOnClickListener(v -> {
+            BigImageActivity.startThis(context, v, imageUrl);
+        });
     }
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
@@ -79,12 +81,6 @@ public class NGAdapter extends BaseListAdapter<NG> {
             if (viewType == TYPE_CELL)
                 ButterKnife.bind(this, v);
         }
-
-        @OnClick(R.id.simpleDraweeView)
-        void showBigImage(View v) {
-            BigImageActivity.startThis(context, v, mList.get(getLayoutPosition()).imgUrl);
-        }
-
     }
 
 

@@ -18,7 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import top.wefor.now.App;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Zcool;
 import top.wefor.now.ui.activity.BigImageActivity;
@@ -90,6 +90,9 @@ public class ZcoolAdapter extends BaseListAdapter<Zcool> {
 //        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
         if (!TextUtils.isEmpty(news.imgUrl)) {
             Glide.with(context).load(news.imgUrl).into(cardViewHolder.mSimpleDraweeView);
+            cardViewHolder.mSimpleDraweeView.setOnClickListener(v -> {
+                BigImageActivity.startThis(context, v, news.imgUrl);
+            });
         }
         cardViewHolder.mTitleTv.setText(news.title);
         cardViewHolder.mNameTv.setText("by " + news.name);
@@ -97,7 +100,7 @@ public class ZcoolAdapter extends BaseListAdapter<Zcool> {
         cardViewHolder.mLikeTv.setText(news.likeCount + " 赞");
     }
 
-    public class CardViewHolder extends RecyclerView.ViewHolder {
+    public static class CardViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.news_list_card_view)
         CardView mCardView;
         @BindView(R.id.title_textView)
@@ -119,7 +122,7 @@ public class ZcoolAdapter extends BaseListAdapter<Zcool> {
             if (NowAppUtil.isBelowLollipop()) {
                 //set round corner
                 RoundingParams roundingParams = new RoundingParams();
-                int d2 = context.getResources().getDimensionPixelSize(R.dimen.d2);
+                int d2 = App.getInstance().getResources().getDimensionPixelSize(R.dimen.d2);
                 roundingParams.setCornersRadii(d2, d2, 0, 0);
                 mSimpleDraweeView.getHierarchy().setRoundingParams(roundingParams);
             }
@@ -131,12 +134,6 @@ public class ZcoolAdapter extends BaseListAdapter<Zcool> {
             if (viewType == TYPE_CELL)
                 ButterKnife.bind(this, v);
         }
-
-        @OnClick(R.id.simpleDraweeView)
-        void showBigImage(View v) {
-            BigImageActivity.startThis(context, v, mList.get(getLayoutPosition()).imgUrl);
-        }
-
     }
 
 }
