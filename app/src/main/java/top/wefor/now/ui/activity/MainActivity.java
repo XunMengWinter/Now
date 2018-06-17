@@ -37,6 +37,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import top.wefor.now.App;
+import top.wefor.now.BuildConfig;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
@@ -340,9 +341,12 @@ public class MainActivity extends BaseCompatActivity {
         });
 
         mAboutTextView.setOnClickListener(v -> {
+            View view = getLayoutInflater().inflate(R.layout.dialog_about, null);
+            TextView textView = view.findViewById(R.id.version_tv);
+            textView.setHint(getString(R.string.about_version, "", BuildConfig.APK_DATE));
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.about))
-                    .setView(R.layout.dialog_about)
+                    .setView(view)
                     .setPositiveButton("wefor.top", (dialogInterface, i) -> {
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setData(Uri.parse(getString(R.string.my_website)));

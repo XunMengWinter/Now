@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:linksClickable="true"
-          android:autoLink="web"
-          android:padding="@dimen/d4"
-          android:orientation="vertical"
-          android:text="@string/about_detail">
-</TextView>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/d4"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:orientation="vertical"
+        android:text="@string/about_detail"
+        />
+
+    <TextView
+        android:id="@+id/version_tv"
+        android:textSize="@dimen/h7"
+        android:gravity="end"
+        android:layout_marginTop="@dimen/d5"
+        tools:hint="Sun Jun 17 13:35:17 CST 2018"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</android.support.v7.widget.LinearLayoutCompat>

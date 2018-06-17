@@ -25,7 +25,8 @@
     <string name="send_email_failed">There are no email clients installed.\n
         My email is: \n
         XunMengWinter@gmail.com</string>
-    <string name="about_detail">About Now\n\n
+    <string name="about_detail">
+        About Now\n\n
         No wait, no ad, no mess.\n
         想要看得更多,\n
         想要得到更快,\n
@@ -36,7 +37,11 @@
         关于Winter\n\n
         一枚热爱艺术的码农。\n\n
         站酷\n
-        http://icewinter.zcool.com.cn</string>
+        http://icewinter.zcool.com.cn
+    </string>
+    <string name="about_version">
+        %1$s%2$s
+    </string>
     <string name="thanks_detail">
         网页抓取\n
         http://jsoup.org/ \n\n
