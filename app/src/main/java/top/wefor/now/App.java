@@ -16,6 +16,8 @@ public class App extends Application {
 
     private static Toaster sToaster;
 
+    public static String sMonoToken = null;
+
     public static App getInstance() {
         return sApp;
     }

@@ -16,6 +16,7 @@ import io.reactivex.functions.Function;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.R;
 import top.wefor.now.data.http.BaseObserver;
@@ -84,7 +85,10 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
             return;
         }
         NowApi.getMonoApi().getToken(new Mono())
-                .flatMap((Function<MonoToken, ObservableSource<MonoTea>>) monoToken -> NowApi.getMonoApi().getTea(monoToken.access_token, getDate()))
+                .flatMap((Function<MonoToken, ObservableSource<MonoTea>>) monoToken -> {
+                    App.sMonoToken = monoToken.access_token;
+                    return NowApi.getMonoApi().getTea(monoToken.access_token, getDate());
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<MonoTea>() {
                     @Override

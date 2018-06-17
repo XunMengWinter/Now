@@ -8,7 +8,13 @@
 [Web App](http://www.wefor.top/now)
 
 ### 更新日志
-NowView 2.0 -> 3.1
+* 添加 MONO 模块！
+* 图片显示优化；
+* 内存泄露修复；
+* 添加 Apache开源协议。
+
+
+### NowView 2.0 -> 3.1
 * RxJava升级为RxJava2，优化主页数据获取逻辑；
 * Realm升级，兼容先前数据；
 * 优化并加强共享元素动画；
@@ -27,6 +33,25 @@ NowView 2.0 -> 3.1
 * 将App中所用到的SharedPreferences整个成一个帮助类；
 * 顶部图片选择逻辑完善；
 * 包结构改动。
+
+
+## License
+<pre>
+Copyright [2018] [XunMengWinter]
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</pre>
+
 
 ### NowView 1.0+ 历史
 [See the old banch: 1.0+](https://github.com/XunMengWinter/Now/tree/master)

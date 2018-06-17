@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/news_list_card_view"
     style="@style/card_view_margin"
@@ -21,9 +22,9 @@
             android:id="@+id/simpleDraweeView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            fresco:viewAspectRatio="1.33"
             />
         <!--fresco:roundedCornerRadius="@dimen/d2"-->
-        <!--fresco:viewAspectRatio="1.33"-->
 
         <TextView
             android:id="@+id/title_textView"

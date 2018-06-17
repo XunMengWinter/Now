@@ -126,7 +126,6 @@ public class ZcoolAdapter extends BaseListAdapter<Zcool> {
                 roundingParams.setCornersRadii(d2, d2, 0, 0);
                 mSimpleDraweeView.getHierarchy().setRoundingParams(roundingParams);
             }
-            mSimpleDraweeView.setAspectRatio(4 / 3f);
         }
 
         public CardViewHolder(View v, int viewType) {

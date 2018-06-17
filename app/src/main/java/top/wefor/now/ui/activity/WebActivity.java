@@ -26,6 +26,8 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
@@ -35,6 +37,7 @@ import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
+import top.wefor.now.data.http.Urls;
 import top.wefor.now.ui.BaseSwipeBackCompatActivity;
 import top.wefor.now.utils.ImageUtil;
 import top.wefor.now.utils.NowAppUtil;
@@ -126,6 +129,7 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
 
     Context mContext;
     String mUrl, mTitle;
+    private Map<String, String> mUrlMap;
 
     private Tencent mTencent;
     private QQUiListener mQQUiListener;
@@ -151,11 +155,6 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
             @Override
             public void run() {
                 super.run();
-//                try {
-//                    bitmap = Picasso.with(WebActivity.this).load(picUrl).resize(100, 100).get();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
                 try {
                     Drawable drawable = Glide.with(WebActivity.this).load(picUrl).submit(120, 120).get();
                     bitmap = ImageUtil.drawableToBitmap(drawable);
@@ -179,7 +178,16 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
             webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
         else
             webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        mWebView.loadUrl(mUrl);
+
+        if (mUrl != null && mUrl.contains(Urls.MONO)
+                && App.sMonoToken != null) {
+            mUrlMap = new HashMap<>();
+            mUrlMap.put("HTTP-AUTHORIZATION", App.sMonoToken);
+        }
+        if (mUrlMap != null)
+            mWebView.loadUrl(mUrl, mUrlMap);
+        else
+            mWebView.loadUrl(mUrl);
 
         mWebView.setOnTouchListener(this);
         setTitle(mTitle);
@@ -242,10 +250,11 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
     }
 
     private class ViewClient extends WebViewClient {
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url != null) view.loadUrl(url);
-            return true;
-        }
+//        @Override
+//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//            if (url != null) view.loadUrl(url);
+//            return true;
+//        }
     }
 
     private int direction = 0;   //0     1左右   2上下
