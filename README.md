@@ -1,11 +1,17 @@
-# NowView 4.0
+# NowView 4.1
 一款Android图文精选app，通过抓取网页获得图文列表。目前包含站酷（Zcool）精选、国家地理（National Geographic）每日一图、知乎日报、豆瓣一刻（Moment）。
 
 ![NowView](https://raw.githubusercontent.com/XunMengWinter/source/master/gif/NowView.gif)
 
 [Download Apk](https://raw.githubusercontent.com/XunMengWinter/source/master/apk/NowView.apk)
 
+[百度云](https://pan.baidu.com/s/1OlvrKYKVLQsmZCVU39X_8A)
+
 [Web App](http://www.wefor.top/now)
+
+
+### 4.1 更新日志
+* 修复顶部图片显示的bug。
 
 ### 4.0 更新日志
 * 添加 MONO 模块！
