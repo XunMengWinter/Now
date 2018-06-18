@@ -28,7 +28,8 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<RecyclerVi
     protected static final int TYPE_HEADER = 0;
     protected static final int TYPE_CELL = 1;
 
-    private int mHeadCount = 1;
+    // 留白
+    private int mHeadCount = 0;
 
     public BaseListAdapter(Context context, List<T> mList) {
         this.mList = mList;

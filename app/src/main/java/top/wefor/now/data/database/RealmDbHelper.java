@@ -66,7 +66,7 @@ public class RealmDbHelper<M, T extends RealmObject> {
      */
     public void getFromDatabase(int pageSize, int page) {
         RealmResults<T> zcoolRealmResults = mRealm.where(mNowRealmClass).findAll();
-        Logger.i("data size " + zcoolRealmResults.size() + " " + mNowRealmClass.getSimpleName());
+//        Logger.i("data size " + zcoolRealmResults.size() + " " + mNowRealmClass.getSimpleName());
         //反序取数据,即 startPos > endPos.
         int startPos = Math.max(zcoolRealmResults.size() - 1 - (page - 1) * pageSize, 0);
         int endPos = Math.max(startPos - pageSize, 0);

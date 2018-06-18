@@ -40,13 +40,13 @@ public final class Constants {
     public static final String DRIBBBLE_CLIENT_SECRET = "9ea833b72a9a2d6a5d15cb2ce8d5789c1933e22d7242226ecc3740db6e1a7e22";
 
 
-    public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.US);
+    public static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.CHINA);
 
 
     // requestCode
     public static final int WELCOME_ACTIVITY = 11;
 
-    public static final int LIST_PAGE_SIZE = 7;
+    public static final int LIST_PAGE_SIZE = 10;
     public static final int LIST_FIRST_PAGE = 1;
 
     public static final String KEY_REFRESH_TIME_ZCOOL = "refreshTimeZcool";
@@ -58,7 +58,7 @@ public final class Constants {
     public static final String KEY_IMAGES_STR = "images_str";
 
     public static final long VALUE_REFRESH_INTERVAL = 1000 * 60 * 10;
-    public static final long VALUE_FINISH_DELAYED_TIME = 1000 * 60;
+    public static final long VALUE_FINISH_DELAYED_TIME = 1000 * 5;
 
 
     /*将NowItem保存至另一个应用My Table 时需要用到的字段*/

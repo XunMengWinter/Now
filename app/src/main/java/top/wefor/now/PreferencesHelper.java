@@ -1,5 +1,6 @@
 package top.wefor.now;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -52,8 +53,9 @@ public class PreferencesHelper {
         return mPreferences.getString(Constants.HEAD_IMAGES, null);
     }
 
+    @SuppressLint("ApplySharedPref")
     public void setHeadImages(String headImages) {
-        mPreferences.edit().putString(Constants.HEAD_IMAGES, headImages).apply();
+        mPreferences.edit().putString(Constants.HEAD_IMAGES, headImages).commit();
     }
 
     public String getCoverImage() {

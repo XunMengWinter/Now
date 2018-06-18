@@ -13,7 +13,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -76,7 +76,6 @@ public class MainActivity extends BaseCompatActivity {
     Toolbar toolbar;
 
     private Integer mSize, mLuckyNum;
-    private JSONArray mImgList;
     public ArrayList<MyTabItem> mMyTabItems;
     //用于 finish 当前 Activity 的 Runnable.
     private Runnable mFinishRunnable = this::finishAffinity;
@@ -87,11 +86,6 @@ public class MainActivity extends BaseCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        String imgs = mPreferencesHelper.getHeadImages();
-        Log.i("xyz", "imgs " + imgs);
-        if (!TextUtils.isEmpty(imgs))
-            mImgList = JSON.parseArray(imgs);
 
         setTitle("");
 
@@ -126,6 +120,7 @@ public class MainActivity extends BaseCompatActivity {
                     .setTitle("Welcome to Now")
                     .setMessage(getString(R.string.fist_time_notice))
                     .setPositiveButton(getString(R.string.enter), (dialog, which) -> {
+                        setHeadImages(mPreferencesHelper.getHeadImageType());
                         mPreferencesHelper.setFirst(false);
                         showAll();
                     })
@@ -208,7 +203,11 @@ public class MainActivity extends BaseCompatActivity {
     }
 
     private void setViewPagerListener() {
-        if (mImgList == null || mImgList.size() < mSize - 1)
+        String imgs = mPreferencesHelper.getHeadImages();
+        Logger.i("imgs " + imgs);
+        final JSONArray imgList = JSON.parseArray(imgs);
+
+        if (imgList == null || imgList.size() < 2)
             mMaterialViewPager.setMaterialViewPagerListener(page -> HeaderDesign.fromColorResAndDrawable(
                     mMyTabItems.get(page % mSize).colorRes,
                     getResources().getDrawable(mMyTabItems.get(page % mSize).colorRes)));
@@ -218,10 +217,10 @@ public class MainActivity extends BaseCompatActivity {
                         R.color.ng,
                         getResources().getDrawable(R.color.ng));
 
-            int size = Math.min(mImgList.size(), mSize);
+            int size = Math.min(imgList.size(), mSize);
             return HeaderDesign.fromColorResAndUrl(
                     mMyTabItems.get(page % mSize).colorRes,
-                    mImgList.getString((page + mLuckyNum) % size));
+                    imgList.getString((page + mLuckyNum) % size));
         });
 
     }
@@ -306,29 +305,12 @@ public class MainActivity extends BaseCompatActivity {
                 radioGroup.check(radioGroup.getChildAt(mPreferencesHelper.getHeadImageType()).getId());
                 radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
                     RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
-                    mPreferencesHelper.setHeadImageType(group.indexOfChild(radioButton));
+                    int index = group.indexOfChild(radioButton);
+                    mPreferencesHelper.setHeadImageType(index);
                     mHeadPictureTv.setText(radioButton.getText());
                     setFinishNow();
 
-                    switch (radioGroup.indexOfChild(radioButton)) {
-                        case Constants.TYPE_NG:
-                            mPreferencesHelper.setHeadImages(mPreferencesHelper.getNgImages());
-                            break;
-                        case Constants.TYPE_GANK_MEIZHI:
-                            mPreferencesHelper.setHeadImages("");
-                            break;
-                        case Constants.TYPE_MAC:
-                            JSONArray jsonArray = new JSONArray();
-                            jsonArray.add(getString(R.string.pic_url_1));
-                            jsonArray.add(getString(R.string.pic_url_2));
-                            jsonArray.add(getString(R.string.pic_url_3));
-                            jsonArray.add(getString(R.string.pic_url_4));
-                            mPreferencesHelper.setHeadImages(jsonArray.toJSONString());
-                            break;
-                        case Constants.TYPE_COLOR:
-                            mPreferencesHelper.setHeadImages("");
-                            break;
-                    }
+                    setHeadImages(index);
                 });
             } else if (mHeadPictureView.getParent() instanceof ViewGroup) {
                 ((ViewGroup) mHeadPictureView.getParent()).removeView(mHeadPictureView);
@@ -381,6 +363,28 @@ public class MainActivity extends BaseCompatActivity {
         });
 
         mGankTextView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, GankDailyActivity.class)));
+    }
+
+    private void setHeadImages(int index) {
+        switch (index) {
+            case Constants.TYPE_NG:
+                mPreferencesHelper.setHeadImages(mPreferencesHelper.getNgImages());
+                break;
+            case Constants.TYPE_GANK_MEIZHI:
+                mPreferencesHelper.setHeadImages("");
+                break;
+            case Constants.TYPE_MAC:
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.add(getString(R.string.pic_url_1));
+                jsonArray.add(getString(R.string.pic_url_2));
+                jsonArray.add(getString(R.string.pic_url_3));
+                jsonArray.add(getString(R.string.pic_url_4));
+                mPreferencesHelper.setHeadImages(jsonArray.toJSONString());
+                break;
+            case Constants.TYPE_COLOR:
+                mPreferencesHelper.setHeadImages("");
+                break;
+        }
     }
 
     private View getCheckBox(final String name) {

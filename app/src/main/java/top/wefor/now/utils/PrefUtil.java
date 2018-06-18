@@ -17,7 +17,7 @@ public class PrefUtil {
 
     public static boolean isNeedRefresh(String key) {
         if (BuildConfig.DEBUG) {
-//            return true;
+            return true;
         }
         SharedPreferences sharedPreferences = App.getInstance()
                 .getSharedPreferences(Constants.PREFS_NAME, 0);
