@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,6 +127,10 @@ public class MainActivity extends BaseCompatActivity {
                     .setNegativeButton(getString(R.string.exit), (dialog, which) -> MainActivity.this.finish())
                     .create().show();
         } else {
+            if (mPreferencesHelper.getHeadImageType() == Constants.TYPE_NG) {
+                // NG image is dynamic change, so need set every time.
+                setHeadImages(Constants.TYPE_NG);
+            }
             showAll();
         }
     }
