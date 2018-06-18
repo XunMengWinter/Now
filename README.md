@@ -1,5 +1,6 @@
 # NowView 4.1
-一款Android图文精选app，通过抓取网页获得图文列表。目前包含站酷（Zcool）精选、国家地理（National Geographic）每日一图、知乎日报、豆瓣一刻（Moment）。
+
+一款Android图文精选app，通过抓取网页获得图文列表。目前包含站酷（Zcool）精选、国家地理（National Geographic）每日一图、MONO早午茶、知乎日报、豆瓣一刻（Moment）。
 
 ![NowView](https://raw.githubusercontent.com/XunMengWinter/source/master/gif/NowView.gif)
 
@@ -8,18 +9,35 @@ Download Apk in [GitHub](https://raw.githubusercontent.com/XunMengWinter/source/
 
 [Web App](http://www.wefor.top/now)
 
+### IDEA & TODO
+No wait, no ad, no mess.
+想要看得更多，想要得到更快，想要发现更美。
+So, view more, just Now!
+
+[Now 设计: ](https://www.jianshu.com/p/411402059f6b)无账号、无后台、依赖最小化，不过度设计，不打扰用户。
+
+[x] 添加MONO模块
+[] 添加Dribbble模块
+[] Gank模块进行网络缓存
+[] Web详情页支持图片点击后显示大图
+[] 长按图片支持GIF保存
+[] Realm数据库实体类更改或增加支持migrate
+[] 支持根据字段模糊搜索本地条目，即Realm数据库查询
+[] 支持本地条目备份为文件&从文件生成本地条目，即Realm数据库的导出与导入
+[] 支持动态添加模块（用户仅需提供一个网址，即可自动生成一个图文列表）
+
 
 ### 4.1 更新日志
 * 修复顶部图片显示的bug。
 
-### 4.0 更新日志
+#### 4.0 更新日志
 * 添加 MONO 模块！
 * 图片显示优化；
 * 内存泄露修复；
 * 添加 Apache开源协议。
 
 
-### NowView 2.0 -> 3.1
+#### NowView 2.0 -> 3.1
 * RxJava升级为RxJava2，优化主页数据获取逻辑；
 * Realm升级，兼容先前数据；
 * 优化并加强共享元素动画；
@@ -32,7 +50,7 @@ Download Apk in [GitHub](https://raw.githubusercontent.com/XunMengWinter/source/
 > NowView 3.0 升级Realm后未能兼容之前数据，执行了Realm数据表重置操作...嗯，一句try catch引发的结果...遂重新排坑打包。
 
 
-### 2.0 更新日志
+#### 2.0 更新日志
 * 将Other移至左侧Drawer；
 * 使用RxBinding 处理点击事件；
 * 将App中所用到的SharedPreferences整个成一个帮助类；
@@ -60,4 +78,3 @@ limitations under the License.
 
 ### NowView 1.0+ 历史
 [See the old banch: 1.0+](https://github.com/XunMengWinter/Now/tree/master)
-

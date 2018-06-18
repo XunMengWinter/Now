@@ -49,4 +49,19 @@
     <string name="yes">好的</string>
     <string name="no">不用了，谢谢</string>
 
+    <string name="about_detail">
+        About Now\n\n
+        No wait, no ad, no mess.\n
+        想要看得更多,\n
+        想要得到更快,\n
+        想要发现更美.\n
+        So, view more, just Now!\n\n
+        Source\n
+        https://github.com/XunMengWinter/Now\n\n\n
+        关于Winter\n\n
+        一枚热爱艺术的码农。\n\n
+        <!--站酷\n-->
+        <!--http://icewinter.zcool.com.cn-->
+    </string>
+
 </resources>
