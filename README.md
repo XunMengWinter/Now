@@ -4,8 +4,10 @@
 
 ![NowView](https://raw.githubusercontent.com/XunMengWinter/source/master/gif/NowView.gif)
 
+
+Get Now in [Google Play](https://play.google.com/store/apps/details?id=top.wefor.nowview)
+
 Download release Apk in :
-[Google Play](https://play.google.com/store/apps/details?id=top.wefor.nowview)
 [GitHub(always the latest)](https://raw.githubusercontent.com/XunMengWinter/source/master/apk/NowView.apk)
 [七牛云](http://p198xpq7l.bkt.clouddn.com/NowView.apk)
 
