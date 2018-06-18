@@ -82,5 +82,9 @@ limitations under the License.
 </pre>
 
 
+---
+如果你也喜欢Now，那么为ta贡献代码或灵感吧～
+
+
 ### NowView 1.0+ 历史
 [See the old banch: 1.0+](https://github.com/XunMengWinter/Now/tree/master)
