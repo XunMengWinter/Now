@@ -1,9 +1,6 @@
 package top.wefor.now.ui.activity;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
@@ -109,17 +106,14 @@ public class WelcomeActivity extends BaseCompatActivity {
         return (int) waitTime;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void go() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivityForResult(intent, Constants.WELCOME_ACTIVITY);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        try {
-            if (this.getPackageManager().getPackageInfo(getPackageName(), 0).versionCode >= Build.VERSION_CODES.LOLLIPOP)
-                finishAfterTransition();
-            else finish();
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        if (NowAppUtil.isBelowLollipop()) {
+            finish();
+        } else {
+            finishAfterTransition();
         }
     }
 
