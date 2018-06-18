@@ -4,9 +4,9 @@
 
 ![NowView](https://raw.githubusercontent.com/XunMengWinter/source/master/gif/NowView.gif)
 
-Download Apk in :
+Download release Apk in :
 [Google Play](https://play.google.com/store/apps/details?id=top.wefor.nowview)
-[GitHub](https://raw.githubusercontent.com/XunMengWinter/source/master/apk/NowView.apk)
+[GitHub(always the latest)](https://raw.githubusercontent.com/XunMengWinter/source/master/apk/NowView.apk)
 [七牛云](http://p198xpq7l.bkt.clouddn.com/NowView.apk)
 
 [Web App](http://www.wefor.top/now)
@@ -19,14 +19,14 @@ So, view more, just Now!
 [Now 设计: ](https://www.jianshu.com/p/411402059f6b)无账号、无后台、依赖最小化，不过度设计，不打扰用户。
 
 [x]添加MONO模块
-[]添加Dribbble模块
-[]Gank模块进行网络缓存
-[]Web详情页支持图片点击后显示大图
-[]长按图片支持GIF保存
-[]Realm数据库实体类更改或增加支持migrate
-[]支持根据字段模糊搜索本地条目，即Realm数据库查询
-[]支持本地条目备份为文件&从文件生成本地条目，即Realm数据库的导出与导入
-[]支持动态添加模块（用户仅需提供一个网址，即可自动生成一个图文列表）
+[ ]添加Dribbble模块
+[ ]Gank模块进行网络缓存
+[ ]Web详情页支持图片点击后显示大图
+[ ]长按图片支持GIF保存
+[ ]Realm数据库实体类更改或增加支持migrate
+[ ]支持根据字段模糊搜索本地条目，即Realm数据库查询
+[ ]支持本地条目备份为文件&从文件生成本地条目，即Realm数据库的导出与导入
+[ ]支持动态添加模块（用户仅需提供一个网址，即可自动生成一个图文列表）
 
 
 ### 4.1 更新日志
