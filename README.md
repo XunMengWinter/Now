@@ -8,7 +8,7 @@
 Get Now in [Google Play](https://play.google.com/store/apps/details?id=top.wefor.nowview)
 
 Download release Apk in :
-[GitHub(always the latest)](https://raw.githubusercontent.com/XunMengWinter/source/master/apk/NowView.apk)
+[GitHub](https://raw.githubusercontent.com/XunMengWinter/source/master/apk/NowView.apk)
 [七牛云](http://p198xpq7l.bkt.clouddn.com/NowView.apk)
 
 [Web App](http://www.wefor.top/now)
