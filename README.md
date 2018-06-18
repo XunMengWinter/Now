@@ -13,10 +13,14 @@ Download release Apk in :
 
 ### IDEA & TODO
 No wait, no ad, no mess.
+
 想要看得更多，想要得到更快，想要发现更美。
+
 So, view more, just Now!
 
+
 [Now 设计: ](https://www.jianshu.com/p/411402059f6b)无账号、无后台、依赖最小化，不过度设计，不打扰用户。
+
 
 - [x] 添加MONO模块
 - [ ] 添加Dribbble模块
