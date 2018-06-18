@@ -3,9 +3,8 @@
 
 ![NowView](https://raw.githubusercontent.com/XunMengWinter/source/master/gif/NowView.gif)
 
-[Download Apk](https://raw.githubusercontent.com/XunMengWinter/source/master/apk/NowView.apk)
-
-[or下载](http://p198xpq7l.bkt.clouddn.com/NowView.apk)
+Download Apk in [GitHub](https://raw.githubusercontent.com/XunMengWinter/source/master/apk/NowView.apk)
+ or [七牛云](http://p198xpq7l.bkt.clouddn.com/NowView.apk)
 
 [Web App](http://www.wefor.top/now)
 
