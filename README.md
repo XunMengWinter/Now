@@ -5,7 +5,7 @@
 
 [Download Apk](https://raw.githubusercontent.com/XunMengWinter/source/master/apk/NowView.apk)
 
-[百度云](https://pan.baidu.com/s/1OlvrKYKVLQsmZCVU39X_8A)
+[or下载](http://p198xpq7l.bkt.clouddn.com/NowView.apk)
 
 [Web App](http://www.wefor.top/now)
 
