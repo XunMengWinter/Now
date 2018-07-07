@@ -46,7 +46,7 @@ public final class Constants {
     // requestCode
     public static final int WELCOME_ACTIVITY = 11;
 
-    public static final int LIST_PAGE_SIZE = 10;
+    public static final int LIST_PAGE_SIZE = 12;
     public static final int LIST_FIRST_PAGE = 1;
 
     public static final String KEY_REFRESH_TIME_ZCOOL = "refreshTimeZcool";
