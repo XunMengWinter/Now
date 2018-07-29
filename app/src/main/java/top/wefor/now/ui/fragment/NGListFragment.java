@@ -4,16 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.view.View;
+import android.webkit.ValueCallback;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.alibaba.fastjson.JSONArray;
+import com.orhanobut.logger.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
 
@@ -35,9 +40,9 @@ import top.wefor.now.ui.adapter.NGAdapter;
 import top.wefor.now.utils.PrefUtil;
 
 /**
- * Created on 15/10/28.
- *
  * @author ice
+ * <p>
+ * Created on 15/10/28.
  */
 public class NGListFragment extends BaseListFragment<NG, RealmNG> {
     private static final int SIZE = 10;
@@ -45,6 +50,8 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
     public static NGListFragment newInstance() {
         return new NGListFragment();
     }
+
+    private WebView mWebView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +66,11 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
         mAdapter.setOnItemClickListener(news -> {
             Intent intent = new Intent(getActivity(), WebActivity.class);
             intent.putExtra(WebActivity.EXTRA_TITLE, news.title);
-            intent.putExtra(WebActivity.EXTRA_URL, Urls.NG_BASE_URL + news.url);
+            String httpUrl = news.url + "";
+            if (!httpUrl.contains("http://") && !httpUrl.contains("https://")) {
+                httpUrl = Urls.NG_BASE_URL + httpUrl;
+            }
+            intent.putExtra(WebActivity.EXTRA_URL, httpUrl);
             intent.putExtra(WebActivity.EXTRA_PIC_URL, news.imgUrl);
             intent.putExtra(WebActivity.EXTRA_SUMMARY, getString(R.string.share_summary_ng));
             startActivity(intent);
@@ -68,7 +79,12 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
         mAdapter.setOnItemLongClickListener(model -> saveToNote(model.toNow()));
 
         if (mList.size() < 1) {
-            getData();
+            try {
+                getData();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Logger.e("getData error " + e.getMessage());
+            }
         }
     }
 
@@ -78,22 +94,63 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
             showList();
             return;
         }
-//        String nGUrl = "http://photography.nationalgeographic.com/photography/";
+        mWebView = new WebView(getActivity());
+        mWebView.setVisibility(View.INVISIBLE);
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                mWebView.evaluateJavascript(
+                        "(function() { return (encodeURI('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>')); })();",
+                        new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String html) {
+                                Logger.i(html.length() + "");
+                                parseHtmlText(replacer(new StringBuffer(html)));
+                                releaseWebView();
+//                                parseHtmlText(Unicode2charUtil.getFixStr(html));
+//                                parseHtmlText(CommonUtils.getTextFromAssets(getContext(), "ng.html"));
+                            }
+                        });
+            }
+        });
+        mWebView.loadUrl(Urls.NG_PHOTO_OF_THE_DAY_URL);
+    }
+
+    private void releaseWebView() {
+        try {
+            mWebView.destroy();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Logger.e("release webview error " + e.getMessage());
+        }
+    }
+
+    public static String replacer(StringBuffer outBuffer) {
+        String data = outBuffer.toString();
+        try {
+            data = data.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+            data = data.replaceAll("\\+", "%2B");
+            data = URLDecoder.decode(data, "utf-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    private void parseHtmlText(String text) {
         Observable
                 .create((ObservableOnSubscribe<Document>) observableEmitter -> {
-                    try {
-                        Document document = Jsoup.connect(Urls.NG_BASE_URL).get();
-                        observableEmitter.onNext(document);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        observableEmitter.onComplete();
-                    }
+//                        Document document = Jsoup.connect(Urls.NG_PHOTO_OF_THE_DAY_URL).get();
+                    Document document = Jsoup.parse(text);
+                    observableEmitter.onNext(document);
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnNext(document -> {
                     mList.clear();
-//                    Logger.i(document.ownText());
                     PrefUtil.setRefreshTime(Constants.KEY_REFRESH_TIME_NG, new Date().getTime());
                     Element contents = document.getElementById("ajaxBox");
                     Elements list = contents.getElementsByClass("ajax_list");
@@ -105,8 +162,6 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
                         nG.imgUrl = pass(imageA.select("img").first().attr("src"));
                         nG.title = pass(imageA.select("img").first().attr("alt"));
                         nG.content = pass(element.getElementsByClass("ajax_dd_text").first().ownText());
-
-//                        Log.i("xyz ", "ngfragment " + nG.content + nG.imgUrl + nG.url + nG.title);
                         mList.add(nG);
                     }
                     if (mList.size() > 0) {
@@ -135,6 +190,12 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
                         showList();
                     }
                 });
+    }
+
+    @Override
+    public void onDestroyView() {
+        releaseWebView();
+        super.onDestroyView();
     }
 
     @NonNull

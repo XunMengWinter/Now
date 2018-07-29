@@ -93,7 +93,7 @@ dependencies {
     final DAGGER_VERSION = '2.4'
     final RETROFIT_VERSION = '2.3.0'
     final OK_HTTP_VERSION = '3.9.0'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
     implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
@@ -101,7 +101,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
 
     implementation files('libs/open_sdk_r5990_lite.jar')
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.4'
 
     // jsoup HTML parser library @ http://jsoup.org/
     implementation 'org.jsoup:jsoup:1.11.3'

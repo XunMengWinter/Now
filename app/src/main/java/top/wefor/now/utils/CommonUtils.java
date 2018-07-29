@@ -6,6 +6,9 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.TeaBean;
 
@@ -25,8 +28,8 @@ public class CommonUtils {
     }
 
     /*
-    * check the app is installed
-    */
+     * check the app is installed
+     */
     public static boolean isAppInstalled(Context context, String packageName) {
         PackageInfo packageInfo;
         try {
@@ -46,6 +49,21 @@ public class CommonUtils {
 
     public static boolean isAvatarAvailable(TeaBean.AvatarBean avatarBean) {
         return (avatarBean != null && !TextUtils.isEmpty(avatarBean.raw));
+    }
+
+    public static String getTextFromAssets(Context context, String name) {
+        String text = "";
+        try {
+            InputStream inputStream = context.getAssets().open(name);
+            int size = inputStream.available();
+            byte[] buffer = new byte[size];
+            inputStream.read(buffer);
+            inputStream.close();
+            text = new String(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return text;
     }
 
 }

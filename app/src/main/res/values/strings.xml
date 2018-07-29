@@ -19,6 +19,7 @@
     <string name="other">Other</string>
     <string name="wiki_title">Wikipedia:Today\'s featured article</string>
     <string name="wiki_url">https://en.m.wikipedia.org/wiki/Main_Page</string>
+    <string name="ng_daily_photo_url">https://www.nationalgeographic.com/photography/photo-of-the-day/</string>
     <string name="share_to">Share to</string>
     <string name="email_subject">From Now app</string>
     <string name="send_email">Send email to Winter</string>
