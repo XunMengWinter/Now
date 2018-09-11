@@ -33,7 +33,7 @@ public abstract class BaseObserver<T> implements Observer<T>, LifecycleObserver 
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDisPose() {
-//        Logger.i(TAG, "dispose");
+        Logger.t(TAG).i("dispose");
         if (mLifecycle != null)
             mLifecycle.removeObserver(this);
         if (mDisposable != null && !mDisposable.isDisposed())

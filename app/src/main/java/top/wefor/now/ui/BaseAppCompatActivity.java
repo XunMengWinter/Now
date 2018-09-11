@@ -11,13 +11,12 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import butterknife.ButterKnife;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created on 3/18/16 09:06.
  *
  * @author ice
- *         Github https://github.com/XunMengWinter
+ * Github https://github.com/XunMengWinter
  */
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
@@ -39,7 +38,6 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         this.initToolbar(savedInstanceState);
         initActionBar();//在initToolbar()完成后设置ActionBar
         this.initViews(savedInstanceState);
-        handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
     }
 
     @Override
@@ -54,36 +52,6 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
             e.printStackTrace();
             return true;
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        handleLifecycleEvent(Lifecycle.Event.ON_START);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
-    }
-
-    @Override
-    protected void onPause() {
-        handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
-        super.onDestroy();
     }
 
     /**

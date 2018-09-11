@@ -94,6 +94,7 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
             showList();
             return;
         }
+        /* 因为2018-07-29左右国家地理做了防盗处理(9月左右又正常了)，无法通过Jsoup抓取数据，所以使用隐藏网页加载后再抓取网页数据。 */
         mWebView = new WebView(getActivity());
         mWebView.setVisibility(View.INVISIBLE);
         WebSettings webSettings = mWebView.getSettings();
