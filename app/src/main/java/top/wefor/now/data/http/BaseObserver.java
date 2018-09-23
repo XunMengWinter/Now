@@ -3,6 +3,7 @@ package top.wefor.now.data.http;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.support.annotation.Nullable;
 
 import com.orhanobut.logger.Logger;
 
@@ -33,7 +34,7 @@ public abstract class BaseObserver<T> implements Observer<T>, LifecycleObserver 
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDisPose() {
-        Logger.t(TAG).i("dispose");
+//        Logger.t(TAG).i("dispose");
         if (mLifecycle != null)
             mLifecycle.removeObserver(this);
         if (mDisposable != null && !mDisposable.isDisposed())
@@ -43,15 +44,21 @@ public abstract class BaseObserver<T> implements Observer<T>, LifecycleObserver 
     @Override
     public void onComplete() {
 //        Logger.i(TAG, "onComplete");
-        onEnd();
+        onDisPose();
     }
 
     @Override
     public void onError(Throwable e) {
+        if (e == null) {
+            onFailed(null);
+            onDisPose();
+            Logger.e("onError null");
+            return;
+        }
         e.printStackTrace();
         Logger.w("onError " + e.getMessage());
         onFailed(e.getMessage());
-        onEnd();
+        onDisPose();
     }
 
     @Override
@@ -67,14 +74,10 @@ public abstract class BaseObserver<T> implements Observer<T>, LifecycleObserver 
             onSucceed(result);
         else
             onFailed(null);
-        onEnd();
     }
 
-    protected void onFailed(String msg) {
+    protected void onFailed(@Nullable String msg) {
 
     }
 
-    protected void onEnd() {
-        onDisPose();
-    }
 }
