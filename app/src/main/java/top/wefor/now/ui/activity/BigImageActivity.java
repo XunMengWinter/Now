@@ -22,6 +22,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import io.reactivex.disposables.Disposable;
 import top.wefor.now.App;
 import top.wefor.now.R;
 import top.wefor.now.ui.BaseCompatActivity;
@@ -114,8 +115,9 @@ public class BigImageActivity extends BaseCompatActivity {
 
 
     private void saveImage() {
+        dispose();
         RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        mDisposable = rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(isGranted -> {
                     if (isGranted) {
                         boolean isSaved = ImageUtil.saveImage(this, mImageDrawable, mImageUrl);
@@ -133,4 +135,16 @@ public class BigImageActivity extends BaseCompatActivity {
                 });
     }
 
+    private Disposable mDisposable;
+
+    private void dispose(){
+        if (mDisposable!=null && !mDisposable.isDisposed())
+            mDisposable.dispose();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dispose();
+    }
 }

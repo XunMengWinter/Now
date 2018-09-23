@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.disposables.Disposable;
 import top.wefor.now.App;
 import top.wefor.now.R;
 import top.wefor.now.ui.BaseCompatActivity;
@@ -238,8 +239,9 @@ public class BigImagePagerActivity extends BaseCompatActivity {
     }
 
     private void saveImage(Drawable drawable, String imageUrl) {
+        dispose();
         RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        mDisposable = rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(isGranted -> {
                     if (isGranted) {
                         boolean isSaved = ImageUtil.saveImage(this, drawable, imageUrl);
@@ -255,5 +257,18 @@ public class BigImagePagerActivity extends BaseCompatActivity {
                                 .create().show();
                     }
                 });
+    }
+
+    private Disposable mDisposable;
+
+    private void dispose(){
+        if (mDisposable!=null && !mDisposable.isDisposed())
+            mDisposable.dispose();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dispose();
     }
 }
