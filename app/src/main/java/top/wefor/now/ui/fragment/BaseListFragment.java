@@ -133,6 +133,7 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
     protected void showList() {
         mRealmDbHelper.getFromDatabase(PAGE_SIZE, mPage++);
         mAdapter.notifyDataSetChanged();
+        Logger.i("show list " + getClass().getSimpleName());
     }
 
     protected void saveData() {

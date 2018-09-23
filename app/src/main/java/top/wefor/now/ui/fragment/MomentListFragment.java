@@ -82,9 +82,10 @@ public class MomentListFragment extends BaseListFragment<Moment, RealmMoment> {
                     try {
                         Document document = Jsoup.connect(Urls.MOMENT_URL).get();
                         observableEmitter.onNext(document);
+                        observableEmitter.onComplete();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        observableEmitter.onComplete();
+                        observableEmitter.onError(new Throwable("moment get error"));
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -114,17 +115,11 @@ public class MomentListFragment extends BaseListFragment<Moment, RealmMoment> {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnDispose(this::showList)
                 .subscribe(new BaseObserver<Document>(getLifecycle()) {
                     @Override
                     protected void onSucceed(Document result) {
                         saveData();
-                        showList();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        super.onComplete();
-                        showList();
                     }
                 });
     }

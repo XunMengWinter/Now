@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+import com.orhanobut.logger.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -91,18 +92,20 @@ public class ZcoolListFragment extends BaseListFragment<Zcool, RealmZcool> {
 
     @Override
     public void getData() {
+        if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_ZCOOL)) {
+            showList();
+            return;
+        }
+
         Observable
                 .create((ObservableOnSubscribe<Document>) observableEmitter -> {
-                    if (!PrefUtil.isNeedRefresh(Constants.KEY_REFRESH_TIME_ZCOOL)) {
-                        observableEmitter.onComplete();
-                        return;
-                    }
                     try {
                         Document document = Jsoup.connect(Urls.ZCOOL_URL).get();
                         observableEmitter.onNext(document);
+                        observableEmitter.onComplete();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        observableEmitter.onComplete();
+                        observableEmitter.onError(new Throwable("zcool get error"));
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -129,12 +132,11 @@ public class ZcoolListFragment extends BaseListFragment<Zcool, RealmZcool> {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(this::showList)
+                .doOnDispose(this::showList)
                 .subscribe(new BaseObserver<Document>(getLifecycle()) {
                     @Override
                     protected void onSucceed(Document result) {
                         saveData();
-                        showList();
                     }
                 });
     }

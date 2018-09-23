@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.webkit.ValueCallback;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -111,11 +113,13 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
                                 Logger.i(html.length() + "");
                                 parseHtmlText(replacer(new StringBuffer(html)));
                                 releaseWebView();
+                                Logger.i("ng web page finished");
 //                                parseHtmlText(Unicode2charUtil.getFixStr(html));
 //                                parseHtmlText(CommonUtils.getTextFromAssets(getContext(), "ng.html"));
                             }
                         });
             }
+
         });
         mWebView.loadUrl(Urls.NG_PHOTO_OF_THE_DAY_URL);
     }
@@ -147,6 +151,7 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
 //                        Document document = Jsoup.connect(Urls.NG_PHOTO_OF_THE_DAY_URL).get();
                     Document document = Jsoup.parse(text);
                     observableEmitter.onNext(document);
+                    observableEmitter.onComplete();
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
@@ -186,10 +191,11 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
                     }
 
                     @Override
-                    public void onComplete() {
-                        super.onComplete();
+                    protected void onFailed(@Nullable String msg) {
+                        super.onFailed(msg);
                         showList();
                     }
+
                 });
     }
 
