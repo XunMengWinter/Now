@@ -1,6 +1,7 @@
 package top.wefor.now.ui.gank;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -39,7 +40,8 @@ public class GankAdapter extends BaseRecyclerViewAdapter<Gank> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         MyViewHolder myViewHolder = (MyViewHolder) holder;
         Gank gank = mList.get(position);
         myViewHolder.mNameTv.setText(gank.desc);

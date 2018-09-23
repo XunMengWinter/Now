@@ -11,7 +11,7 @@ import top.wefor.now.data.http.NowApi;
 /**
  * Created by tangqi on 8/20/15.
  */
-public class Zhihu implements Serializable {
+public class Zhihu implements Serializable, INow {
     @SerializedName("images")
     public List<String> images;
     @SerializedName("type")
@@ -25,6 +25,7 @@ public class Zhihu implements Serializable {
     @SerializedName("multipic")
     public boolean multipic;
 
+    @Override
     public NowItem toNow() {
         NowItem nowItem = new NowItem();
         nowItem.url = NowApi.getNewsContent(this.id);

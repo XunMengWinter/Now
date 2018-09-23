@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by ice on 15/10/27.
  */
-public class Moment implements Serializable {
+public class Moment implements Serializable, INow {
     @SerializedName("url")
     public String url;
     @SerializedName("title")
@@ -20,6 +20,7 @@ public class Moment implements Serializable {
     @SerializedName("content")
     public String content;
 
+    @Override
     public NowItem toNow() {
         NowItem nowItem = new NowItem();
         nowItem.url = this.url;

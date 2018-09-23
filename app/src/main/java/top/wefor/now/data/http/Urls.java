@@ -25,4 +25,11 @@ public class Urls {
     public static final String MONO = "http://mmmono.com/";
 
 
+    public static String getNgUrl(String url){
+        String httpUrl = url + "";
+        if (!httpUrl.contains("http://") && !httpUrl.contains("https://")) {
+            httpUrl = Urls.NG_BASE_URL + httpUrl;
+        }
+        return httpUrl;
+    }
 }

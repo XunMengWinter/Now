@@ -3,37 +3,42 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/d7">
+    android:layout_height="@dimen/d7"
+    android:layout_margin="@dimen/d3"
+    >
 
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:padding="@dimen/d4">
+        android:padding="@dimen/d3">
 
         <TextView
-            style="@style/text_base"
+            android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="2"
-            tools:text="@string/text"
-            android:textColor="@color/primary_text"/>
+            android:lineSpacingMultiplier="1.5"
+            android:maxLines="3"
+            android:textColor="@color/primary_text"
+            tools:text="@string/text"/>
 
         <TextView
+            android:id="@+id/from_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:textColor="@color/secondary_text"
+            android:textSize="@dimen/h6"
             tools:text="from: Zcool"/>
 
     </FrameLayout>
 
     <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/image_iv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
         tools:src="@mipmap/ic_launcher"/>
 
 </LinearLayout>

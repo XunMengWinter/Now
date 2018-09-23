@@ -1,11 +1,13 @@
 package top.wefor.now.ui.search;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +16,15 @@ import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import top.wefor.now.R;
-import top.wefor.now.data.database.RealmDbHelper;
-import top.wefor.now.data.model.entity.Zcool;
+import top.wefor.now.data.database.RealmSearchHelper;
+import top.wefor.now.data.model.entity.NowItem;
+import top.wefor.now.data.model.realm.RealmMoment;
+import top.wefor.now.data.model.realm.RealmMono;
+import top.wefor.now.data.model.realm.RealmNG;
 import top.wefor.now.data.model.realm.RealmZcool;
+import top.wefor.now.data.model.realm.RealmZhihu;
 import top.wefor.now.ui.BaseAppCompatActivity;
 import top.wefor.now.ui.activity.WebActivity;
-import top.wefor.now.ui.adapter.ZcoolAdapter;
 
 /**
  * Created on 2018/9/23.
@@ -29,11 +34,11 @@ import top.wefor.now.ui.adapter.ZcoolAdapter;
 public class SearchActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
-    ZcoolAdapter mZcoolAdapter;
-    List<Zcool> mSearchList = new ArrayList<>();
+    SearchAdapter mSearchAdapter;
+    List<NowItem> mSearchList = new ArrayList<>();
     SearchView mSearchView;
-    RealmDbHelper<Zcool, RealmZcool> mZcoolRealmDbHelper;
-    protected Realm mRealm;
+    private Realm mRealm;
+    private RealmSearchHelper mRealmSearchHelper;
 
     @Override
     protected int getLayoutId() {
@@ -47,19 +52,16 @@ public class SearchActivity extends BaseAppCompatActivity {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         mRealm = Realm.getInstance(realmConfiguration);
-        mZcoolRealmDbHelper = new RealmDbHelper<>(mSearchList, mRealm, RealmZcool.class);
+        mRealmSearchHelper = new RealmSearchHelper(mRealm);
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
-        mZcoolAdapter = new ZcoolAdapter(this, mSearchList);
-        mZcoolAdapter.setHeadViewCount(0);
-        mZcoolAdapter.setImageWidthAndHeight(2);
-        mRecyclerView.setAdapter(mZcoolAdapter);
-
-        mZcoolAdapter.setOnItemClickListener(model -> {
-            WebActivity.startThis(this, model.url, model.title, model.imgUrl,
-                    getString(R.string.share_summary_zcool));
+        mSearchAdapter = new SearchAdapter(this, mSearchList, mRecyclerView);
+        mSearchAdapter.setOnItemClickListener(position -> {
+            NowItem item = mSearchList.get(position);
+            WebActivity.startThis(this, item.url, item.title, item.imageUrl, item.from);
         });
+
     }
 
     @Override
@@ -68,12 +70,18 @@ public class SearchActivity extends BaseAppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) searchItem.getActionView();
         mSearchView.setIconified(false);
-        mSearchView.setQueryHint("input now item keyword");
+        mSearchView.setQueryHint("📖历史条目");
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mZcoolRealmDbHelper.search(query);
-                mZcoolAdapter.notifyDataSetChanged();
+                mSearchList.clear();
+                mSearchList.addAll(mRealmSearchHelper.search(RealmZcool.class, query));
+                mSearchList.addAll(mRealmSearchHelper.search(RealmNG.class, query));
+                mSearchList.addAll(mRealmSearchHelper.search(RealmMono.class, query));
+                mSearchList.addAll(mRealmSearchHelper.search(RealmZhihu.class, query));
+                mSearchList.addAll(mRealmSearchHelper.search(RealmMoment.class, query));
+                mSearchAdapter.notifyDataSetChanged();
+                closeSoftKeyboard();
                 return true;
             }
 
@@ -83,6 +91,14 @@ public class SearchActivity extends BaseAppCompatActivity {
             }
         });
         return true;
+    }
+
+    private void closeSoftKeyboard(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        // 隐藏软键盘
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 
     @Override

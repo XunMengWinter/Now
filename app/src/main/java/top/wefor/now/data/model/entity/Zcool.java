@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by ice on 15/10/27.
  */
-public class Zcool implements Serializable {
+public class Zcool implements Serializable, INow {
     @SerializedName("url")
     public String url;
     @SerializedName("imgUrl")
@@ -22,6 +22,7 @@ public class Zcool implements Serializable {
     @SerializedName("likeCount")
     public String likeCount;
 
+    @Override
     public NowItem toNow() {
         NowItem nowItem = new NowItem();
         nowItem.url = this.url;

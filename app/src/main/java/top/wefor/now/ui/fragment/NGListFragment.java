@@ -68,11 +68,7 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
         mAdapter.setOnItemClickListener(news -> {
             Intent intent = new Intent(getActivity(), WebActivity.class);
             intent.putExtra(WebActivity.EXTRA_TITLE, news.title);
-            String httpUrl = news.url + "";
-            if (!httpUrl.contains("http://") && !httpUrl.contains("https://")) {
-                httpUrl = Urls.NG_BASE_URL + httpUrl;
-            }
-            intent.putExtra(WebActivity.EXTRA_URL, httpUrl);
+            intent.putExtra(WebActivity.EXTRA_URL, Urls.getNgUrl(news.url));
             intent.putExtra(WebActivity.EXTRA_PIC_URL, news.imgUrl);
             intent.putExtra(WebActivity.EXTRA_SUMMARY, getString(R.string.share_summary_ng));
             startActivity(intent);

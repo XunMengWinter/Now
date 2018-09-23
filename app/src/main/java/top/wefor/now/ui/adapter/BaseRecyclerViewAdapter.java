@@ -1,7 +1,7 @@
 package top.wefor.now.ui.adapter;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,12 +45,20 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter {
     }
 
     protected abstract int getLayoutRes();
+
     protected abstract RecyclerView.ViewHolder getViewHolder(View view);
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mRootView = inflater.inflate(getLayoutRes(), parent, false);
         return getViewHolder(mRootView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (mItemClickListener != null)
+            holder.itemView.setOnClickListener(v -> mItemClickListener.onRecyclerViewItemClick(position));
     }
 
     @Override

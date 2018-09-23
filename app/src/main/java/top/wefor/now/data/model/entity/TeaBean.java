@@ -1,6 +1,7 @@
 package top.wefor.now.data.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class TeaBean implements Serializable {
         public MeowBean meow;
     }
 
-    public static class MeowBean {
+    public static class MeowBean implements Serializable, INow {
         //        public int bang_count;
 //        public boolean is_folded;
 //        public int kind;
@@ -64,6 +65,18 @@ public class TeaBean implements Serializable {
                 return pics.get(0).raw;
             }
             return null;
+        }
+
+        @Override
+        public NowItem toNow() {
+            NowItem nowItem = new NowItem();
+            nowItem.url = this.rec_url;
+            nowItem.collectedDate = new Date().getTime();
+            nowItem.imageUrl = getCover();
+            nowItem.title = this.title;
+            nowItem.subTitle = this.description;
+            nowItem.from = "MONO";
+            return nowItem;
         }
     }
 
