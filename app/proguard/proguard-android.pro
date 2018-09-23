@@ -42,3 +42,6 @@
 -dontwarn android.test.**
 -dontwarn android.support.test.**
 -dontwarn org.junit.**
+
+# SearchView 找不到
+-keep class android.support.v7.widget.SearchView { *; }

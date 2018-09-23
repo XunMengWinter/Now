@@ -14,8 +14,8 @@ android {
             applicationId "top.wefor.test.nowview"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 22
-        versionName "4.1"
+        versionCode 23
+        versionName "4.2"
 
         buildConfigField "String", "APK_DATE", "\"${generateDate()}\""
     }

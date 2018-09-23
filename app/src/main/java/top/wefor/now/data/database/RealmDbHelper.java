@@ -6,7 +6,6 @@ import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
-import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -76,15 +75,6 @@ public class RealmDbHelper<M, T extends RealmObject> {
 
         for (int i = startPos; i > endPos; i--) {
             mEntityList.add(((AbsNowRealmObject<M>) (zcoolRealmResults.get(i))).toEntity());
-        }
-    }
-
-    public void search(String keyword) {
-        RealmResults<T> realmResults = mRealm.where(mNowRealmClass)
-                .contains("title", keyword, Case.INSENSITIVE).findAll();
-        mEntityList.clear();
-        for (int i = realmResults.size() - 1; i >= 0; i--) {
-            mEntityList.add(((AbsNowRealmObject<M>) (realmResults.get(i))).toEntity());
         }
     }
 
