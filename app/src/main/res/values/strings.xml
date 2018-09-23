@@ -4,8 +4,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
     <string name="tag">Winter is coming </string>
     <string name="text">我们生命中出现过的一些人我们的确不知道是什么时候认识的，好像一生下来或者是从开始记事儿的时候就认识他们。我很庆幸，那些我不知道是什么时候认识的人并没有弄丢太多，每每想起都会觉得很温暖。</string>
+
+    <string name="activity_gank_daily">Gank Daily</string>
+    <string name="activity_search">Search Now</string>
 
     <string name="other_js_switch">JavaScript switch</string>
     <string name="js_open_description">(Open it, you can discuss in web page)</string>
@@ -139,7 +143,6 @@
     <string name="gank_meizhi_list">福利</string>
 
     <string name="empty">Empty content ~ T_T </string>
-    <string name="activity_gank_daily">Gank Daily</string>
     <string name="wiki_daily">Wikipedia Today</string>
     <string name="suggest_subtitle">As you wish</string>
     <string name="save_image">Save image</string>

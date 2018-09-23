@@ -96,6 +96,13 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Translucent"/>
 
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/activity_search"
+            android:theme="@style/AppThemeSearch"
+            />
+
     </application>
 
 </manifest>

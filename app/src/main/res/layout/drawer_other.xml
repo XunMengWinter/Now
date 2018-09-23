@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/other_rootView"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/other_rootView"
     android:layout_width="320dp"
     android:layout_height="match_parent"
-    android:clickable="true"
     android:layout_gravity="start"
-    android:gravity="center_vertical"
     android:background="@android:color/white"
+    android:clickable="true"
+    android:gravity="center_vertical"
     android:orientation="vertical">
 
     <LinearLayout
@@ -170,6 +170,14 @@
             android:textColor="@color/secondary_text"
             android:textSize="@dimen/h5"/>
     </LinearLayout>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/search_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/d4"
+        android:src="@drawable/selector_search_btn"/>
 
 
 </LinearLayout>

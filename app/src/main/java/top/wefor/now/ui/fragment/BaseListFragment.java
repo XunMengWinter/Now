@@ -118,7 +118,7 @@ public abstract class BaseListFragment<M, T extends AbsNowRealmObject<M>> extend
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mRealm != null)
+        if (mRealm != null && !mRealm.isClosed())
             mRealm.close();
     }
 

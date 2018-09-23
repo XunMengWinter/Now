@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +49,7 @@ import top.wefor.now.ui.fragment.NGListFragment;
 import top.wefor.now.ui.fragment.ZcoolListFragment;
 import top.wefor.now.ui.fragment.ZhihuListFragment;
 import top.wefor.now.ui.gank.GankDailyActivity;
+import top.wefor.now.ui.search.SearchActivity;
 import top.wefor.now.utils.UIHelper;
 
 public class MainActivity extends BaseCompatActivity {
@@ -66,6 +68,7 @@ public class MainActivity extends BaseCompatActivity {
     @BindView(R.id.thanks_textView) TextView mThanksTextView;
     @BindView(R.id.suggest_linearLayout) LinearLayout mSuggestLinearLayout;
     @BindView(R.id.gank_textView) TextView mGankTextView;
+    @BindView(R.id.search_iv) AppCompatImageView mSearchIv;
 
 
     PreferencesHelper mPreferencesHelper = new PreferencesHelper(App.getInstance());
@@ -366,6 +369,7 @@ public class MainActivity extends BaseCompatActivity {
         });
 
         mGankTextView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, GankDailyActivity.class)));
+        mSearchIv.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
     }
 
     private void setHeadImages(int index) {

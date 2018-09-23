@@ -61,9 +61,11 @@ public class ZcoolListFragment extends BaseListFragment<Zcool, RealmZcool> {
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
             ((ZcoolAdapter) mAdapter).setImageWidthAndHeight(2);
+            mAdapter.setHeadViewCount(2);
         } else {
             mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
             ((ZcoolAdapter) mAdapter).setImageWidthAndHeight(3);
+            mAdapter.setHeadViewCount(3);
         }
 
         int dp8 = getResources().getDimensionPixelSize(R.dimen.d3);

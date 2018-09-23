@@ -48,20 +48,6 @@ public class ZcoolAdapter extends BaseListAdapter<Zcool> {
     }
 
     @Override
-    public int getItemViewType(int position) {
-        switch (position) {
-            case 0:
-            case 1:
-                return TYPE_HEADER;
-            case 2:
-                if (context.getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT)
-                    return TYPE_HEADER;
-            default:
-                return TYPE_CELL;
-        }
-    }
-
-    @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
 

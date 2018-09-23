@@ -30,6 +30,7 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<RecyclerVi
 
     // 留白
     private int mHeadCount = 0;
+    protected int mHeadViewCount = 1;
 
     public BaseListAdapter(Context context, List<T> mList) {
         this.mList = mList;
@@ -38,12 +39,14 @@ public abstract class BaseListAdapter<T> extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemViewType(int position) {
-        switch (position) {
-            case 0:
-                return TYPE_HEADER;
-            default:
-                return TYPE_CELL;
-        }
+        if (position < mHeadViewCount)
+            return TYPE_HEADER;
+        else
+            return TYPE_CELL;
+    }
+
+    public void setHeadViewCount(int count){
+        mHeadViewCount = count;
     }
 
     @Override
