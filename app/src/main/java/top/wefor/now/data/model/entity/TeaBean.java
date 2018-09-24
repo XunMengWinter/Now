@@ -1,5 +1,7 @@
 package top.wefor.now.data.model.entity;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -67,10 +69,19 @@ public class TeaBean implements Serializable {
             return null;
         }
 
+        public String getUrl() {
+            if (TextUtils.isEmpty(this.rec_url)) {
+                String webUrl = "http://mmmono.com/g/meow/{meow_id}/";
+                return webUrl.replace("{meow_id}", this.id);
+            } else {
+                return this.rec_url;
+            }
+        }
+
         @Override
         public NowItem toNow() {
             NowItem nowItem = new NowItem();
-            nowItem.url = this.rec_url;
+            nowItem.url = getUrl();
             nowItem.collectedDate = new Date().getTime();
             nowItem.imageUrl = getCover();
             nowItem.title = this.title;

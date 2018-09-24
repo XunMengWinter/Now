@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/other_rootView"
     android:layout_width="320dp"
     android:layout_height="match_parent"
@@ -171,13 +172,16 @@
             android:textSize="@dimen/h5"/>
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/search_iv"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/search_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginRight="@dimen/d4"
-        android:src="@drawable/selector_search_btn"/>
-
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/d3"
+        android:padding="@dimen/d3"
+        android:text="🔍"
+        android:textSize="24sp"
+        tools:ignore="HardcodedText"/>
+    <!--android:src="@drawable/selector_search_btn"-->
 
 </LinearLayout>

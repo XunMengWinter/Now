@@ -32,10 +32,6 @@ public final class NowApi {
         return get(Urls.ZHIHU_NEWS).build().create(ZhihuApi.class);
     }
 
-    // getDailyNewsContent GET
-    public static String getNewsContent(int id) {
-        return Urls.ZHIHU_DAILY_NEWS_CONTENT + id;
-    }
 
     public static GankApi getGankApi() {
         return get(Urls.GANK).build().create(GankApi.class);

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import top.wefor.now.data.http.NowApi;
+import top.wefor.now.data.http.Urls;
 
 /**
  * Created by tangqi on 8/20/15.
@@ -25,10 +25,14 @@ public class Zhihu implements Serializable, INow {
     @SerializedName("multipic")
     public boolean multipic;
 
+    public String getUrl() {
+        return Urls.ZHIHU_DAILY_NEWS_CONTENT + id;
+    }
+
     @Override
     public NowItem toNow() {
         NowItem nowItem = new NowItem();
-        nowItem.url = NowApi.getNewsContent(this.id);
+        nowItem.url = getUrl();
         nowItem.collectedDate = new Date().getTime();
         nowItem.imageUrl = this.images.get(0);
         nowItem.title = this.title;

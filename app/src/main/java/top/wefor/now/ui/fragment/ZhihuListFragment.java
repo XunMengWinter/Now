@@ -2,8 +2,6 @@ package top.wefor.now.ui.fragment;
 
 import android.os.Bundle;
 
-import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -62,12 +60,11 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu, RealmZhihu> {
         mRecyclerView.setAdapter(scaleAdapter);
 
         mAdapter.setOnItemClickListener(news -> {
-            String news_url = NowApi.getNewsContent(news.id);
             String imageUrl = null;
             if (news.images != null && news.images.size() > 0)
                 imageUrl = news.images.get(0);
 
-            WebActivity.startThis(getActivity(), news_url, news.title, imageUrl,
+            WebActivity.startThis(getActivity(), news.getUrl(), news.title, imageUrl,
                     getString(R.string.share_summary_zhihu));
         });
 

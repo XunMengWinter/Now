@@ -68,7 +68,7 @@ public class MainActivity extends BaseCompatActivity {
     @BindView(R.id.thanks_textView) TextView mThanksTextView;
     @BindView(R.id.suggest_linearLayout) LinearLayout mSuggestLinearLayout;
     @BindView(R.id.gank_textView) TextView mGankTextView;
-    @BindView(R.id.search_iv) AppCompatImageView mSearchIv;
+    @BindView(R.id.search_view) View mSearchView;
 
 
     PreferencesHelper mPreferencesHelper = new PreferencesHelper(App.getInstance());
@@ -369,7 +369,7 @@ public class MainActivity extends BaseCompatActivity {
         });
 
         mGankTextView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, GankDailyActivity.class)));
-        mSearchIv.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
+        mSearchView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
     }
 
     private void setHeadImages(int index) {

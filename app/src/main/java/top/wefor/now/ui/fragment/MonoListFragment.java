@@ -2,7 +2,6 @@ package top.wefor.now.ui.fragment;
 
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -58,19 +57,8 @@ public class MonoListFragment extends BaseListFragment<TeaBean.MeowBean, RealmMo
         mRecyclerView.setAdapter(scaleAdapter);
 
         mAdapter.setOnItemClickListener(news -> {
-            if (!TextUtils.isEmpty(news.rec_url)) {
-                WebActivity.startThis(getActivity(), news.rec_url, news.title, news.getCover()
-                        , getString(R.string.share_summary_mono));
-//            } else if (news.images != null && news.images.size() > 0) {
-//                startActivity(MonoImageListActivity.getIntent(getActivity(), news.images));
-//            } else if (news.pics != null && news.pics.size() > 0) {
-//                startActivity(MonoImageListActivity.getIntent(getActivity(), news.pics));
-            } else {
-                String webUrl = "http://mmmono.com/g/meow/{meow_id}/";
-                webUrl = webUrl.replace("{meow_id}", news.id);
-                WebActivity.startThis(getActivity(), webUrl, news.title, news.getCover()
-                        , getString(R.string.share_summary_mono));
-            }
+            WebActivity.startThis(getActivity(), news.getUrl(), news.title, news.getCover()
+                    , getString(R.string.share_summary_mono));
         });
 
         if (mList.size() < 1) {
