@@ -20,10 +20,18 @@ public class NG implements Serializable, INow {
     @SerializedName("content")
     public String content;
 
+    public String getUrl() {
+        String httpUrl = this.url + "";
+        if (!httpUrl.contains("http://") && !httpUrl.contains("https://")) {
+            httpUrl = Urls.NG_BASE_URL + httpUrl;
+        }
+        return httpUrl;
+    }
+
     @Override
     public NowItem toNow() {
         NowItem nowItem = new NowItem();
-        nowItem.url = Urls.getNgUrl(url);
+        nowItem.url = getUrl();
         nowItem.collectedDate = new Date().getTime();
         nowItem.imageUrl = this.imgUrl;
         nowItem.title = this.title;

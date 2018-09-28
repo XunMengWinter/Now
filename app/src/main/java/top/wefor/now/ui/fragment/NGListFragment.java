@@ -1,13 +1,11 @@
 package top.wefor.now.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.ValueCallback;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -66,12 +64,12 @@ public class NGListFragment extends BaseListFragment<NG, RealmNG> {
     protected void initRecyclerView() {
         super.initRecyclerView();
         mAdapter.setOnItemClickListener(news -> {
-            Intent intent = new Intent(getActivity(), WebActivity.class);
-            intent.putExtra(WebActivity.EXTRA_TITLE, news.title);
-            intent.putExtra(WebActivity.EXTRA_URL, Urls.getNgUrl(news.url));
-            intent.putExtra(WebActivity.EXTRA_PIC_URL, news.imgUrl);
-            intent.putExtra(WebActivity.EXTRA_SUMMARY, getString(R.string.share_summary_ng));
-            startActivity(intent);
+            String title = news.title;
+            if (TextUtils.isEmpty(title)) {
+                title = news.content;
+            }
+            WebActivity.startThis(getActivity(), news.getUrl(), title, news.imgUrl
+                    , getString(R.string.share_summary_mono));
         });
 
         mAdapter.setOnItemLongClickListener(model -> saveToNote(model.toNow()));
