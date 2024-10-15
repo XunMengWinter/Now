@@ -1,6 +1,6 @@
 package top.wefor.now.data.database;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.orhanobut.logger.Logger;
 

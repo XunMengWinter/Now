@@ -2,7 +2,6 @@ package top.wefor.now.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.widget.TextView;
 
@@ -11,8 +10,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.Date;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import top.wefor.now.App;
 import top.wefor.now.BuildConfig;
 import top.wefor.now.Constants;
@@ -22,6 +19,7 @@ import top.wefor.now.data.http.BaseHttpObserver;
 import top.wefor.now.data.http.NowApi;
 import top.wefor.now.data.model.GankMeizhiResult;
 import top.wefor.now.data.model.entity.Gank;
+import top.wefor.now.databinding.ActivityWelcomeBinding;
 import top.wefor.now.ui.BaseCompatActivity;
 import top.wefor.now.utils.NowAppUtil;
 
@@ -32,8 +30,7 @@ import top.wefor.now.utils.NowAppUtil;
  */
 public class WelcomeActivity extends BaseCompatActivity {
 
-    @BindView(R.id.imageView) AppCompatImageView mImageView;
-    @BindView(R.id.textView) TextView mTextView;
+    private ActivityWelcomeBinding binding;
 
     private Date mStartDate;
     final long WELCOME_TIME = 1500;
@@ -42,20 +39,19 @@ public class WelcomeActivity extends BaseCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_welcome);
-        ButterKnife.bind(this);
+        binding = ActivityWelcomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         mStartDate = new Date();
         String coverImgUrl = mPreferencesHelper.getCoverImage();
         if (!TextUtils.isEmpty(coverImgUrl)) {
-            Glide.with(this).load(coverImgUrl).into(mImageView);
+            Glide.with(this).load(coverImgUrl).into(binding.imageView);
         } else {
-            mImageView.setImageResource(R.mipmap.img_first_welcome);
+            binding.imageView.setImageResource(R.mipmap.img_first_welcome);
         }
 
         String version = String.format(getResources().getString(R.string.app_version), BuildConfig.VERSION_NAME);
-        mTextView.setText(pass(version));
+        binding.textView.setText(pass(version));
 
         int type = mPreferencesHelper.getHeadImageType();
         switch (type) {
@@ -98,7 +94,7 @@ public class WelcomeActivity extends BaseCompatActivity {
         if (getWaitTime() <= 0)
             go();
         else
-            mTextView.postDelayed(this::go, getWaitTime());
+            binding.textView.postDelayed(this::go, getWaitTime());
     }
 
     private int getWaitTime() {

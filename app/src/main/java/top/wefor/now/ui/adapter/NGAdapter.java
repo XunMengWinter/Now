@@ -1,19 +1,18 @@
 package top.wefor.now.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.NG;
 import top.wefor.now.ui.activity.BigImageActivity;
@@ -37,13 +36,11 @@ public class NGAdapter extends BaseListAdapter<NG> {
             case TYPE_HEADER:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(getBigViewResId(), parent, false);
-                return new CardViewHolder(view, TYPE_HEADER) {
-                };
+                return new CardViewHolder(view, TYPE_HEADER);
             case TYPE_CELL:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(getSmallViewResId(), parent, false);
-                return new CardViewHolder(view) {
-                };
+                return new CardViewHolder(view, TYPE_CELL);
         }
         return null;
     }
@@ -52,36 +49,40 @@ public class NGAdapter extends BaseListAdapter<NG> {
     protected void bindCellViewHolder(RecyclerView.ViewHolder cellViewHolder, int position) {
         NG news = mList.get(position);
         CardViewHolder cardViewHolder = (CardViewHolder) cellViewHolder;
-//        Uri imgUri = Uri.parse(news.imgUrl);
-//        cardViewHolder.mSimpleDraweeView.setImageURI(imgUri);
         final String imageUrl = news.imgUrl;
+
+        // Use Glide to load the image
         Glide.with(context).load(imageUrl).into(cardViewHolder.mSimpleDraweeView);
+
         cardViewHolder.mTitleTv.setText(news.title);
         cardViewHolder.mContentTv.setText(news.content);
+
         cardViewHolder.mSimpleDraweeView.setOnClickListener(v -> {
             BigImageActivity.startThis(context, v, imageUrl);
         });
     }
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.simpleDraweeView)
         SimpleDraweeView mSimpleDraweeView;
-        @BindView(R.id.title_textView)
         TextView mTitleTv;
-        @BindView(R.id.content_textView)
         TextView mContentTv;
 
         public CardViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this, v);
+            // Bind views manually
+            mSimpleDraweeView = v.findViewById(R.id.simpleDraweeView);
+            mTitleTv = v.findViewById(R.id.title_textView);
+            mContentTv = v.findViewById(R.id.content_textView);
         }
 
         public CardViewHolder(View v, int viewType) {
             super(v);
-            if (viewType == TYPE_CELL)
-                ButterKnife.bind(this, v);
+            if (viewType == TYPE_CELL) {
+                // Bind views manually for TYPE_CELL viewType
+                mSimpleDraweeView = v.findViewById(R.id.simpleDraweeView);
+                mTitleTv = v.findViewById(R.id.title_textView);
+                mContentTv = v.findViewById(R.id.content_textView);
+            }
         }
     }
-
-
 }

@@ -1,6 +1,6 @@
 package top.wefor.now.data.http;
 
-import android.arch.lifecycle.Lifecycle;
+import androidx.lifecycle.Lifecycle;
 
 import top.wefor.now.data.model.BaseResult;
 

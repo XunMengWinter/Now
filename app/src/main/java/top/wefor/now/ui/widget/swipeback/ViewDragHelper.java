@@ -17,16 +17,17 @@
 package top.wefor.now.ui.widget.swipeback;
 
 import android.content.Context;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.VelocityTrackerCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.ScrollerCompat;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
+
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.VelocityTrackerCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.ScrollerCompat;
 
 import java.util.Arrays;
 
@@ -489,9 +490,9 @@ public class ViewDragHelper {
     /**
      * Enable edge tracking for the selected edges of the parent view. The
      * callback's
-     * {@link com.github.obsessive.library.swipeback.ViewDragHelper.Callback#onEdgeTouched(int, int)}
+     *
      * and
-     * {@link com.github.obsessive.library.swipeback.ViewDragHelper.Callback#onEdgeDragStarted(int, int)}
+     *
      * methods will only be invoked for edges for which edge tracking has been
      * enabled.
      *
@@ -531,7 +532,7 @@ public class ViewDragHelper {
     /**
      * Capture a specific child view for dragging within the parent. The
      * callback will be notified but
-     * {@link com.github.obsessive.library.swipeback.ViewDragHelper.Callback#tryCaptureView(View, int)}
+     *
      * will not be asked permission to capture this view.
      *
      * @param childView       Child view to capture
@@ -1544,7 +1545,7 @@ public class ViewDragHelper {
     /**
      * Find the topmost child under the given point within the parent view's
      * coordinate system. The child order is determined using
-     * {@link com.github.obsessive.library.swipeback.ViewDragHelper.Callback#getOrderedChildIndex(int)}
+     *
      * .
      *
      * @param x X position to test in the parent's coordinate system

@@ -17,8 +17,9 @@
 package top.wefor.now.ui;
 
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.view.View;
+
+import androidx.annotation.IdRes;
 
 import top.wefor.now.ui.widget.swipeback.SwipeBackActivityBase;
 import top.wefor.now.ui.widget.swipeback.SwipeBackActivityHelper;

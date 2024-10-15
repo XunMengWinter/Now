@@ -1,14 +1,15 @@
 package top.wefor.now.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -19,8 +20,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import top.wefor.now.App;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Moment;
@@ -104,19 +103,29 @@ public class MomentAdapter extends BaseListAdapter<Moment> {
     public class CardViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView[] mImageViews;
 
-        @BindView(R.id.image_title_textView) TextView mImageTitleTextView;
-        @BindView(R.id.simpleDraweeView1) SimpleDraweeView mSimpleDraweeView1;
-        @BindView(R.id.simpleDraweeView2) SimpleDraweeView mSimpleDraweeView2;
-        @BindView(R.id.simpleDraweeView3) SimpleDraweeView mSimpleDraweeView3;
-        @BindView(R.id.image_linearLayout) LinearLayout mImageLinearLayout;
-        @BindView(R.id.text_title_textView) TextView mTextTitleTextView;
-        @BindView(R.id.text_content_textView) TextView mTextContentTextView;
-        @BindView(R.id.text_linearLayout) LinearLayout mTextLinearLayout;
-        @BindView(R.id.news_list_card_view) CardView mNewsListCardView;
+        TextView mImageTitleTextView;
+        SimpleDraweeView mSimpleDraweeView1;
+        SimpleDraweeView mSimpleDraweeView2;
+        SimpleDraweeView mSimpleDraweeView3;
+        LinearLayout mImageLinearLayout;
+        TextView mTextTitleTextView;
+        TextView mTextContentTextView;
+        LinearLayout mTextLinearLayout;
+
+        private void bindViewId(View v){
+            mImageTitleTextView = v.findViewById(R.id.image_title_textView);
+            mSimpleDraweeView1 = v.findViewById(R.id.simpleDraweeView1);
+            mSimpleDraweeView2 = v.findViewById(R.id.simpleDraweeView2);
+            mSimpleDraweeView3 = v.findViewById(R.id.simpleDraweeView3);
+            mImageLinearLayout = v.findViewById(R.id.image_linearLayout);
+            mTextTitleTextView = v.findViewById(R.id.text_title_textView);
+            mTextContentTextView = v.findViewById(R.id.text_content_textView);
+            mTextLinearLayout = v.findViewById(R.id.text_linearLayout);
+        }
 
         public CardViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this, v);
+            bindViewId(v);
 
             mImageViews = new SimpleDraweeView[]{mSimpleDraweeView1, mSimpleDraweeView2, mSimpleDraweeView3};
 
@@ -135,13 +144,12 @@ public class MomentAdapter extends BaseListAdapter<Moment> {
                 roundingParams.setCornersRadii(0, 0, d2, 0);
                 mSimpleDraweeView3.getHierarchy().setRoundingParams(roundingParams);
             }
-
         }
 
         public CardViewHolder(View v, int viewType) {
             super(v);
-            if (viewType == TYPE_CELL) {
-                ButterKnife.bind(this, v);
+            if(viewType == TYPE_CELL){
+                bindViewId(v);
             }
         }
     }

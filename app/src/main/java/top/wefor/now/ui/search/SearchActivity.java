@@ -2,17 +2,18 @@ package top.wefor.now.ui.search;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import top.wefor.now.R;
@@ -23,20 +24,22 @@ import top.wefor.now.data.model.realm.RealmMono;
 import top.wefor.now.data.model.realm.RealmNG;
 import top.wefor.now.data.model.realm.RealmZcool;
 import top.wefor.now.data.model.realm.RealmZhihu;
+import top.wefor.now.databinding.ActivitySearchBinding;
 import top.wefor.now.ui.BaseAppCompatActivity;
 import top.wefor.now.ui.activity.WebActivity;
 
 /**
  * Created on 2018/9/23.
+ * Updated for modern Android practices.
  *
  * @author ice
  */
 public class SearchActivity extends BaseAppCompatActivity {
 
-    @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
-    SearchAdapter mSearchAdapter;
-    List<NowItem> mSearchList = new ArrayList<>();
-    SearchView mSearchView;
+    private ActivitySearchBinding binding;
+    private SearchAdapter mSearchAdapter;
+    private List<NowItem> mSearchList = new ArrayList<>();
+    private SearchView mSearchView;
     private Realm mRealm;
     private RealmSearchHelper mRealmSearchHelper;
 
@@ -46,7 +49,12 @@ public class SearchActivity extends BaseAppCompatActivity {
     }
 
     @Override
-    protected void initViews(Bundle savedInstanceState) {
+    protected void initViews(@Nullable Bundle savedInstanceState) {
+        // Initialize ViewBinding
+        binding = ActivitySearchBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        // Realm configuration
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .schemaVersion(2)
                 .deleteRealmIfMigrationNeeded()
@@ -54,14 +62,15 @@ public class SearchActivity extends BaseAppCompatActivity {
         mRealm = Realm.getInstance(realmConfiguration);
         mRealmSearchHelper = new RealmSearchHelper(mRealm);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setHasFixedSize(true);
-        mSearchAdapter = new SearchAdapter(this, mSearchList, mRecyclerView);
+        // Set up RecyclerView
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setHasFixedSize(true);
+        mSearchAdapter = new SearchAdapter(this, mSearchList, binding.recyclerView);
         mSearchAdapter.setOnItemClickListener(position -> {
             NowItem item = mSearchList.get(position);
             WebActivity.startThis(this, item.url, item.title, item.imageUrl, item.from);
         });
-
+        binding.recyclerView.setAdapter(mSearchAdapter);
     }
 
     @Override
@@ -74,6 +83,7 @@ public class SearchActivity extends BaseAppCompatActivity {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                // Clear the search list and update with new results
                 mSearchList.clear();
                 mSearchList.addAll(mRealmSearchHelper.search(RealmZcool.class, query));
                 mSearchList.addAll(mRealmSearchHelper.search(RealmNG.class, query));
@@ -93,9 +103,9 @@ public class SearchActivity extends BaseAppCompatActivity {
         return true;
     }
 
+    // Method to close the soft keyboard
     private void closeSoftKeyboard(){
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        // 隐藏软键盘
         if (imm != null) {
             imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
         }
@@ -104,7 +114,9 @@ public class SearchActivity extends BaseAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mRealm != null && !mRealm.isClosed())
+        if (mRealm != null && !mRealm.isClosed()) {
             mRealm.close();
+        }
+        binding = null; // Avoid memory leaks
     }
 }

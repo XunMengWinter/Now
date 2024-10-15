@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,7 +14,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.tencent.connect.share.QQShare;
@@ -30,14 +27,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import top.wefor.now.App;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
 import top.wefor.now.data.http.Urls;
+import top.wefor.now.databinding.ActivityWebviewBinding;
 import top.wefor.now.ui.BaseSwipeBackCompatActivity;
 import top.wefor.now.utils.ImageUtil;
 import top.wefor.now.utils.NowAppUtil;
@@ -68,64 +63,52 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         context.startActivity(intent);
     }
 
-    @BindView(R.id.progressbar) ProgressBar mProgressbar;
-    @BindView(R.id.webView) WebView mWebView;
-    @BindView(R.id.cardView) CardView mCardView;
-    @BindView(R.id.loading_view) View mLoadingView;
-
-    @OnClick(R.id.wechat_textView)
-    void shareWechat() {
-        mCardView.setVisibility(View.GONE);
-        isMenuShow = false;
-        Share.shareToWechat(this, mTitle, summary, mUrl, bitmap);
-    }
-
-    @OnClick(R.id.wechatcircle_textView)
-    void shareWechatcircle() {
-        mCardView.setVisibility(View.GONE);
-        isMenuShow = false;
-        Share.shareToWechatcircle(this, mTitle, summary, mUrl, bitmap);
-    }
-
-    @OnClick(R.id.qq_textView)
-    void shareQQ() {
-        mCardView.setVisibility(View.GONE);
-        isMenuShow = false;
-        share(TYPE_QQ);
-    }
-
-    @OnClick(R.id.qzone_textView)
-    void shareQzone() {
-        mCardView.setVisibility(View.GONE);
-        isMenuShow = false;
-        share(TYPE_QZONE);
-    }
-
-    @OnClick(R.id.other_textView)
-    void shareOther() {
-        mCardView.setVisibility(View.GONE);
-        isMenuShow = false;
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, mTitle + " \n" + mUrl);
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
-        intent = Intent.createChooser(intent, getString(R.string.share_to));
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.fab)
-    void fabOnClick() {
-        if (isMenuShow) {
-            mCardView.setVisibility(View.GONE);
+    private void initClick() {
+        binding.wechatTextView.setOnClickListener(v -> {
+            binding.cardView.setVisibility(View.GONE);
             isMenuShow = false;
-        } else {
-            mCardView.setVisibility(View.VISIBLE);
-            isMenuShow = true;
-        }
-    }
+            Share.shareToWechat(this, mTitle, summary, mUrl, bitmap);
+        });
 
-    @BindView(R.id.fab)
-    FloatingActionButton mFloatingActionButton;
+        binding.wechatcircleTextView.setOnClickListener(v -> {
+            binding.cardView.setVisibility(View.GONE);
+            isMenuShow = false;
+            Share.shareToWechatcircle(this, mTitle, summary, mUrl, bitmap);
+        });
+
+        binding.qqTextView.setOnClickListener(v -> {
+            binding.cardView.setVisibility(View.GONE);
+            isMenuShow = false;
+            share(TYPE_QQ);
+        });
+
+        binding.qzoneTextView.setOnClickListener(v -> {
+            binding.cardView.setVisibility(View.GONE);
+            isMenuShow = false;
+            share(TYPE_QZONE);
+        });
+
+        binding.otherTextView.setOnClickListener(v -> {
+            binding.cardView.setVisibility(View.GONE);
+            isMenuShow = false;
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, mTitle + " \n" + mUrl);
+            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
+            intent = Intent.createChooser(intent, getString(R.string.share_to));
+            startActivity(intent);
+        });
+
+        binding.fabLayout.fab.setOnClickListener(v -> {
+            if (isMenuShow) {
+                binding.cardView.setVisibility(View.GONE);
+                isMenuShow = false;
+            } else {
+                binding.cardView.setVisibility(View.VISIBLE);
+                isMenuShow = true;
+            }
+        });
+    }
 
     Context mContext;
     String mUrl, mTitle;
@@ -139,13 +122,15 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
     private boolean isMenuShow;
 
 
+    private ActivityWebviewBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview);
-        ButterKnife.bind(this);
+        binding = ActivityWebviewBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         mContext = this;
-
+        initClick();
         mUrl = getIntent().getStringExtra(EXTRA_URL);
         mTitle = getIntent().getStringExtra(EXTRA_TITLE);
         picUrl = getIntent().getStringExtra(EXTRA_PIC_URL);
@@ -164,15 +149,12 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
             }
         }.start();
 
-        mWebView.setWebChromeClient(new ChromeClient());
-        mWebView.setWebViewClient(new ViewClient());
+        binding.webView.setWebChromeClient(new ChromeClient());
+        binding.webView.setWebViewClient(new ViewClient());
 
-        WebSettings webSettings = mWebView.getSettings();
+        WebSettings webSettings = binding.webView.getSettings();
         webSettings.setJavaScriptEnabled(new PreferencesHelper(App.getInstance()).isJSEnabled());
         webSettings.setLoadWithOverviewMode(true);
-
-        webSettings.setAppCacheEnabled(true);
-        webSettings.setAppCachePath(Constants.WEB_CACHE_DIR);
 
         if (NowAppUtil.isWifiConnected())
             webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -185,13 +167,13 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
             mUrlMap.put("HTTP-AUTHORIZATION", App.sMonoToken);
         }
         if (mUrlMap != null)
-            mWebView.loadUrl(mUrl, mUrlMap);
+            binding.webView.loadUrl(mUrl, mUrlMap);
         else
-            mWebView.loadUrl(mUrl);
+            binding.webView.loadUrl(mUrl);
 
-        mWebView.setOnTouchListener(this);
+        binding.webView.setOnTouchListener(this);
         setTitle(mTitle);
-        mFloatingActionButton.setVisibility(View.GONE);
+        binding.fabLayout.fab.setVisibility(View.GONE);
     }
 
     @Override
@@ -199,8 +181,8 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
-                    if (mWebView.canGoBack()) {
-                        mWebView.goBack();
+                    if (binding.webView.canGoBack()) {
+                        binding.webView.goBack();
                     } else {
                         finish();
                     }
@@ -213,19 +195,19 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mWebView.destroy();
+        binding.webView.destroy();
     }
 
     @Override
     protected void onPause() {
-        mWebView.onPause();
+        binding.webView.onPause();
         super.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mWebView.onResume();
+        binding.webView.onResume();
     }
 
     private class ChromeClient extends WebChromeClient {
@@ -233,12 +215,12 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
             Log.i("xyz", newProgress + " progress");
-            mProgressbar.setProgress(newProgress);
+            binding.progressbar.setProgress(newProgress);
             if (newProgress == 100) {
-                mProgressbar.setVisibility(View.GONE);
-                mLoadingView.setVisibility(View.GONE);
+                binding.progressbar.setVisibility(View.GONE);
+                binding.loadingView.setVisibility(View.GONE);
             } else {
-                mProgressbar.setVisibility(View.VISIBLE);
+                binding.progressbar.setVisibility(View.VISIBLE);
             }
         }
 
@@ -283,13 +265,13 @@ public class WebActivity extends BaseSwipeBackCompatActivity implements View.OnT
             case MotionEvent.ACTION_UP:
                 if (direction == 2) {
                     if ((event.getRawY() - oldY > 72) && !isShowFab) {
-                        mFloatingActionButton.setVisibility(View.VISIBLE);
+                        binding.fabLayout.fab.setVisibility(View.VISIBLE);
                         isShowFab = true;
                     } else if (isShowFab && oldY - event.getRawY() > 72) {
-                        mFloatingActionButton.setVisibility(View.GONE);
+                        binding.fabLayout.fab.setVisibility(View.GONE);
                         isShowFab = false;
                         if (isMenuShow) {
-                            mCardView.setVisibility(View.GONE);
+                            binding.cardView.setVisibility(View.GONE);
                             isMenuShow = false;
                         }
                     }

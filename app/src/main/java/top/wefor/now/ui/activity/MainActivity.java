@@ -4,15 +4,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.Toolbar;
+
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +17,15 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.florent37.materialviewpager.MaterialViewPager;
@@ -34,13 +36,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import top.wefor.now.App;
 import top.wefor.now.BuildConfig;
 import top.wefor.now.Constants;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
+import top.wefor.now.databinding.ActivityMainBinding;
+import top.wefor.now.databinding.DrawerOtherBinding;
 import top.wefor.now.ui.BaseCompatActivity;
 import top.wefor.now.ui.fragment.BaseFragment;
 import top.wefor.now.ui.fragment.MomentListFragment;
@@ -54,23 +56,6 @@ import top.wefor.now.utils.UIHelper;
 
 public class MainActivity extends BaseCompatActivity {
 
-    @BindView(R.id.materialViewPager) MaterialViewPager mMaterialViewPager;
-    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
-    @BindView(R.id.js_checkBox) CheckBox mJsCB;
-    @BindView(R.id.js_textView) TextView mJsTv;
-    @BindView(R.id.headPicture_textView) TextView mHeadPictureTv;
-
-    @BindView(R.id.other_rootView) LinearLayout mOtherRootView;
-    @BindView(R.id.wiki_imageButton) ImageButton mWikiImageButton;
-    @BindView(R.id.columnSelect_textView) TextView mColumnSelectTextView;
-    @BindView(R.id.headPicture_linearLayout) LinearLayout mHeadPictureLinearLayout;
-    @BindView(R.id.about_textView) TextView mAboutTextView;
-    @BindView(R.id.thanks_textView) TextView mThanksTextView;
-    @BindView(R.id.suggest_linearLayout) LinearLayout mSuggestLinearLayout;
-    @BindView(R.id.gank_textView) TextView mGankTextView;
-    @BindView(R.id.search_view) View mSearchView;
-
-
     PreferencesHelper mPreferencesHelper = new PreferencesHelper(App.getInstance());
 
     private View mColumnSelectView, mHeadPictureView;
@@ -83,15 +68,20 @@ public class MainActivity extends BaseCompatActivity {
     private Runnable mFinishRunnable = this::finishAffinity;
     private boolean isFinishNow = false;
 
+    private ActivityMainBinding binding;
+    private DrawerOtherBinding otherBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View rootView = binding.getRoot();
+        otherBinding = binding.otherDrawer;
+        setContentView(rootView);
 
         setTitle("");
 
-        toolbar = mMaterialViewPager.getToolbar();
+        toolbar = binding.materialViewPager.getToolbar();
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -108,8 +98,8 @@ public class MainActivity extends BaseCompatActivity {
             toolbar.setLayoutParams(new RelativeLayout.LayoutParams(toolbar.getWidth(), UIHelper.getStatusBarHeight()));
         }
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, 0, 0);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, 0, 0);
+        binding.drawerLayout.addDrawerListener(mDrawerToggle);
 
         checkIsFirst();
 
@@ -141,7 +131,8 @@ public class MainActivity extends BaseCompatActivity {
     public class MyTabItem {
         public String title;
         public BaseFragment fragment;
-        @ColorRes public int colorRes;
+        @ColorRes
+        public int colorRes;
 
         public MyTabItem(String title, BaseFragment fragment, int colorRes) {
             this.title = title;
@@ -171,7 +162,7 @@ public class MainActivity extends BaseCompatActivity {
         mSize = mMyTabItems.size();
         mLuckyNum = new Random().nextInt(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
 
-        mMaterialViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+        binding.materialViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
             @Override
             public Fragment getItem(int position) {
@@ -191,8 +182,8 @@ public class MainActivity extends BaseCompatActivity {
 
         setViewPagerListener();
 
-        mMaterialViewPager.getViewPager().setOffscreenPageLimit(mSize);
-        mMaterialViewPager.getPagerTitleStrip().setViewPager(mMaterialViewPager.getViewPager());
+        binding.materialViewPager.getViewPager().setOffscreenPageLimit(mSize);
+        binding.materialViewPager.getPagerTitleStrip().setViewPager(binding.materialViewPager.getViewPager());
 
     }
 
@@ -214,10 +205,10 @@ public class MainActivity extends BaseCompatActivity {
         final JSONArray imgList = JSON.parseArray(imgs);
 
         if (imgList == null || imgList.size() < 2)
-            mMaterialViewPager.setMaterialViewPagerListener(page -> HeaderDesign.fromColorResAndDrawable(
+            binding.materialViewPager.setMaterialViewPagerListener(page -> HeaderDesign.fromColorResAndDrawable(
                     mMyTabItems.get(page % mSize).colorRes,
                     getResources().getDrawable(mMyTabItems.get(page % mSize).colorRes)));
-        else mMaterialViewPager.setMaterialViewPagerListener(page -> {
+        else binding.materialViewPager.setMaterialViewPagerListener(page -> {
             if (mMyTabItems.get(page % mSize).colorRes == R.color.ng)
                 return HeaderDesign.fromColorResAndDrawable(
                         R.color.ng,
@@ -238,8 +229,8 @@ public class MainActivity extends BaseCompatActivity {
     @Override
     public void onBackPressed() {
 //        super.onBackPressed(); //注释掉 super 代码.
-        if (mDrawerLayout.isDrawerOpen(mOtherRootView)) {
-            mDrawerLayout.closeDrawer(mOtherRootView);
+        if (binding.drawerLayout.isDrawerOpen(otherBinding.otherRootView)) {
+            binding.drawerLayout.closeDrawer(otherBinding.otherRootView);
             return;
         }
         if (isFinishNow) {
@@ -262,29 +253,29 @@ public class MainActivity extends BaseCompatActivity {
     private void initDrawer() {
         //视图默认为打开  default is checked in view
         if (mPreferencesHelper.isJSEnabled()) {
-            mJsCB.setChecked(true);
-            mJsTv.setText(R.string.js_close_description);
+            otherBinding.jsCheckBox.setChecked(true);
+            otherBinding.jsTextView.setText(R.string.js_close_description);
         }
 
-        mHeadPictureTv.setText(getResources().getStringArray(
+        otherBinding.headPictureTextView.setText(getResources().getStringArray(
                 R.array.head_picture_source)[mPreferencesHelper.getHeadImageType()]);
 
-        mWikiImageButton.setOnClickListener(v -> {
+        otherBinding.wikiImageButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, WebActivity.class);
             intent.putExtra(WebActivity.EXTRA_TITLE, getString(R.string.wiki_title));
             intent.putExtra(WebActivity.EXTRA_URL, getString(R.string.wiki_url));
             startActivity(intent);
         });
 
-        mJsCB.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        otherBinding.jsCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked)
-                mJsTv.setText(R.string.js_close_description);
+                otherBinding.jsTextView.setText(R.string.js_close_description);
             else
-                mJsTv.setText(R.string.js_open_description);
-            mPreferencesHelper.setJSEnabled(mJsCB.isEnabled());
+                otherBinding.jsTextView.setText(R.string.js_open_description);
+            mPreferencesHelper.setJSEnabled(otherBinding.jsCheckBox.isEnabled());
         });
 
-        mColumnSelectTextView.setOnClickListener(v -> {
+        otherBinding.columnSelectTextView.setOnClickListener(v -> {
             if (mColumnSelectView == null) {
                 mColumnSelectView = getLayoutInflater().inflate(R.layout.dialog_column_select, null);
                 LinearLayout linearLayout = mColumnSelectView.findViewById(R.id.linearLayout);
@@ -293,7 +284,7 @@ public class MainActivity extends BaseCompatActivity {
                 linearLayout.addView(getCheckBox(getString(R.string.mono)));
                 linearLayout.addView(getCheckBox(getString(R.string.zhihu)));
                 linearLayout.addView(getCheckBox(getString(R.string.moment)));
-            } else if (mColumnSelectTextView.getParent() instanceof ViewGroup) {
+            } else if (otherBinding.columnSelectTextView.getParent() instanceof ViewGroup) {
                 ViewGroup parent = (ViewGroup) mColumnSelectView.getParent();
                 parent.removeView(mColumnSelectView);
             }
@@ -304,7 +295,7 @@ public class MainActivity extends BaseCompatActivity {
                     .create().show();
         });
 
-        mHeadPictureLinearLayout.setOnClickListener(v -> {
+        otherBinding.headPictureLinearLayout.setOnClickListener(v -> {
             if (mHeadPictureView == null) {
                 mHeadPictureView = getLayoutInflater().inflate(R.layout.dialog_head_picture, null);
                 RadioGroup radioGroup = (RadioGroup) mHeadPictureView.findViewById(R.id.radioGroup);
@@ -313,7 +304,7 @@ public class MainActivity extends BaseCompatActivity {
                     RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
                     int index = group.indexOfChild(radioButton);
                     mPreferencesHelper.setHeadImageType(index);
-                    mHeadPictureTv.setText(radioButton.getText());
+                    otherBinding.headPictureTextView.setText(radioButton.getText());
                     setFinishNow();
 
                     setHeadImages(index);
@@ -328,7 +319,7 @@ public class MainActivity extends BaseCompatActivity {
                     .create().show();
         });
 
-        mAboutTextView.setOnClickListener(v -> {
+        otherBinding.aboutTextView.setOnClickListener(v -> {
             View view = getLayoutInflater().inflate(R.layout.dialog_about, null);
             TextView textView = view.findViewById(R.id.version_tv);
             textView.setHint(getString(R.string.about_version, "", BuildConfig.APK_DATE));
@@ -343,7 +334,7 @@ public class MainActivity extends BaseCompatActivity {
                     .create().show();
         });
 
-        mThanksTextView.setOnClickListener(v -> {
+        otherBinding.thanksTextView.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.thanks))
                     .setView(R.layout.dialog_thanks)
@@ -355,7 +346,7 @@ public class MainActivity extends BaseCompatActivity {
                     .create().show();
         });
 
-        mSuggestLinearLayout.setOnClickListener(v -> {
+        otherBinding.suggestLinearLayout.setOnClickListener(v -> {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("message/rfc822");
             i.putExtra(Intent.EXTRA_EMAIL, new String[]{Constants.MY_EMAIL_GOOGLE});
@@ -368,8 +359,8 @@ public class MainActivity extends BaseCompatActivity {
             }
         });
 
-        mGankTextView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, GankDailyActivity.class)));
-        mSearchView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
+        otherBinding.gankTextView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, GankDailyActivity.class)));
+        otherBinding.searchView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
     }
 
     private void setHeadImages(int index) {

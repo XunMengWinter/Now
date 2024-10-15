@@ -23,17 +23,17 @@
         android:visibility="gone"
         fresco:actualImageScaleType="centerInside"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <top.wefor.smartrestaurant.ui.widget.LoadMoreRecyclerView
+        <top.wefor.now.ui.widget.LoadMoreRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
         <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </FrameLayout>

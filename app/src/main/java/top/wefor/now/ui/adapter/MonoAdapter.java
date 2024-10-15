@@ -1,15 +1,16 @@
 package top.wefor.now.ui.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.generic.RoundingParams;
@@ -17,17 +18,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.TeaBean;
 import top.wefor.now.ui.activity.BigImageActivity;
 import top.wefor.now.utils.CommonUtils;
 import top.wefor.now.utils.NowAppUtil;
 
-/**
- * Created by ice on 18/06/13.
- */
 public class MonoAdapter extends BaseListAdapter<TeaBean.MeowBean> {
 
     public MonoAdapter(Context context, List<TeaBean.MeowBean> contents) {
@@ -44,14 +40,12 @@ public class MonoAdapter extends BaseListAdapter<TeaBean.MeowBean> {
             case TYPE_HEADER: {
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(getBigViewResId(), parent, false);
-                return new CardViewHolder(view, TYPE_HEADER) {
-                };
+                return new CardViewHolder(view, TYPE_HEADER);
             }
             case TYPE_CELL: {
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(getSmallViewResId(), parent, false);
-                return new CardViewHolder(view) {
-                };
+                return new CardViewHolder(view);
             }
         }
         return null;
@@ -80,17 +74,9 @@ public class MonoAdapter extends BaseListAdapter<TeaBean.MeowBean> {
 
     private void showSingleImage(CardViewHolder cardViewHolder, @NonNull TeaBean.AvatarBean avatarBean) {
         if (avatarBean.height > 0 & avatarBean.width > 0) {
-            /* resize ImageView */
             cardViewHolder.mImageView.setAdjustViewBounds(false);
-//            cardViewHolder.mImageView.setLayoutParams(
-//                    new LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.MATCH_PARENT,
-//                            cardViewHolder.mImageView.getMeasuredWidth() * avatarBean.height / avatarBean.width)
-//            );
-            // because the above code has bug in IU, so use fresco.
             cardViewHolder.mImageView.setAspectRatio(1f * avatarBean.width / avatarBean.height);
         } else {
-            /* wrap_content & adjustViewBounds */
             cardViewHolder.mImageView.setAdjustViewBounds(true);
             cardViewHolder.mImageView.setLayoutParams(
                     new LinearLayout.LayoutParams(
@@ -100,7 +86,6 @@ public class MonoAdapter extends BaseListAdapter<TeaBean.MeowBean> {
         }
 
         if (NowAppUtil.isBelowLollipop()) {
-            //set round corner
             RoundingParams roundingParams = new RoundingParams();
             int d2 = context.getResources().getDimensionPixelSize(R.dimen.d2);
             roundingParams.setCornersRadii(d2, d2, 0, 0);
@@ -122,42 +107,34 @@ public class MonoAdapter extends BaseListAdapter<TeaBean.MeowBean> {
         cardViewHolder.mMultiPicRv.setLayoutManager(new GridLayoutManager(context, 3));
         MonoImageAdapter imageItemAdapter = new MonoImageAdapter(context, pics);
         cardViewHolder.mMultiPicRv.setAdapter(imageItemAdapter);
-
-//        if (pics.size() > 6 && pics.size() < 10) {
-//            cardViewHolder.mMultiPicRv.setLayoutParams(
-//                    new LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.MATCH_PARENT,
-//                            cardViewHolder.mMultiPicRv.getMeasuredWidth())
-//            );
-//        } else {
-//            cardViewHolder.mMultiPicRv.setLayoutParams(
-//                    new LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.MATCH_PARENT,
-//                            LinearLayout.LayoutParams.WRAP_CONTENT)
-//            );
-//        }
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.imageView) SimpleDraweeView mImageView;
-        @BindView(R.id.multi_pic_rv) RecyclerView mMultiPicRv;
-        @BindView(R.id.title_textView) TextView mTitleTextView;
-        @BindView(R.id.content_textView) TextView mContentTextView;
-        @BindView(R.id.rootView) LinearLayout mRootView;
-        @BindView(R.id.news_list_card_view) CardView mNewsListCardView;
-
+        SimpleDraweeView mImageView;
+        RecyclerView mMultiPicRv;
+        TextView mTitleTextView;
+        TextView mContentTextView;
+        LinearLayout mRootView;
+        CardView mNewsListCardView;
 
         public CardViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this, v);
+            bindViewId(v);
+        }
+        private void bindViewId(View v){
+            mImageView = v.findViewById(R.id.imageView);
+            mMultiPicRv = v.findViewById(R.id.multi_pic_rv);
+            mTitleTextView = v.findViewById(R.id.title_textView);
+            mContentTextView = v.findViewById(R.id.content_textView);
+            mRootView = v.findViewById(R.id.rootView);
+            mNewsListCardView = v.findViewById(R.id.news_list_card_view);
         }
 
         public CardViewHolder(View v, int viewType) {
             super(v);
-            if (viewType == TYPE_CELL)
-                ButterKnife.bind(this, v);
+            if(viewType == TYPE_CELL) {
+                bindViewId(v);
+            }
         }
-
     }
-
 }

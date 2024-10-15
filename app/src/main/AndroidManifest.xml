@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="top.wefor.now">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -24,6 +23,7 @@
             android:value="Wandoujia"/>
 
         <activity
+            android:exported="true"
             android:name="com.tencent.tauth.AuthActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
@@ -50,6 +50,7 @@
 
 
         <activity
+            android:exported="true"
             android:name=".ui.activity.WelcomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             >

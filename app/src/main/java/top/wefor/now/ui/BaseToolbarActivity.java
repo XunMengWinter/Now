@@ -1,10 +1,11 @@
 package top.wefor.now.ui;
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.Toolbar;
 
-import butterknife.BindView;
+import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.material.appbar.AppBarLayout;
+
 import top.wefor.now.R;
 
 /**
@@ -12,8 +13,8 @@ import top.wefor.now.R;
  */
 public abstract class BaseToolbarActivity extends BaseAppCompatActivity {
 
-    @BindView(R.id.toolbar) protected Toolbar mToolbar;
-    @BindView(R.id.app_bar_layout) protected AppBarLayout mAppBarLayout;
+    protected Toolbar mToolbar;
+    protected AppBarLayout mAppBarLayout;
 
     /**
      * Initialize the toolbar in the layout
@@ -22,6 +23,8 @@ public abstract class BaseToolbarActivity extends BaseAppCompatActivity {
      */
     @Override
     protected void initToolbar(Bundle savedInstanceState) {
+        mToolbar = findViewById(R.id.toolbar);
+        mAppBarLayout = findViewById(R.id.app_bar_layout);
         if (mToolbar == null || mAppBarLayout == null) return;
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

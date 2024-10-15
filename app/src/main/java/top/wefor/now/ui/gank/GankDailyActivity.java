@@ -1,26 +1,25 @@
 package top.wefor.now.ui.gank;
 
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import butterknife.BindArray;
-import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
 import top.wefor.now.PreferencesHelper;
 import top.wefor.now.R;
@@ -37,18 +36,18 @@ import top.wefor.now.utils.DateUtil;
  * @author ice
  */
 public class GankDailyActivity extends BaseToolbarActivity {
-    @BindView(R.id.banner_sdv) PhotoView mBannerSdv;
-    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbar;
-    @BindView(R.id.gank_tabLayout) TabLayout mGankTabLayout;
-    @BindView(R.id.viewPager) ViewPager mViewPager;
+
+    private PhotoView mBannerSdv;
+    private CollapsingToolbarLayout mCollapsingToolbar;
+    private TabLayout mGankTabLayout;
+    private ViewPager mViewPager;
 
     private final Date mDate = new Date();
     private int mRequestTimes;
     private FragmentPagerAdapter mFragmentPagerAdapter;
     private PreferencesHelper mPreferencesHelper;
 
-
-    @BindArray(R.array.ganks) String[] GANK_TAB_TITLES;
+    private String[] GANK_TAB_TITLES;
     private List<String> mTitles = new ArrayList<>();
     private List<Fragment> mFragments = new ArrayList<>();
 
@@ -59,6 +58,14 @@ public class GankDailyActivity extends BaseToolbarActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+        // Binding views manually
+        mBannerSdv = findViewById(R.id.banner_sdv);
+        mCollapsingToolbar = findViewById(R.id.collapsing_toolbar);
+        mGankTabLayout = findViewById(R.id.gank_tabLayout);
+        mViewPager = findViewById(R.id.viewPager);
+
+        GANK_TAB_TITLES = getResources().getStringArray(R.array.ganks);
+
         mFragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -86,7 +93,6 @@ public class GankDailyActivity extends BaseToolbarActivity {
     }
 
     private void getTheLatestGanks() {
-//        boolean todayReadCache = !NowAppUtil.isNetworkConnected(App.getInstance());
         Observable<GankDailyResult> observable = NowApi.getGankApi().getGankDaily(DateUtil.toGankDate(mDate)).observeOn(Schedulers.io());
         for (int i = 0; i < 7; i++) {
             observable = observable
@@ -123,9 +129,6 @@ public class GankDailyActivity extends BaseToolbarActivity {
         if (gankDailyResult2 == null || gankDailyResult2.results == null || gankDailyResult2.results.isEmpty()) {
             return gankDailyResult;
         }
-//        Set<String> allTabTitles = new HashSet<>();
-//        allTabTitles.addAll(gankDailyResult.results.keySet());
-//        allTabTitles.addAll(gankDailyResult2.results.keySet());
         for (String tabTitle : GANK_TAB_TITLES) {
             ArrayList<Gank> ganks = (ArrayList<Gank>) gankDailyResult.results.get(tabTitle);
             ArrayList<Gank> ganks2 = (ArrayList<Gank>) gankDailyResult2.results.get(tabTitle);

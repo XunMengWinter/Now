@@ -1,145 +1,98 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'realm-android'
-//apply plugin: 'android-apt'
-
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdk = 34
+    namespace 'top.wefor.now'
+
     defaultConfig {
-        if (isReleaseTask(gradle.startParameter.taskNames))
-            applicationId "top.wefor.nowview"
-        else
-            applicationId "top.wefor.test.nowview"
-        minSdkVersion 19
-        targetSdkVersion 27
+        applicationId "top.wefor.nowview"
+//        applicationId "top.wefor.test.nowview"
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode 23
         versionName "4.2"
 
-        buildConfigField "String", "APK_DATE", "\"${generateDate()}\""
+        buildConfigField "String", "APK_DATE", "\"${getCurrentDate()}\""
     }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles file('./proguard').listFiles()
-            lintOptions {
-                disable 'MissingTranslation'
-            }
-        }
-        debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            proguardFiles file('./proguard').listFiles()
         }
     }
-    //为了解决部分第三方库重复打包了META-INF的问题
-    packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
+
+    // Enable the BuildConfig feature
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
     }
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-    dexOptions {
-        ///Warning:The `android.dexOptions.incremental` property is deprecated and it has no effect on the build process.
-//        incremental true
-        javaMaxHeapSize "4g"
-        //关闭预编译
-//        preDexLibraries = false
-    }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
+
+}
+
+// 定义获取当前日期的函数
+String getCurrentDate() {
+    return new Date().format("yyyy-MM-dd HH:mm")
 }
 
 realm {
     syncEnabled = true;
 }
 
-static String generateDate() {
-    final def date = new Date()
-    return date.toString()
-}
-
-static boolean isReleaseTask(Iterable<String> taskNames) {
-    for (String taskName : taskNames) {
-        if (taskName.contains("Release")
-                && !taskName.contains('PreRelease')) {
-            println "isReleaseTask true"
-            return true
-        }
-    }
-    println "isReleaseTask false"
-    return false
-}
-
-allprojects {
-    repositories {
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-        maven { url 'https://maven.google.com' }
-    }
-}
-
-gradle.ext.supportLibraryVersion = '27.0.2'
-
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '27.1.1'
-    final BUTTER_KNIFE_VERSION = '8.8.1'
-    final DAGGER_VERSION = '2.4'
-    final RETROFIT_VERSION = '2.3.0'
-    final OK_HTTP_VERSION = '3.9.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
-    implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
-    implementation 'com.google.code.gson:gson:2.8.2'
+    testImplementation 'junit:junit:4.13.2' // Updated to a newer JUnit version
+
+    // AndroidX libraries
+    implementation 'androidx.appcompat:appcompat:1.7.0' // Updated to AndroidX AppCompat
+    implementation 'com.google.android.material:material:1.12.0' // Updated to Material Components
+    implementation 'androidx.cardview:cardview:1.0.0' // Updated to AndroidX CardView
+    implementation 'com.google.code.gson:gson:2.10.1' // Updated to the latest Gson
 
     implementation files('libs/open_sdk_r5990_lite.jar')
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.4'
 
-    // jsoup HTML parser library @ http://jsoup.org/
-    implementation 'org.jsoup:jsoup:1.11.3'
+    // jsoup HTML parser library
+    implementation 'org.jsoup:jsoup:1.14.3' // Updated to the latest jsoup version
 
     // MaterialViewpager
     implementation 'com.github.florent37:materialviewpager:1.2.3'
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
     implementation 'com.jpardogo.materialtabstrip:library:1.1.0'
-    implementation 'com.github.bumptech.glide:glide:4.0.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
-    implementation "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
+    implementation 'com.github.bumptech.glide:glide:4.16.0' // Updated to the latest Glide version
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2' // Match Glide version
 
-    //Fresco:图片显示、加载、定制
-    implementation 'com.facebook.fresco:fresco:1.5.0'
+    // Fresco: Image loading
+    implementation 'com.facebook.fresco:fresco:2.6.0' // Updated to the latest Fresco version
 
-    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0' // Updated to the latest PhotoView version
 
-    //    apt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1' // Update to latest RxAndroid
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21' // Update to latest RxJava
+    implementation 'com.alibaba:fastjson:1.2.83' // Update to the latest Fastjson version
+    implementation "com.squareup.okhttp3:okhttp:4.12.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+    implementation "com.squareup.retrofit2:retrofit:2.11.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
 
-    //    compile "com.google.dagger:dagger:$DAGGER_VERSION"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
-    implementation 'com.alibaba:fastjson:1.2.44'
-    implementation "com.squareup.okhttp3:okhttp:$OK_HTTP_VERSION"
-    implementation "com.squareup.okhttp3:logging-interceptor:$OK_HTTP_VERSION"
-    implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-    implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION"
-
-    implementation 'jp.wasabeef:recyclerview-animators:2.2.6'
-    implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'com.wang.avi:library:2.1.3'
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
+    implementation 'com.orhanobut:logger:2.2.0' // Check for a newer version if available
+    implementation 'com.wang.avi:library:2.1.3' // Check for a newer version if available
 
     // RxPermissions
-    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5' // No need for '@aar'
 
-    // Java8 support for Lifecycles
-    implementation "android.arch.lifecycle:common-java8:1.1.1"
-
+    // Java 8 support for Lifecycles
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.8.6" // Updated to AndroidX Lifecycle
 }

@@ -1,7 +1,7 @@
 package top.wefor.now.ui;
 
-import android.support.v7.app.AppCompatActivity;
 
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created on 15/10/25.

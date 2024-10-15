@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
+import android.util.TypedValue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,12 +16,7 @@ import top.wefor.now.data.model.entity.TeaBean;
 public class CommonUtils {
 
     public static int getToolbarHeight(Context context) {
-        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
-                new int[]{R.attr.actionBarSize});
-        int toolbarHeight = (int) styledAttributes.getDimension(0, 0);
-        styledAttributes.recycle();
-
-        return toolbarHeight;
+        return context.getResources().getDimensionPixelSize(R.dimen.toolbar_height);
     }
 
     public static int getTabsHeight(Context context) {

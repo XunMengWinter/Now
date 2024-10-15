@@ -2,6 +2,8 @@ package top.wefor.now.ui.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -106,7 +108,7 @@ public class ZhihuListFragment extends BaseListFragment<Zhihu, RealmZhihu> {
                 });
     }
 
-    @android.support.annotation.NonNull
+    @NonNull
     @Override
     public Class<RealmZhihu> getNowRealmClass() {
         return RealmZhihu.class;

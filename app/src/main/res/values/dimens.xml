@@ -3,7 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="head_image_height">200dp</dimen>
-
+    <dimen name="toolbar_height">56dp</dimen> <!-- 在res/values/dimens.xml中定义 -->
     <dimen name="h1">32sp</dimen>
     <dimen name="h2">24sp</dimen>
     <dimen name="h3">20sp</dimen>

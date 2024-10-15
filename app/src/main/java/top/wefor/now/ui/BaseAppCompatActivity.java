@@ -1,16 +1,17 @@
 package top.wefor.now.ui;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleRegistry;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import butterknife.ButterKnife;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleRegistry;
+
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Created on 3/18/16 09:06.
@@ -33,7 +34,6 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         // 用ButterKnife绑定视图，
         // 配合 Android Studio 中的插件 Android ButterKnife Zelezny 自动命名所选layout中的所有带id的视图控件
         // 请注意删除自动生成的onCreate()方法以避免重复绑定.
-        ButterKnife.bind(this);
 
         this.initToolbar(savedInstanceState);
         initActionBar();//在initToolbar()完成后设置ActionBar

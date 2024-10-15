@@ -1,20 +1,18 @@
 package top.wefor.now.ui.gank;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import top.wefor.now.R;
 import top.wefor.now.data.model.entity.Gank;
 import top.wefor.now.ui.adapter.BaseRecyclerViewAdapter;
@@ -44,11 +42,15 @@ public class GankAdapter extends BaseRecyclerViewAdapter<Gank> {
         super.onBindViewHolder(holder, position);
         MyViewHolder myViewHolder = (MyViewHolder) holder;
         Gank gank = mList.get(position);
+
+        // Set text content
         myViewHolder.mNameTv.setText(gank.desc);
         myViewHolder.mUrlTv.setText(gank.url);
+
+        // Load image if available
         if (gank.images != null && !gank.images.isEmpty()) {
             myViewHolder.mImageIv.setVisibility(View.VISIBLE);
-            final String imageUrl = gank.images.get(0);
+            String imageUrl = gank.images.get(0);
             RequestOptions requestOptions = new RequestOptions();
             int imageWidth = context.getResources().getDimensionPixelSize(R.dimen.width_gank_image);
             requestOptions.override(imageWidth);
@@ -56,25 +58,22 @@ public class GankAdapter extends BaseRecyclerViewAdapter<Gank> {
                     .load(imageUrl)
                     .apply(requestOptions)
                     .into(myViewHolder.mImageIv);
-//                        Logger.e("gank item load image failed:" + imageUrl);
-//            DraweeController controller = Fresco.newDraweeControllerBuilder()
-//                    .setUri(imageUrl)
-//                    .setAutoPlayAnimations(true)
-//                    .build();
-//            myViewHolder.mImageIv.setController(controller);
         } else {
             myViewHolder.mImageIv.setVisibility(View.GONE);
         }
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.name_tv) TextView mNameTv;
-        @BindView(R.id.url_tv) TextView mUrlTv;
-        @BindView(R.id.image_iv) SimpleDraweeView mImageIv;
+        TextView mNameTv;
+        TextView mUrlTv;
+        SimpleDraweeView mImageIv;
 
         MyViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
+            // Manually bind views
+            mNameTv = view.findViewById(R.id.name_tv);
+            mUrlTv = view.findViewById(R.id.url_tv);
+            mImageIv = view.findViewById(R.id.image_iv);
         }
     }
 }

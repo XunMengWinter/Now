@@ -1,7 +1,8 @@
 package top.wefor.now.ui.fragment;
 
 import android.content.res.Configuration;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
